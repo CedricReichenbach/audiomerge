@@ -1,7 +1,5 @@
 package com.billhillapps.audiomerge.processing;
 
-import java.io.File;
-
 import com.billhillapps.audiomerge.music.Song;
 
 /**
@@ -10,9 +8,15 @@ import com.billhillapps.audiomerge.music.Song;
  * @author Cedric Reichenbach
  */
 public class MusicCollection {
+	
+	private final String title;
 
-	public MusicCollection(File directory) {
-		// TODO
+	public MusicCollection(String title) {
+		this.title = title;
+	}
+
+	public void addSong(Song songFromFile) {
+		// TODO: Implement
 	}
 
 }
