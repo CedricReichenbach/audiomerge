@@ -26,4 +26,7 @@ public class Artist implements Entity {
 		albums.get(albumTitle).addSong(song);
 	}
 
+	public String toString() {
+		return String.format("an Artist named '%s'", name);
+	}
 }

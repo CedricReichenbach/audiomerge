@@ -1,5 +1,7 @@
 package com.billhillapps.audiomerge.processing;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +41,10 @@ public class MusicCollection {
 			artists.put(artistName, new Artist(artistName));
 
 		artists.get(artistName).insertSong(song);
+	}
+
+	public Collection<Artist> getArtists() {
+		return new ArrayList<Artist>(artists.values());
 	}
 
 }

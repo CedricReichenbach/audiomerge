@@ -45,22 +45,27 @@ public class FileSong implements Song {
 		return tryTags(FieldKey.ALBUM_ARTIST, FieldKey.ARTIST, FieldKey.ORIGINAL_ARTIST);
 	}
 
+	@Override
+	public String getTitle() {
+		return tryTags(FieldKey.TITLE);
+	}
+
 	/**
 	 * Try reading tags in given order. Start with first and continue with next
 	 * as long as previous ones are not found.
 	 * 
-	 * @return Content of the first existing tag as string, or null if none was
-	 *         found
+	 * @return Content of the first existing tag as string, or empty string if
+	 *         none was found (to be consistent with JAudioTagger)
 	 */
 	private String tryTags(FieldKey... fieldKeys) {
 		for (FieldKey fieldKey : fieldKeys) {
 			String value = tag.getFirst(fieldKey);
 
 			if (StringUtils.isNotBlank(value))
-				return value;
+				return StringUtils.trim(value);
 		}
 
-		return null;
+		return "";
 	}
 
 }

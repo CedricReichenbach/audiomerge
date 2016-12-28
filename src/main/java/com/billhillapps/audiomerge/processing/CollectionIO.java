@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.util.stream.Stream;
 
+import com.billhillapps.audiomerge.music.FileSong;
 import com.billhillapps.audiomerge.music.Song;
 
 /**
@@ -17,24 +18,25 @@ import com.billhillapps.audiomerge.music.Song;
 public class CollectionIO {
 
 	private static final PathMatcher MATCHER = FileSystems.getDefault()
-			.getPathMatcher("*.{mp3,wma,wav,aiff,aac,ogg,flac,alac}");
+			.getPathMatcher("glob:**.{mp3,wma,wav,aiff,aac,ogg,flac,alac}");
+
+	public static MusicCollection fromDirectory(Path path) throws IOException {
+		return fromDirectory(path, false);
+	}
 
 	public static MusicCollection fromDirectory(Path path, boolean includeOtherFiles) throws IOException {
 		MusicCollection collection = new MusicCollection(path.getFileName().toString());
-		
-		Stream<Path> files = Files.find(path, Integer.MAX_VALUE,
-				(filePath, fileAttributes) -> fileAttributes.isRegularFile() && (includeOtherFiles || MATCHER.matches(filePath)));
-		files.forEach(file ->
-			collection.insertSong(songFromFile(file))
-		);
+
+		Stream<Path> files = Files.find(path, Integer.MAX_VALUE, (filePath,
+				fileAttributes) -> fileAttributes.isRegularFile() && (includeOtherFiles || MATCHER.matches(filePath)));
+		files.forEach(file -> collection.insertSong(songFromFile(file)));
 		files.close();
-		
+
 		return collection;
 	}
 
-	private static Song songFromFile(Path file) {
+	private static Song songFromFile(Path filePath) {
 		// TODO: If not music file, treat specially
-		// TODO: Implement
-		throw new RuntimeException("not implemented");
+		return new FileSong(filePath);
 	}
 }

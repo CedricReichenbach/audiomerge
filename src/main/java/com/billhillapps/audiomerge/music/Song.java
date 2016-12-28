@@ -6,4 +6,6 @@ public interface Song extends Entity {
 
 	public String getArtistName();
 
+	public String getTitle();
+
 }
