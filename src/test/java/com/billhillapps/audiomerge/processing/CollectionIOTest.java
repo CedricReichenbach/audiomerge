@@ -14,6 +14,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.billhillapps.audiomerge.music.MusicCollection;
+
 public class CollectionIOTest {
 
 	Path collectionPathA, collectionPathB, collectionPathC;

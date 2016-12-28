@@ -1,4 +1,4 @@
-package com.billhillapps.audiomerge.collision;
+package com.billhillapps.audiomerge.similarity;
 
 /**
  * Checker able to compare two instances of a generic type and determine whether
@@ -22,15 +22,4 @@ public interface SimilarityChecker<T> {
 	 * @param b
 	 */
 	public boolean areSimilar(T a, T b);
-
-	/**
-	 * Indicate whether two items are logically exact matches.
-	 * 
-	 * For instance, two songs with exactly equal title, artist and album could
-	 * be considered equal.
-	 * 
-	 * @param a
-	 * @param b
-	 */
-	public boolean areEqual(T a, T b);
 }

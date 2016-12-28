@@ -19,7 +19,7 @@ import org.jaudiotagger.tag.TagException;
  * 
  * @author Cedric Reichenbach
  */
-public class FileSong implements Song {
+public class FileSong extends Song {
 
 	private final AudioHeader header;
 	private final Tag tag;
@@ -50,6 +50,11 @@ public class FileSong implements Song {
 		return tryTags(FieldKey.TITLE);
 	}
 
+	@Override
+	public long getBitRate() {
+		return header.getBitRateAsNumber();
+	}
+
 	/**
 	 * Try reading tags in given order. Start with first and continue with next
 	 * as long as previous ones are not found.
@@ -68,4 +73,11 @@ public class FileSong implements Song {
 		return "";
 	}
 
+	@Override
+	public void mergeIn(Entity other) {
+		// do nothing for now, as songs cannot really be "merged"
+
+		// TODO: Maybe merge meta data by filling empty spots by ones from the
+		// other
+	}
 }

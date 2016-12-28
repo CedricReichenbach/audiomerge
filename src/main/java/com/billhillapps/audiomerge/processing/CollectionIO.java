@@ -7,8 +7,15 @@ import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.util.stream.Stream;
 
+import com.billhillapps.audiomerge.music.Album;
+import com.billhillapps.audiomerge.music.Artist;
 import com.billhillapps.audiomerge.music.FileSong;
+import com.billhillapps.audiomerge.music.MusicCollection;
 import com.billhillapps.audiomerge.music.Song;
+import com.billhillapps.audiomerge.similarity.Decider;
+import com.billhillapps.audiomerge.similarity.deciders.MetaDataDistanceSongDecider;
+import com.billhillapps.audiomerge.similarity.deciders.NameDistanceArtistDecider;
+import com.billhillapps.audiomerge.similarity.deciders.TitleDistanceAlbumDecider;
 
 /**
  * Utility functions for loading and saving {@link MusicCollection}s.
@@ -21,11 +28,19 @@ public class CollectionIO {
 			.getPathMatcher("glob:**.{mp3,wma,wav,aiff,aac,ogg,flac,alac}");
 
 	public static MusicCollection fromDirectory(Path path) throws IOException {
-		return fromDirectory(path, false);
+		return fromDirectory(path, false, new NameDistanceArtistDecider(), new TitleDistanceAlbumDecider(),
+				new MetaDataDistanceSongDecider());
 	}
 
-	public static MusicCollection fromDirectory(Path path, boolean includeOtherFiles) throws IOException {
-		MusicCollection collection = new MusicCollection(path.getFileName().toString());
+	public static MusicCollection fromDirectory(Path path, Decider<Artist> artistDecider, Decider<Album> albumDecider,
+			Decider<Song> songDecider) throws IOException {
+		return fromDirectory(path, false, artistDecider, albumDecider, songDecider);
+	}
+
+	public static MusicCollection fromDirectory(Path path, boolean includeOtherFiles, Decider<Artist> artistDecider,
+			Decider<Album> albumDecider, Decider<Song> songDecider) throws IOException {
+		MusicCollection collection = new MusicCollection(path.getFileName().toString(), artistDecider, albumDecider,
+				songDecider);
 
 		Stream<Path> files = Files.find(path, Integer.MAX_VALUE, (filePath,
 				fileAttributes) -> fileAttributes.isRegularFile() && (includeOtherFiles || MATCHER.matches(filePath)));
