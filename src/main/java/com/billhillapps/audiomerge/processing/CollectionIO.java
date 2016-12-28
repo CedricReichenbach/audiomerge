@@ -19,13 +19,13 @@ public class CollectionIO {
 	private static final PathMatcher MATCHER = FileSystems.getDefault()
 			.getPathMatcher("*.{mp3,wma,wav,aiff,aac,ogg,flac,alac}");
 
-	public static MusicCollection fromDirectory(Path path) throws IOException {
+	public static MusicCollection fromDirectory(Path path, boolean includeOtherFiles) throws IOException {
 		MusicCollection collection = new MusicCollection(path.getFileName().toString());
 		
 		Stream<Path> files = Files.find(path, Integer.MAX_VALUE,
-				(filePath, fileAttributes) -> fileAttributes.isRegularFile() && MATCHER.matches(filePath));
+				(filePath, fileAttributes) -> fileAttributes.isRegularFile() && (includeOtherFiles || MATCHER.matches(filePath)));
 		files.forEach(file ->
-			collection.addSong(songFromFile(file))
+			collection.insertSong(songFromFile(file))
 		);
 		files.close();
 		
@@ -33,7 +33,8 @@ public class CollectionIO {
 	}
 
 	private static Song songFromFile(Path file) {
+		// TODO: If not music file, treat specially
 		// TODO: Implement
-		return new Song();
+		throw new RuntimeException("not implemented");
 	}
 }

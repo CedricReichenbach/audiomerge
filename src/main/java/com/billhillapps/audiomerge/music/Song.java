@@ -1,5 +1,9 @@
 package com.billhillapps.audiomerge.music;
 
-public class Song extends Entity {
+public interface Song extends Entity {
+
+	public String getAlbumTitle();
+
+	public String getArtistName();
 
 }
