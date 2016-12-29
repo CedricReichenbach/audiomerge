@@ -8,7 +8,7 @@ public class TestEntityMatcher extends BaseMatcher<TestEntity> {
 	private final String name;
 	private final String[] content;
 
-	public TestEntityMatcher(String name, String[] content) {
+	private TestEntityMatcher(String name, String[] content) {
 		super();
 		if (name == null & content == null)
 			throw new RuntimeException("Name and content are both null - what am I supposed to match?");

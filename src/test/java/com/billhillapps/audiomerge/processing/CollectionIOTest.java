@@ -9,12 +9,17 @@ import static org.junit.Assert.assertThat;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collection;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.billhillapps.audiomerge.music.Album;
+import com.billhillapps.audiomerge.music.Artist;
 import com.billhillapps.audiomerge.music.MusicCollection;
+import com.billhillapps.audiomerge.music.Song;
+import com.billhillapps.audiomerge.test.LambdaMatcher;
 
 public class CollectionIOTest {
 
@@ -42,6 +47,20 @@ public class CollectionIOTest {
 		assertThat(collectionA.getArtists(), hasItem(isArtist("Alessandro Moreschi")));
 		assertThat(collectionA.getArtists(), hasItem(isArtist("Kevin MacLeod")));
 
+		assertThat(collectionA.getArtists(), hasItem(LambdaMatcher.<Artist>matches(artist -> {
+			Collection<Album> albums = artist.getAlbums();
+			if (!artist.getName().equals("Kevin MacLeod") || albums.size() != 1)
+				return false;
+
+			Album album = albums.iterator().next();
+			Collection<Song> songs = album.getSongs();
+			if (!album.getAlbumTitle().equals("Free PD") || songs.size() != 1)
+				return false;
+
+			Song song = songs.iterator().next();
+			return song.getTitle().equals("Amazing Grace");
+		})));
+
 		MusicCollection collectionB = CollectionIO.fromDirectory(collectionPathB);
 
 		assertThat(collectionB.getTitle(), endsWith("collection-b"));
@@ -59,8 +78,6 @@ public class CollectionIOTest {
 		assertThat(collectionC.getArtists(), not(hasItem(isArtist("Ludwig van Beethoven"))));
 		assertThat(collectionC.getArtists(), not(hasItem(isArtist("Kevin MacLeod"))));
 		assertThat(collectionC.getArtists(), not(hasItem(isArtist("Alessandro Moreschi"))));
-
-		// TODO: Other collections
 	}
 
 }

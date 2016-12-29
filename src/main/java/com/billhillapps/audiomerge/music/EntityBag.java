@@ -116,4 +116,8 @@ public class EntityBag<T extends Entity> {
 	public void addAll(EntityBag<T> otherBag) {
 		otherBag.items.forEach(item -> this.add(item));
 	}
+
+	public int size() {
+		return items.size();
+	}
 }

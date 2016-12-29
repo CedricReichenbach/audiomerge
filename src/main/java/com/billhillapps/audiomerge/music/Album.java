@@ -1,5 +1,7 @@
 package com.billhillapps.audiomerge.music;
 
+import java.util.Collection;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.billhillapps.audiomerge.similarity.Decider;
@@ -36,5 +38,14 @@ public class Album implements Entity {
 
 		Album otherAlbum = (Album) other;
 		songs.addAll(otherAlbum.songs);
+	}
+
+	@Override
+	public String toString() {
+		return String.format("an Album titled %s with %s songs", albumTitle, songs.size());
+	}
+
+	public Collection<Song> getSongs() {
+		return songs.asCollection();
 	}
 }
