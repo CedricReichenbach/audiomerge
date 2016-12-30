@@ -1,5 +1,6 @@
 package com.billhillapps.audiomerge.music;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import com.billhillapps.audiomerge.similarity.Decider;
@@ -45,4 +46,24 @@ public class MusicCollection {
 		return artists.asCollection();
 	}
 
+	public Collection<Song> getAllSongs() {
+		Collection<Song> songs = new ArrayList<>();
+
+		artists.asCollection().forEach(artist -> {
+			artist.getAlbums().forEach(album -> {
+				songs.addAll(album.getSongs());
+			});
+		});
+
+		return songs;
+	}
+
+	public void mergeIn(MusicCollection other) {
+		artists.addAll(other.artists);
+	}
+
+	public void mergeSimilars() {
+		artists.mergeSimilars();
+		artists.asCollection().forEach(Artist::mergeSimilars);
+	}
 }

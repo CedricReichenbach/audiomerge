@@ -9,17 +9,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.billhillapps.audiomerge.similarity.Decider;
-import com.billhillapps.audiomerge.test.TestEntity;
+import com.billhillapps.audiomerge.test.MockEntity;
 
 public class EntityBagTest {
 
-	EntityBag<TestEntity> entityBag;
+	EntityBag<MockEntity> entityBag;
 
 	@Before
 	public void setUp() throws Exception {
-		Decider<TestEntity> decider = new Decider<TestEntity>() {
+		Decider<MockEntity> decider = new Decider<MockEntity>() {
 			@Override
-			public boolean areSimilar(TestEntity a, TestEntity b) {
+			public boolean areSimilar(MockEntity a, MockEntity b) {
 				if (a.name.length() == 0 | b.name.length() == 0)
 					// true iff both empty
 					return a.name.length() == b.name.length();
@@ -29,7 +29,7 @@ public class EntityBagTest {
 			}
 
 			@Override
-			public int resolve(TestEntity a, TestEntity b) {
+			public int resolve(MockEntity a, MockEntity b) {
 				// take lexicographically first, but avoid 0 on equality
 				return a.name.compareTo(b.name) * 2 - 1;
 			}
@@ -43,10 +43,10 @@ public class EntityBagTest {
 
 	@Test
 	public void testAdd() {
-		entityBag.add(new TestEntity("abc", new String[] {}));
-		entityBag.add(new TestEntity("def", new String[] {}));
-		entityBag.add(new TestEntity("wxyz", new String[] { "foo" }));
-		entityBag.add(new TestEntity("wxyz", new String[] { "bar" }));
+		entityBag.add(new MockEntity("abc", new String[] {}));
+		entityBag.add(new MockEntity("def", new String[] {}));
+		entityBag.add(new MockEntity("wxyz", new String[] { "foo" }));
+		entityBag.add(new MockEntity("wxyz", new String[] { "bar" }));
 
 		assertThat(entityBag.asCollection(), hasItem(isTestEntity("abc")));
 		assertThat(entityBag.asCollection(), hasItem(isTestEntity("def")));

@@ -16,4 +16,12 @@ public interface Entity {
 	 * {@link Album}s with the same name.
 	 */
 	public void mergeIn(Entity other);
+
+	/**
+	 * Merge similar items into one each, then recursively trigger
+	 * similar-merging for all contained items.
+	 */
+	public void mergeSimilars();
+	// TODO: Maybe create AbstractEntity with some common implementations
+	// currently duplicated in Artist and Album
 }

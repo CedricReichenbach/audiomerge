@@ -9,7 +9,7 @@ public abstract class Song implements Entity {
 	public abstract String getArtistName();
 
 	public abstract String getTitle();
-	
+
 	public abstract long getBitRate();
 
 	public boolean shallowEquals(Entity other) {
@@ -20,5 +20,9 @@ public abstract class Song implements Entity {
 		return StringUtils.equals(otherSong.getTitle(), this.getTitle())
 				&& StringUtils.equals(otherSong.getArtistName(), this.getArtistName())
 				&& StringUtils.equals(otherSong.getAlbumTitle(), this.getAlbumTitle());
+	}
+
+	public String toString() {
+		return String.format("a Song titled '%s' by '%s' from '%s'", getTitle(), getArtistName(), getAlbumTitle());
 	}
 }

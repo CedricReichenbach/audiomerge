@@ -55,4 +55,10 @@ public class Artist implements Entity {
 	public Collection<Album> getAlbums() {
 		return albums.asCollection();
 	}
+
+	@Override
+	public void mergeSimilars() {
+		albums.mergeSimilars();
+		albums.asCollection().forEach(Album::mergeSimilars);
+	}
 }

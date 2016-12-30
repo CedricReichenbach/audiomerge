@@ -80,4 +80,9 @@ public class FileSong extends Song {
 		// TODO: Maybe merge meta data by filling empty spots by ones from the
 		// other
 	}
+
+	@Override
+	public void mergeSimilars() {
+		// do nothing, since there's no child content
+	}
 }

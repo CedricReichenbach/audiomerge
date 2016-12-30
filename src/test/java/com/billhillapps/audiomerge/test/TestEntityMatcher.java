@@ -3,7 +3,7 @@ package com.billhillapps.audiomerge.test;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 
-public class TestEntityMatcher extends BaseMatcher<TestEntity> {
+public class TestEntityMatcher extends BaseMatcher<MockEntity> {
 
 	private final String name;
 	private final String[] content;
@@ -31,10 +31,10 @@ public class TestEntityMatcher extends BaseMatcher<TestEntity> {
 
 	@Override
 	public boolean matches(Object item) {
-		if (!(item instanceof TestEntity))
+		if (!(item instanceof MockEntity))
 			return false;
 
-		TestEntity entity = (TestEntity) item;
+		MockEntity entity = (MockEntity) item;
 
 		boolean result = true;
 		if (name != null)

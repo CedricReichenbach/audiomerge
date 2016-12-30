@@ -48,4 +48,10 @@ public class Album implements Entity {
 	public Collection<Song> getSongs() {
 		return songs.asCollection();
 	}
+
+	@Override
+	public void mergeSimilars() {
+		songs.mergeSimilars();
+		songs.asCollection().forEach(Song::mergeSimilars);
+	}
 }
