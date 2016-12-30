@@ -1,6 +1,6 @@
 package com.billhillapps.audiomerge.music;
 
-import static com.billhillapps.audiomerge.test.TestEntityMatcher.isTestEntity;
+import static com.billhillapps.audiomerge.test.MockEntityMatcher.isTestEntity;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.junit.Assert.assertThat;
 

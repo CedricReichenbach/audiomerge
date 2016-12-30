@@ -1,14 +1,16 @@
 package com.billhillapps.audiomerge.test;
 
+import java.util.Arrays;
+
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 
-public class TestEntityMatcher extends BaseMatcher<MockEntity> {
+public class MockEntityMatcher extends BaseMatcher<MockEntity> {
 
 	private final String name;
 	private final String[] content;
 
-	private TestEntityMatcher(String name, String[] content) {
+	private MockEntityMatcher(String name, String[] content) {
 		super();
 		if (name == null & content == null)
 			throw new RuntimeException("Name and content are both null - what am I supposed to match?");
@@ -17,16 +19,16 @@ public class TestEntityMatcher extends BaseMatcher<MockEntity> {
 		this.content = content;
 	}
 
-	public static TestEntityMatcher isTestEntity(String name) {
-		return new TestEntityMatcher(name, null);
+	public static MockEntityMatcher isTestEntity(String name) {
+		return new MockEntityMatcher(name, null);
 	}
 
-	public static TestEntityMatcher isTestEntity(String[] content) {
-		return new TestEntityMatcher(null, content);
+	public static MockEntityMatcher isTestEntity(String[] content) {
+		return new MockEntityMatcher(null, content);
 	}
 
-	public static TestEntityMatcher isTestEntity(String name, String[] content) {
-		return new TestEntityMatcher(name, content);
+	public static MockEntityMatcher isTestEntity(String name, String[] content) {
+		return new MockEntityMatcher(name, content);
 	}
 
 	@Override
@@ -40,7 +42,7 @@ public class TestEntityMatcher extends BaseMatcher<MockEntity> {
 		if (name != null)
 			result &= entity.name.equals(this.name);
 		if (content != null)
-			result &= entity.content.equals(this.content);
+			result &= Arrays.equals(entity.content.toArray(), this.content);
 
 		return result;
 	}

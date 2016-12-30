@@ -44,4 +44,9 @@ public class MockEntity implements Entity {
 	public void mergeSimilars() {
 		throw new RuntimeException("not implemented, this is just a mock class");
 	}
+
+	@Override
+	public String toString() {
+		return String.format("a MockEntity named '%s' with content '%s'", name, content);
+	}
 }
