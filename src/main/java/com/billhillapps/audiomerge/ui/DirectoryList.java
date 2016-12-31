@@ -17,16 +17,20 @@ public class DirectoryList extends VBox {
 		this.getChildren().add(new DirectoryPicker(primaryStage));
 
 		Button addButton = new Button("Add directory");
-		addButton.setOnAction(event -> {
+		addButton.setOnAction(addButtonEvent -> {
 			ObservableList<Node> children = this.getChildren();
 
 			HBox row = new HBox();
 			row.setSpacing(AudioMergeUI.SPACING / 2);
 			children.add(children.size() - 1, row);
 
+			Button removeButton = new Button("-");
+			removeButton.setOnAction(removeButtonEvent -> {
+				this.getChildren().remove(row);
+			});
+
 			row.getChildren().add(new DirectoryPicker(primaryStage));
-			row.getChildren().add(new Button("-"));
-			// TODO: Remove row on button click
+			row.getChildren().add(removeButton);
 		});
 		this.getChildren().add(addButton);
 	}
