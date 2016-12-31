@@ -1,3 +1,45 @@
+/* ~~ CONSTANTS, COLORS ~~ */
+
+* {
+	_bg-color: #222;
+	
+	_neon-green: #0f7;
+	
+	_yellow: #fd0;
+	_dark-yellow: #c90;
+	
+	_neon-purple: #d0f;
+	_dark-neon-purple: #a0c;
+}
+
+/* ~~ STYLING ~~ */
+
 .root {
-	-fx-background: #222;
+	-fx-background: _bg-color;
+}
+
+.text-field,
+.button {
+	-fx-background-color: transparent;
+	-fx-border-width: 1.0px;
+	-fx-border-color: white;
+	-fx-text-fill: white;
+	-fx-border-radius: 0.0;
+	-fx-background-radius: 0.0;
+}
+.button:hover {
+	-fx-background-color: linear-gradient(_dark-yellow, _dark-neon-purple);
+}
+.button:hover:active { /* FIXME: active pseudo-class not working */
+	-fx-background-color: white;
+	-fx-text-fill: _bg-color;
+}
+.button.dynamic,
+.button.dynamic {
+	-fx-border-radius: 100.0%;
+	-fx-background-radius: 100.0%;
+}
+.button.start {
+	-fx-text-fill: _neon-green;
+	-fx-border-color: _neon-green;
 }

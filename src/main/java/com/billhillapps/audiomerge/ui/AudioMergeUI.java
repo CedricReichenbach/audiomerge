@@ -14,6 +14,7 @@ public class AudioMergeUI extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Button startButton = new Button("Start");
+		startButton.getStyleClass().add("start");
 		startButton.setOnAction(event -> {
 			// TODO: Start loading, merging...
 			System.out.println("Button clicked");

@@ -16,7 +16,8 @@ public class DirectoryList extends VBox {
 
 		this.getChildren().add(new DirectoryPicker(primaryStage));
 
-		Button addButton = new Button("Add directory");
+		Button addButton = new Button("+");
+		addButton.getStyleClass().add("dynamic");
 		addButton.setOnAction(addButtonEvent -> {
 			ObservableList<Node> children = this.getChildren();
 
@@ -24,7 +25,8 @@ public class DirectoryList extends VBox {
 			row.setSpacing(AudioMergeUI.SPACING / 2);
 			children.add(children.size() - 1, row);
 
-			Button removeButton = new Button("-");
+			Button removeButton = new Button("−");
+			removeButton.getStyleClass().add("dynamic");
 			removeButton.setOnAction(removeButtonEvent -> {
 				this.getChildren().remove(row);
 			});
