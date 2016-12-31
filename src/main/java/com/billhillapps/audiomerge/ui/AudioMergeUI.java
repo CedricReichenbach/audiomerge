@@ -1,13 +1,15 @@
 package com.billhillapps.audiomerge.ui;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class AudioMergeUI extends Application {
+
+	public static final double SPACING = 10;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -17,14 +19,17 @@ public class AudioMergeUI extends Application {
 			System.out.println("Button clicked");
 		});
 
-		VBox dirsBox = new VBox();
-		dirsBox.getChildren().add(new DirectoryPicker(primaryStage));
+		DirectoryList dirList = new DirectoryList(primaryStage);
 
-		StackPane root = new StackPane();
-		root.getChildren().add(startButton);
-		root.getChildren().add(dirsBox);
+		GridPane rootGrid = new GridPane();
+		rootGrid.setAlignment(Pos.CENTER);
+		rootGrid.setVgap(SPACING);
+		rootGrid.setHgap(SPACING);
+		
+		rootGrid.add(dirList, 0, 0);
+		rootGrid.add(startButton, 0, 1);
 
-		Scene scene = new Scene(root, 800, 600);
+		Scene scene = new Scene(rootGrid, 600, 400);
 		scene.getStylesheets().add(ClassLoader.getSystemResource("application.css").toExternalForm());
 
 		primaryStage.setTitle("AudioMerge");

@@ -6,11 +6,10 @@ import java.nio.file.Path;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
-public class DirectoryPicker extends Pane {
+public class DirectoryPicker extends HBox {
 
 	private final DirectoryChooser directoryChooser;
 
@@ -18,9 +17,6 @@ public class DirectoryPicker extends Pane {
 
 	public DirectoryPicker(Stage primaryStage) {
 		super();
-
-		HBox container = new HBox();
-		this.getChildren().add(container);
 
 		directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Select root directory of music collection");
@@ -37,7 +33,7 @@ public class DirectoryPicker extends Pane {
 			pathField.setText(chosenPath.toString());
 		});
 
-		container.getChildren().add(pathField);
-		container.getChildren().add(button);
+		this.getChildren().add(pathField);
+		this.getChildren().add(button);
 	}
 }
