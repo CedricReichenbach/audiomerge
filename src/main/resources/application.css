@@ -1,6 +1,19 @@
 /* ~~ CONSTANTS, COLORS ~~ */
 
 * {
+	_gray-0: derive(black, 0);
+	_gray-1: derive(black, 10%);
+	_gray-2: derive(black, 20%);
+	_gray-25: derive(black, 25%);
+	_gray-3: derive(black, 30%);
+	_gray-4: derive(black, 40%);
+	_gray-5: derive(black, 50%);
+	_gray-6: derive(black, 60%);
+	_gray-7: derive(black, 70%);
+	_gray-75: derive(black, 75%);
+	_gray-8: derive(black, 80%);
+	_gray-9: derive(black, 90%);
+	
 	_bg-color: #222;
 	
 	_neon-green: #0f7;
@@ -12,10 +25,19 @@
 	_darker-neon-blue: derive(_neon-blue, -50%);
 	
 	_yellow: #fd0;
-	_dark-yellow: #c90;
+	_dark-yellow: derive(_yellow, -25%);
+	_darker-yellow: derive(_yellow, -50%);
+	
+	_gold: #fc0;
+	_dark-gold: derive(_gold, -25%);
+	_darker-gold: derive(_gold, -50%);
+	
+	_rose: #f7b;
+	_dark-rose: derive(_rose, -25%);
+	_darker-rose: derive(_rose, -50%);
 	
 	_neon-purple: #d0f;
-	_dark-neon-purple: #a0c;
+	_dark-neon-purple: derive(_neon-purple, -25%);
 }
 
 /* ~~ STYLING ~~ */
@@ -35,7 +57,19 @@
 	-fx-background-insets: 0;
 }
 .button:hover {
-	-fx-background-color: linear-gradient(to bottom right, _dark-yellow, _dark-neon-purple);
+	_gradient-a: ladder(_gray-0, _dark-gold, _dark-neon-purple);
+	_gradient-b: ladder(_gray-25, _dark-gold, _dark-neon-purple);
+	_gradient-c: ladder(_gray-5, _dark-gold, _dark-neon-purple);
+	_gradient-d: ladder(_gray-75, _dark-gold, _dark-neon-purple);
+	_gradient-e: ladder(white, _dark-gold, _dark-neon-purple);
+	/* -fx-background-color: linear-gradient(to bottom right,
+							_gradient-a 0%, _gradient-a 20%,
+							_gradient-b 20%, _gradient-b 40%,
+							_gradient-c 40%, _gradient-c 60%,
+							_gradient-d 60%, _gradient-d 80%,
+							_gradient-e 80%, _gradient-e 100%
+							); */
+	-fx-background-color: linear-gradient(to bottom right, _dark-gold, _dark-rose);
 }
 .button:hover:pressed {
 	-fx-background-color: white;
