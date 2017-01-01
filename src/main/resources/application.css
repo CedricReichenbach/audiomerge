@@ -4,6 +4,12 @@
 	_bg-color: #222;
 	
 	_neon-green: #0f7;
+	_dark-neon-green: derive(_neon-green, -25%);
+	_darker-neon-green: derive(_neon-green, -50%);
+	
+	_neon-blue: #0bf;
+	_dark-neon-blue: derive(_neon-blue, -25%);
+	_darker-neon-blue: derive(_neon-blue, -50%);
 	
 	_yellow: #fd0;
 	_dark-yellow: #c90;
@@ -26,11 +32,12 @@
 	-fx-text-fill: white;
 	-fx-border-radius: 0.0;
 	-fx-background-radius: 0.0;
+	-fx-background-insets: 0;
 }
 .button:hover {
-	-fx-background-color: linear-gradient(_dark-yellow, _dark-neon-purple);
+	-fx-background-color: linear-gradient(to bottom right, _dark-yellow, _dark-neon-purple);
 }
-.button:hover:active { /* FIXME: active pseudo-class not working */
+.button:hover:pressed {
 	-fx-background-color: white;
 	-fx-text-fill: _bg-color;
 }
@@ -42,4 +49,11 @@
 .button.start {
 	-fx-text-fill: _neon-green;
 	-fx-border-color: _neon-green;
+}
+.button.start:hover {
+	-fx-background-color: linear-gradient(to bottom right, _darker-neon-blue, _darker-neon-green);
+}
+.button.start:hover:pressed {
+	-fx-background-color: _neon-green;
+	-fx-text-fill: _bg-color;
 }
