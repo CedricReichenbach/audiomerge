@@ -2,19 +2,19 @@
 
 * {
 	_gray-0: derive(black, 0);
-	_gray-1: derive(black, 10%);
-	_gray-2: derive(black, 20%);
-	_gray-25: derive(black, 25%);
-	_gray-3: derive(black, 30%);
-	_gray-4: derive(black, 40%);
-	_gray-5: derive(black, 50%);
-	_gray-6: derive(black, 60%);
-	_gray-7: derive(black, 70%);
-	_gray-75: derive(black, 75%);
-	_gray-8: derive(black, 80%);
-	_gray-9: derive(black, 90%);
+	_gray-1: derive(black, 20%);
+	_gray-2: derive(black, 40%);
+	_gray-25: derive(black, 50%);
+	_gray-3: derive(black, 60%);
+	_gray-4: derive(black, 80%);
+	_gray-5: derive(black, 100%);
+	_gray-6: derive(black, 120%);
+	_gray-7: derive(black, 140%);
+	_gray-75: derive(black, 150%);
+	_gray-8: derive(black, 160%);
+	_gray-9: derive(black, 180%);
 	
-	_bg-color: #222;
+	_bg-color: _gray-1;
 	
 	_neon-green: #0f7;
 	_dark-neon-green: derive(_neon-green, -25%);
@@ -36,32 +36,36 @@
 	_dark-rose: derive(_rose, -25%);
 	_darker-rose: derive(_rose, -50%);
 	
-	_neon-purple: #d0f;
+	_neon-purple: #e0f;
 	_dark-neon-purple: derive(_neon-purple, -25%);
+	_darker-neon-purple: derive(_neon-purple, -50%);
+	
+	_neon-red: #f35;
 }
 
 /* ~~ STYLING ~~ */
 
 .root {
 	-fx-background: _bg-color;
+	-fx-font-size: 14px;
 }
 
 .text-field,
 .button {
 	-fx-background-color: transparent;
-	-fx-border-width: 1.0px;
+	-fx-border-width: 1px;
 	-fx-border-color: white;
 	-fx-text-fill: white;
-	-fx-border-radius: 0.0;
-	-fx-background-radius: 0.0;
+	-fx-border-radius: 0;
+	-fx-background-radius: 0;
 	-fx-background-insets: 0;
 }
 .button:hover {
-	_gradient-a: ladder(_gray-0, _dark-gold, _dark-neon-purple);
-	_gradient-b: ladder(_gray-25, _dark-gold, _dark-neon-purple);
-	_gradient-c: ladder(_gray-5, _dark-gold, _dark-neon-purple);
-	_gradient-d: ladder(_gray-75, _dark-gold, _dark-neon-purple);
-	_gradient-e: ladder(white, _dark-gold, _dark-neon-purple);
+	_gradient-a: ladder(_gray-0, _dark-gold, _dark-rose);
+	_gradient-b: ladder(_gray-25, _dark-gold, _dark-rose);
+	_gradient-c: ladder(_gray-5, _dark-gold, _dark-rose);
+	_gradient-d: ladder(_gray-75, _dark-gold, _dark-rose);
+	_gradient-e: ladder(white, _dark-gold, _dark-rose);
 	/* -fx-background-color: linear-gradient(to bottom right,
 							_gradient-a 0%, _gradient-a 20%,
 							_gradient-b 20%, _gradient-b 40%,
@@ -77,17 +81,27 @@
 }
 .button.dynamic,
 .button.dynamic {
-	-fx-border-radius: 100.0%;
-	-fx-background-radius: 100.0%;
+	-fx-border-radius: 100%;
+	-fx-background-radius: 100%;
 }
 .button.start {
 	-fx-text-fill: _neon-green;
 	-fx-border-color: _neon-green;
+	-fx-font-size: 20px;
 }
 .button.start:hover {
-	-fx-background-color: linear-gradient(to bottom right, _darker-neon-blue, _darker-neon-green);
+	-fx-background-color: linear-gradient(to bottom right, _darker-neon-blue, _darker-neon-purple);
 }
 .button.start:hover:pressed {
 	-fx-background-color: _neon-green;
 	-fx-text-fill: _bg-color;
+}
+
+.text-field.invalid {
+	-fx-border-color: _neon-red;
+}
+
+.label.title {
+	-fx-font-size: 120%;
+	-fx-text-fill: _gray-9;
 }
