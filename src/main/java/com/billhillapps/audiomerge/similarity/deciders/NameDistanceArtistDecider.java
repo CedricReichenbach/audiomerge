@@ -12,9 +12,7 @@ public class NameDistanceArtistDecider implements Decider<Artist> {
 
 	@Override
 	public int resolve(Artist a, Artist b) {
-		// TODO: Implement
-		System.out.println(String.format("Trying to resolve: '%s' vs '%s'", a, b));
-		return -1;
+		return DeciderUtil.resolveUsingStdIn(a, b);
 	}
 
 }
