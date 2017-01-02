@@ -13,9 +13,14 @@ public class MetaDataDistanceSongDecider implements Decider<Song> {
 
 	@Override
 	public int resolve(Song a, Song b) {
-		// TODO: Consider other aspects than bitrate? Maybe ask user?
-		DeciderUtil.resolveUsingStdIn(a, b, a.getBitRate() >= b.getBitRate() ? a : b);
-		return b.getBitRate() > a.getBitRate() ? 1 : -1;
+		return DeciderUtil.resolveUsingStdIn(a, b, betterQuality(a, b) <= 0 ? a : b);
+	}
+
+	protected int betterQuality(Song a, Song b) {
+		// TODO: Consider other aspects than bitrate?
+
+		// -, because we want the higher bit rate (sort descending)
+		return -Long.compare(a.getBitRate(), b.getBitRate());
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.billhillapps.audiomerge.music;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.apache.commons.lang3.StringUtils;
@@ -21,10 +22,13 @@ import org.jaudiotagger.tag.TagException;
  */
 public class FileSong extends Song {
 
+	private final Path originalPath;
 	private final AudioHeader header;
 	private final Tag tag;
 
-	public FileSong(Path filePath) {
+	public FileSong(final Path filePath) {
+		this.originalPath = filePath;
+
 		try {
 			AudioFile audioFile = AudioFileIO.read(filePath.toFile());
 			header = audioFile.getAudioHeader();
@@ -88,7 +92,13 @@ public class FileSong extends Song {
 
 	@Override
 	public void saveTo(Path path) {
-		// TODO: Implement
-		throw new RuntimeException("Not implemented yet");
+		final Path filePath = path.resolve(originalPath.getFileName());
+		try {
+			Files.copy(originalPath, filePath);
+		} catch (IOException e) {
+			// XXX: Better handling (Exception system)
+			throw new RuntimeException(String.format("Failed to copy song from '%s' to '%s'", originalPath, filePath),
+					e);
+		}
 	}
 }

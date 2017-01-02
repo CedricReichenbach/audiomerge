@@ -18,6 +18,7 @@ public class DeciderUtil {
 
 		try (Scanner scanner = new Scanner(System.in)) {
 			do {
+				// FIXME: "No line found" the second time
 				String input = scanner.nextLine();
 
 				if (input.length() == 0 || Character.toLowerCase(input.charAt(0)) == 'd') {

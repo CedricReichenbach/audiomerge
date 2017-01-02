@@ -58,8 +58,15 @@ public class Album implements Entity {
 	}
 
 	@Override
-	public void saveTo(Path path) {
-		Path subPath = PathUtil.createSafeSubpath(path, this.getAlbumTitle());
+	public void saveTo(final Path path) {
+		String dirName = this.getAlbumTitle();
+
+		Path subPath;
+		if (StringUtils.isNotBlank(dirName))
+			subPath = PathUtil.createSafeSubpath(path, dirName);
+		else
+			subPath = path;
+
 		subPath.toFile().mkdirs();
 		songs.asCollection().forEach(song -> song.saveTo(subPath));
 	}

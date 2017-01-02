@@ -66,7 +66,11 @@ public class Artist implements Entity {
 
 	@Override
 	public void saveTo(Path path) {
-		Path subPath = PathUtil.createSafeSubpath(path, this.getName());
+		String dirName = this.getName();
+		if (StringUtils.isBlank(dirName))
+			dirName = "_unknown";
+
+		Path subPath = PathUtil.createSafeSubpath(path, dirName);
 		subPath.toFile().mkdirs();
 		albums.asCollection().forEach(album -> album.saveTo(subPath));
 	}
