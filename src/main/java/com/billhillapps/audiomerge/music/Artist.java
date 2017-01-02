@@ -1,5 +1,8 @@
 package com.billhillapps.audiomerge.music;
 
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
 import java.util.Collection;
 
 import org.apache.commons.lang3.StringUtils;
@@ -60,5 +63,17 @@ public class Artist implements Entity {
 	public void mergeSimilars() {
 		albums.mergeSimilars();
 		albums.asCollection().forEach(Album::mergeSimilars);
+	}
+
+	@Override
+	public void saveTo(Path path) {
+		try {
+			path.resolve(this.getName());
+		} catch (InvalidPathException e) {
+			// TODO: Map to valid path
+		}
+
+		throw new RuntimeException("Not implemented yet");
+		// TODO: Save to sub-directory named like artist
 	}
 }

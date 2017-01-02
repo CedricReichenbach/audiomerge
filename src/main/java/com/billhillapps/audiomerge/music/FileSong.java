@@ -85,4 +85,10 @@ public class FileSong extends Song {
 	public void mergeSimilars() {
 		// do nothing, since there's no child content
 	}
+
+	@Override
+	public void saveTo(Path path) {
+		// TODO: Implement
+		throw new RuntimeException("Not implemented yet");
+	}
 }

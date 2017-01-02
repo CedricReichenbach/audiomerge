@@ -1,5 +1,9 @@
 package com.billhillapps.audiomerge.test;
 
+import java.nio.file.Path;
+
+import org.apache.commons.lang3.NotImplementedException;
+
 import com.billhillapps.audiomerge.music.Entity;
 import com.billhillapps.audiomerge.music.Song;
 
@@ -46,5 +50,10 @@ public class MockSong extends Song {
 	@Override
 	public void mergeSimilars() {
 		// do nothing
+	}
+
+	@Override
+	public void saveTo(Path path) {
+		throw new NotImplementedException("Not needed");
 	}
 }

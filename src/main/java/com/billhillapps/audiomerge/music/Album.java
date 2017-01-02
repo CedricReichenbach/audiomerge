@@ -1,5 +1,6 @@
 package com.billhillapps.audiomerge.music;
 
+import java.nio.file.Path;
 import java.util.Collection;
 
 import org.apache.commons.lang3.StringUtils;
@@ -53,5 +54,11 @@ public class Album implements Entity {
 	public void mergeSimilars() {
 		songs.mergeSimilars();
 		songs.asCollection().forEach(Song::mergeSimilars);
+	}
+
+	@Override
+	public void saveTo(Path path) {
+		// TODO: Implement
+		throw new RuntimeException("Not implemented yet");
 	}
 }

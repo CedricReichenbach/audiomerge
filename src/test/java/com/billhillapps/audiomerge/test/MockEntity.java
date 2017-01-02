@@ -1,8 +1,11 @@
 package com.billhillapps.audiomerge.test;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+
+import org.apache.commons.lang3.NotImplementedException;
 
 import com.billhillapps.audiomerge.music.Entity;
 
@@ -48,5 +51,10 @@ public class MockEntity implements Entity {
 	@Override
 	public String toString() {
 		return String.format("a MockEntity named '%s' with content '%s'", name, content);
+	}
+
+	@Override
+	public void saveTo(Path path) {
+		throw new NotImplementedException("Not needed");
 	}
 }

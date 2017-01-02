@@ -4,8 +4,6 @@ import java.util.Scanner;
 
 public class DeciderUtil {
 
-	private static final Scanner SCANNER = new Scanner(System.in);
-
 	public static int resolveUsingStdIn(Object leftOption, Object rightOption) {
 		return resolveUsingStdIn(leftOption, rightOption, null);
 	}
@@ -18,26 +16,27 @@ public class DeciderUtil {
 						leftOption == defaultOption ? ", [d]efault" : "", leftOption,
 						rightOption == defaultOption ? ", [d]efault" : "", rightOption));
 
-		do {
-			// String input = SCANNER.next("^[LlRrKk]?$");
-			String input = SCANNER.nextLine();
+		try (Scanner scanner = new Scanner(System.in)) {
+			do {
+				String input = scanner.nextLine();
 
-			if (input.length() == 0 || Character.toLowerCase(input.charAt(0)) == 'd') {
-				if (defaultOption == leftOption)
-					return -1;
-				if (defaultOption == rightOption)
-					return 1;
-			} else if (input.length() == 1) {
-				char selection = Character.toLowerCase(input.charAt(0));
-				if (selection == 'l')
-					return -1;
-				if (selection == 'r')
-					return 1;
-				if (selection == 'k')
-					return 0;
-			}
+				if (input.length() == 0 || Character.toLowerCase(input.charAt(0)) == 'd') {
+					if (defaultOption == leftOption)
+						return -1;
+					if (defaultOption == rightOption)
+						return 1;
+				} else if (input.length() == 1) {
+					char selection = Character.toLowerCase(input.charAt(0));
+					if (selection == 'l')
+						return -1;
+					if (selection == 'r')
+						return 1;
+					if (selection == 'k')
+						return 0;
+				}
 
-			System.out.println("I don't understand. Please type one of the characters l/r/k:");
-		} while (true);
+				System.out.println("I don't understand. Please type one of the characters l/r/k:");
+			} while (true);
+		}
 	}
 }

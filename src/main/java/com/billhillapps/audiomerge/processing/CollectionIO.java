@@ -1,6 +1,7 @@
 package com.billhillapps.audiomerge.processing;
 
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -53,5 +54,17 @@ public class CollectionIO {
 	private static Song songFromFile(Path filePath) {
 		// TODO: If not music file, treat specially
 		return new FileSong(filePath);
+	}
+
+	public static void toDirectory(Path path, MusicCollection collection) throws IOException {
+		if (!path.toFile().isDirectory())
+			throw new RuntimeException(String.format("Path to save collection in is not a directory: '%s'", path));
+
+		try (DirectoryStream<Path> dirStream = Files.newDirectoryStream(path)) {
+			if (dirStream.iterator().hasNext())
+				throw new RuntimeException(String.format("Directory to save collection to is not empty: '%s'", path));
+		}
+
+		collection.saveTo(path);
 	}
 }

@@ -1,5 +1,6 @@
 package com.billhillapps.audiomerge.similarity.deciders;
 
+import static com.billhillapps.audiomerge.test.TestUtil.simulateStdInput;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -64,8 +65,12 @@ public class MetaDataDistanceSongDeciderTest {
 		Song songB = new MockSong("b", "-", "-", 128);
 		Song songC = new MockSong("c", "-", "-", 192);
 
+		// simulate picking "[d]efault" every time
+		simulateStdInput("d");
 		assertTrue(decider.resolve(songA, songB) < 0);
+		simulateStdInput("d");
 		assertTrue(decider.resolve(songA, songC) < 0);
+		simulateStdInput("d");
 		assertTrue(decider.resolve(songB, songC) > 0);
 	}
 }

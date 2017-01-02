@@ -1,5 +1,6 @@
 package com.billhillapps.audiomerge.music;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -65,5 +66,9 @@ public class MusicCollection {
 	public void mergeSimilars() {
 		artists.mergeSimilars();
 		artists.asCollection().forEach(Artist::mergeSimilars);
+	}
+
+	public void saveTo(Path path) {
+		artists.asCollection().forEach(artist -> artist.saveTo(path));
 	}
 }
