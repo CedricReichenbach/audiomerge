@@ -39,11 +39,7 @@ public class AudioMergeUI extends Application {
 
 	private void showOperationPage(MergeManager mergeManager) {
 		primaryStage.setScene(operationPage.getScene());
-
-		// TODO: Start loading, merging...
-		mergeManager.addProgressListener((progress, operation) -> {
-			// TODO: Show progress bar or something
-		});
+		operationPage.runMergeManager(mergeManager);
 	}
 
 	public static void main(String[] args) {

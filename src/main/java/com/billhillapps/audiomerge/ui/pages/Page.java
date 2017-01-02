@@ -1,15 +1,21 @@
 package com.billhillapps.audiomerge.ui.pages;
 
+import static com.billhillapps.audiomerge.ui.AudioMergeUI.SPACING;
+
 import com.billhillapps.audiomerge.ui.AudioMergeUI;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
 public abstract class Page {
 
 	protected Scene scene;
+
+	protected GridPane rootGrid;
 
 	public Page() {
 		scene = new Scene(wrapForScroll(this.createRootPane()), AudioMergeUI.DEFAULT_WIDTH,
@@ -17,7 +23,16 @@ public abstract class Page {
 		scene.getStylesheets().add(ClassLoader.getSystemResource("application.css").toExternalForm());
 	}
 
-	protected abstract Pane createRootPane();
+	protected Pane createRootPane() {
+		rootGrid = new GridPane();
+
+		rootGrid.setAlignment(Pos.CENTER);
+		rootGrid.setVgap(SPACING);
+		rootGrid.setHgap(SPACING);
+		rootGrid.setPadding(new Insets(2 * SPACING));
+
+		return rootGrid;
+	}
 
 	protected ScrollPane wrapForScroll(Pane rootGrid) {
 		ScrollPane scrollPane = new ScrollPane(rootGrid);
