@@ -2,7 +2,6 @@ package com.billhillapps.audiomerge.music;
 
 import static com.billhillapps.audiomerge.test.ArtistMatcher.isArtist;
 import static com.billhillapps.audiomerge.test.SongMatcher.isSong;
-import static com.billhillapps.audiomerge.test.TestUtil.simulateStdInput;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -17,10 +16,8 @@ import org.junit.Test;
 
 import com.billhillapps.audiomerge.processing.CollectionIO;
 import com.billhillapps.audiomerge.similarity.deciders.NameDistanceArtistDecider;
-import com.billhillapps.audiomerge.similarity.deciders.TitleDistanceAlbumDecider;
 import com.billhillapps.audiomerge.test.LexicographicalAlbumDecider;
 import com.billhillapps.audiomerge.test.LexigraphicalSongDecider;
-import com.billhillapps.audiomerge.test.TestUtil;
 
 public class MusicCollectionTest {
 

@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.billhillapps.audiomerge.processing.PathUtil;
 import com.billhillapps.audiomerge.similarity.Decider;
 
 public class Album implements Entity {
@@ -58,7 +59,8 @@ public class Album implements Entity {
 
 	@Override
 	public void saveTo(Path path) {
-		// TODO: Implement
-		throw new RuntimeException("Not implemented yet");
+		Path subPath = PathUtil.createSafeSubpath(path, this.getAlbumTitle());
+		subPath.toFile().mkdirs();
+		songs.asCollection().forEach(song -> song.saveTo(subPath));
 	}
 }
