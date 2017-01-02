@@ -8,6 +8,7 @@ import java.util.Collection;
 import org.apache.commons.lang3.NotImplementedException;
 
 import com.billhillapps.audiomerge.music.Entity;
+import com.billhillapps.audiomerge.processing.ProgressAdapter;
 
 /**
  * {@link Entity} implementation for testing purposes. Simply contains a name
@@ -16,7 +17,7 @@ import com.billhillapps.audiomerge.music.Entity;
  * @author Cedric Reichenbach
  *
  */
-public class MockEntity implements Entity {
+public class MockEntity extends ProgressAdapter implements Entity {
 
 	final Collection<String> content = new ArrayList<>();
 	public final String name;

@@ -2,7 +2,9 @@ package com.billhillapps.audiomerge.music;
 
 import java.nio.file.Path;
 
-public interface Entity {
+import com.billhillapps.audiomerge.processing.ProgressAware;
+
+public interface Entity extends ProgressAware {
 	/**
 	 * Check if two instances are equal except their contents.
 	 * 

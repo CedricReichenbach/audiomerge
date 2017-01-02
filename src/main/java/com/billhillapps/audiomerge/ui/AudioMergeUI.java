@@ -1,7 +1,8 @@
 package com.billhillapps.audiomerge.ui;
 
 import java.nio.file.Path;
-import java.util.Collection;
+
+import com.billhillapps.audiomerge.processing.MergeManager;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -77,16 +78,32 @@ public class AudioMergeUI extends Application {
 
 	private void startMerging() {
 		if (sourceDirList.hasInvalidPaths()) {
-			new Alert(AlertType.ERROR, "There are invalid paths. Please fix them or remove them from the list.").show();
+			new Alert(AlertType.ERROR, "There are invalid source paths. Please fix them or remove them from the list.")
+					.show();
 			return;
 		}
 
-		Collection<Path> chosenDirs = sourceDirList.getChosenDirs();
-		if (chosenDirs.size() == 0) {
+		final Path[] sourcePaths = sourceDirList.getChosenDirs().toArray(new Path[] {});
+		if (sourcePaths.length == 0) {
 			new Alert(AlertType.INFORMATION, "No directory selected, please add at least one.").show();
 			return;
 		}
 
+		if (!targetDirPicker.isPathValid()) {
+			new Alert(AlertType.ERROR, "Target path is invalid. Please adjust it and try again.").show();
+			return;
+		}
+
+		final Path targetPath = targetDirPicker.getChosenPath();
+		if (targetPath == null) {
+			new Alert(AlertType.INFORMATION, "No target directory set, please select one.").show();
+			return;
+		}
+
+		MergeManager mergeManager = new MergeManager(targetPath, sourcePaths);
+		mergeManager.addProgressListener((progress, operation) -> {
+			// TODO: Show progress bar or something
+		});
 		// TODO: Start loading, merging...
 		System.out.println("Button clicked");
 	}

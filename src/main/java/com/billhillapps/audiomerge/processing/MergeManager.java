@@ -2,16 +2,15 @@ package com.billhillapps.audiomerge.processing;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.billhillapps.audiomerge.music.MusicCollection;
 import com.billhillapps.audiomerge.similarity.deciders.MetaDataDistanceSongDecider;
 import com.billhillapps.audiomerge.similarity.deciders.NameDistanceArtistDecider;
 import com.billhillapps.audiomerge.similarity.deciders.TitleDistanceAlbumDecider;
 
-public class MergeManager {
+public class MergeManager extends ProgressAdapter {
 
 	private final Path destination;
 	private final Path[] sources;
@@ -41,17 +40,28 @@ public class MergeManager {
 	}
 
 	public void execute() {
-		List<MusicCollection> collections = Arrays.asList(sources).stream().map(source -> {
+		setCurrentOperation("Loading collections");
+		setProgress(0);
+
+		List<MusicCollection> collections = new ArrayList<>();
+		for (int i = 0; i < sources.length; i++) {
+			Path source = sources[i];
 			try {
-				return CollectionIO.fromDirectory(source, artistDecider, albumDecider, songDecider);
+				collections.add(CollectionIO.fromDirectory(source, artistDecider, albumDecider, songDecider));
 			} catch (IOException e) {
 				throw new RuntimeException(String.format("Collection from directory '%s' could not be loaded", source));
 			}
-		}).collect(Collectors.toList());
+			setProgress(1d * i / sources.length);
+		}
+
+		setCurrentOperation("Merging collections");
+		setProgress(0);
 
 		// merge subsequent collections to first
 		MusicCollection firstCollection = collections.remove(0);
-		collections.forEach(firstCollection::mergeIn);
+		collections.forEach(collection -> {
+			firstCollection.mergeIn(collection);
+		});
 
 		firstCollection.mergeSimilars();
 

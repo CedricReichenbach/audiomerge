@@ -3,7 +3,9 @@ package com.billhillapps.audiomerge.music;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.function.BiConsumer;
 
+import com.billhillapps.audiomerge.processing.ProgressAdapter;
 import com.billhillapps.audiomerge.similarity.Decider;
 
 /**
@@ -14,7 +16,7 @@ import com.billhillapps.audiomerge.similarity.Decider;
  * 
  * @author Cedric Reichenbach
  */
-public class MusicCollection {
+public class MusicCollection extends ProgressAdapter {
 
 	private final String title;
 	private final Decider<Album> albumDecider;
@@ -60,7 +62,13 @@ public class MusicCollection {
 	}
 
 	public void mergeIn(MusicCollection other) {
+		setCurrentOperation("Merge in other collection");
+		setProgress(0);
+		BiConsumer<Double, String> listener = (progress, description) -> setProgress(progress);
+
+		artists.addProgressListener(listener);
 		artists.addAll(other.artists);
+		artists.removeProgressListener(listener);
 	}
 
 	public void mergeSimilars() {

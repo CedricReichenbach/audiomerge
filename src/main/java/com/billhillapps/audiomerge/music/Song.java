@@ -2,7 +2,9 @@ package com.billhillapps.audiomerge.music;
 
 import org.apache.commons.lang3.StringUtils;
 
-public abstract class Song implements Entity {
+import com.billhillapps.audiomerge.processing.ProgressAdapter;
+
+public abstract class Song extends ProgressAdapter implements Entity {
 
 	public abstract String getAlbumTitle();
 

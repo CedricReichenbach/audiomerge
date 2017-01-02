@@ -3,7 +3,10 @@ package com.billhillapps.audiomerge.music;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
+import com.billhillapps.audiomerge.processing.ProgressAdapter;
 import com.billhillapps.audiomerge.similarity.Decider;
 
 /**
@@ -16,7 +19,7 @@ import com.billhillapps.audiomerge.similarity.Decider;
  * @param <T>
  *            Type of items in the set
  */
-public class EntityBag<T extends Entity> {
+public class EntityBag<T extends Entity> extends ProgressAdapter {
 
 	private final List<T> items = new ArrayList<>();
 	private final Decider<T> decider;
@@ -121,10 +124,28 @@ public class EntityBag<T extends Entity> {
 	}
 
 	public void addAll(EntityBag<T> otherBag) {
-		otherBag.items.forEach(item -> this.add(item));
+		// XXX: Maybe consider weight for progress
+		setProgress(0);
+		for (int i = 0; i < otherBag.items.size(); i++) {
+			this.add(otherBag.items.get(i));
+			setProgress(1d * i / otherBag.size());
+		}
 	}
 
 	public int size() {
 		return items.size();
+	}
+
+	public void forEach(Consumer<T> consumer) {
+		items.forEach(consumer);
+	}
+
+	public Stream<T> stream() {
+		return items.stream();
+	}
+
+	@Override
+	public double getWeight() {
+		return this.items.stream().map(item -> item.getWeight()).reduce(0d, (a, b) -> a + b);
 	}
 }

@@ -6,9 +6,10 @@ import java.util.Collection;
 import org.apache.commons.lang3.StringUtils;
 
 import com.billhillapps.audiomerge.processing.PathUtil;
+import com.billhillapps.audiomerge.processing.ProgressAdapter;
 import com.billhillapps.audiomerge.similarity.Decider;
 
-public class Artist implements Entity {
+public class Artist extends ProgressAdapter implements Entity {
 
 	private final String name;
 	private final Decider<Song> songDecider;
@@ -73,5 +74,10 @@ public class Artist implements Entity {
 		Path subPath = PathUtil.createSafeSubpath(path, dirName);
 		subPath.toFile().mkdirs();
 		albums.asCollection().forEach(album -> album.saveTo(subPath));
+	}
+
+	@Override
+	public double getWeight() {
+		return albums.getWeight();
 	}
 }

@@ -6,9 +6,10 @@ import java.util.Collection;
 import org.apache.commons.lang3.StringUtils;
 
 import com.billhillapps.audiomerge.processing.PathUtil;
+import com.billhillapps.audiomerge.processing.ProgressAdapter;
 import com.billhillapps.audiomerge.similarity.Decider;
 
-public class Album implements Entity {
+public class Album extends ProgressAdapter implements Entity {
 
 	private final String albumTitle;
 	private final EntityBag<Song> songs;
@@ -69,5 +70,10 @@ public class Album implements Entity {
 
 		subPath.toFile().mkdirs();
 		songs.asCollection().forEach(song -> song.saveTo(subPath));
+	}
+
+	@Override
+	public double getWeight() {
+		return songs.getWeight();
 	}
 }
