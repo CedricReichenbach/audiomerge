@@ -24,6 +24,10 @@
 	_dark-neon-blue: derive(_neon-blue, -25%);
 	_darker-neon-blue: derive(_neon-blue, -50%);
 	
+	_turquoise: #0dc;
+	_dark-turquoise: derive(_turquoise, -25%);
+	_darker-turquoise: derive(_turquoise, -50%);
+	
 	_yellow: #fd0;
 	_dark-yellow: derive(_yellow, -25%);
 	_darker-yellow: derive(_yellow, -50%);
@@ -90,7 +94,7 @@
 	-fx-font-size: 20px;
 }
 .button.start:hover {
-	-fx-background-color: linear-gradient(to bottom right, _darker-neon-blue, _darker-neon-purple);
+	-fx-background-color: linear-gradient(to bottom right, _darker-neon-blue, _darker-turquoise);
 }
 .button.start:hover:pressed {
 	-fx-background-color: _neon-green;
