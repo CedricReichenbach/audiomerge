@@ -2,6 +2,7 @@ package com.billhillapps.audiomerge.music;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import com.billhillapps.audiomerge.similarity.Decider;
 
@@ -17,7 +18,7 @@ import com.billhillapps.audiomerge.similarity.Decider;
  */
 public class EntityBag<T extends Entity> {
 
-	private final Collection<T> items = new ArrayList<>();
+	private final List<T> items = new ArrayList<>();
 	private final Decider<T> decider;
 
 	public EntityBag(Decider<T> decider) {
@@ -84,9 +85,15 @@ public class EntityBag<T extends Entity> {
 	private boolean mergeOneSimilarPair() {
 		T toBeRemoved = null;
 
-		mainloop: for (T itemA : items) {
-			for (T itemB : items) {
-				if (itemA == itemB || !decider.areSimilar(itemA, itemB))
+		mainloop: for (int a = 0; a < items.size(); a++) {
+			for (int b = 0; b < items.size(); b++) {
+				if (a >= b)
+					continue;
+
+				T itemA = items.get(a);
+				T itemB = items.get(b);
+
+				if (!decider.areSimilar(itemA, itemB))
 					continue;
 
 				int pickIndicator = decider.resolve(itemA, itemB);
