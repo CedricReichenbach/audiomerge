@@ -6,7 +6,6 @@ import java.nio.file.Path;
 import java.util.function.Consumer;
 
 import com.billhillapps.audiomerge.processing.MergeManager;
-import com.billhillapps.audiomerge.ui.AudioMergeUI;
 import com.billhillapps.audiomerge.ui.DirectoryList;
 import com.billhillapps.audiomerge.ui.DirectoryPicker;
 
@@ -17,21 +16,28 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class StartPage implements Page {
+public class StartPage extends Page {
 
-	private final Scene scene;
+	private final Stage primaryStage;
 
-	private final GridPane rootGrid;
-	private final DirectoryList sourceDirList;
-	private final DirectoryPicker targetDirPicker;
+	private GridPane rootGrid;
+	private DirectoryList sourceDirList;
+	private DirectoryPicker targetDirPicker;
 
 	private Consumer<MergeManager> onStartCallback;
 
 	public StartPage(Stage primaryStage) {
+		super();
+
+		this.primaryStage = primaryStage;
+	}
+
+	@Override
+	protected Pane createRootPane() {
 		Label dirListLabel = new Label("Source directories");
 		dirListLabel.getStyleClass().add("title");
 
@@ -59,16 +65,7 @@ public class StartPage implements Page {
 		rootGrid.add(targetDirPicker, 0, 3);
 		rootGrid.add(startButton, 0, 4);
 
-		scene = new Scene(wrapForScroll(rootGrid), AudioMergeUI.DEFAULT_WIDTH, AudioMergeUI.DEFAULT_HEIGHT);
-		scene.getStylesheets().add(ClassLoader.getSystemResource("application.css").toExternalForm());
-	}
-
-	public ScrollPane wrapForScroll(GridPane rootGrid) {
-		ScrollPane scrollPane = new ScrollPane(rootGrid);
-		scrollPane.setPadding(new Insets(0));
-		scrollPane.setFitToWidth(true);
-		scrollPane.setFitToHeight(true);
-		return scrollPane;
+		return rootGrid;
 	}
 
 	private void startMerging() {
