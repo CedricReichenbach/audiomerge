@@ -14,10 +14,16 @@ public class AudioMergeMain {
 		// TODO: Args to enable GUI (instead of STDIO) etc.
 
 		List<Path> paths = Arrays.asList(args).stream().map(Paths::get).collect(Collectors.toList());
+		if (paths.size() < 2) {
+			System.out.println(
+					"Received less than 2 arguments. Expected args: <destination> <source-dir> [<source-dir-2> ...]");
+			System.out.println("Did nothing, exiting now.");
+			return;
+		}
 
-		MergeManager mergeManager = new MergeManager(null, (Path[]) paths.toArray(new Path[] {}));
+		MergeManager mergeManager = new MergeManager(paths.remove(0), (Path[]) paths.toArray(new Path[] {}));
 		mergeManager.execute();
-		
+
 		System.out.println("Merging finished, exiting now.");
 	}
 }
