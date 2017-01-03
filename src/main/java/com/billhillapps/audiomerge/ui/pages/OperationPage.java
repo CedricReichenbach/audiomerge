@@ -1,6 +1,8 @@
 package com.billhillapps.audiomerge.ui.pages;
 
 import com.billhillapps.audiomerge.processing.MergeManager;
+import com.billhillapps.audiomerge.ui.ArtistChooser;
+import com.billhillapps.audiomerge.ui.deciders.GuiArtistDecider;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -8,6 +10,7 @@ import javafx.stage.Stage;
 
 public class OperationPage extends Page {
 
+	private final ArtistChooser artistChooser;
 	private final Label progressLabel;
 	private final ProgressBar progressBar;
 
@@ -16,17 +19,21 @@ public class OperationPage extends Page {
 	public OperationPage(Stage primaryStage) {
 		super();
 
+		this.artistChooser = new ArtistChooser();
+
 		this.progressLabel = new Label();
 		this.progressBar = new ProgressBar(0);
 
-		rootGrid.add(progressLabel, 0, 0);
-		rootGrid.add(progressBar, 0, 1);
+		rootGrid.add(artistChooser, 0, 0);
+		rootGrid.add(progressLabel, 0, 1);
+		rootGrid.add(progressBar, 0, 2);
 	}
 
-	public void runMergeManager(MergeManager mergeManager) {
+	public void runMergeManager(final MergeManager mergeManager) {
 		this.mergeManager = mergeManager;
 
-		// TODO: Use custom, GUI-based deciders
+		mergeManager.setArtistDecider(new GuiArtistDecider(artistChooser));
+		// TODO: Use custom, GUI-based deciders for Album and Song
 
 		this.mergeManager.addProgressListener((progress, operation) -> {
 			progressLabel.setText(operation);

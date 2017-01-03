@@ -40,6 +40,7 @@ public class DirectoryPicker extends HBox {
 
 		Button button = new Button("Select...");
 		button.setOnAction(event -> {
+			directoryChooser.setInitialDirectory(chosenPath != null ? chosenPath.toFile() : null);
 			File chosenFile = directoryChooser.showDialog(primaryStage);
 			if (chosenFile == null)
 				return;
