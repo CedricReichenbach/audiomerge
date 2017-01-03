@@ -26,19 +26,19 @@ public class StartPage extends Page {
 
 		Label dirListLabel = new Label("Source directories");
 		dirListLabel.getStyleClass().add("title");
-		
+
 		sourceDirList = new DirectoryList(primaryStage);
-		
+
 		Label targetDirLabel = new Label("Target directory");
 		targetDirLabel.getStyleClass().add("title");
-		
+
 		targetDirPicker = new DirectoryPicker(primaryStage);
-		
+
 		Button startButton = new Button("Start");
 		startButton.getStyleClass().add("start");
 		startButton.setMaxWidth(Double.MAX_VALUE);
 		startButton.setOnAction(event -> startMerging());
-		
+
 		rootGrid.add(dirListLabel, 0, 0);
 		rootGrid.add(sourceDirList, 0, 1);
 		rootGrid.add(targetDirLabel, 0, 2);
@@ -67,6 +67,11 @@ public class StartPage extends Page {
 		final Path targetPath = targetDirPicker.getChosenPath();
 		if (targetPath == null) {
 			new Alert(AlertType.INFORMATION, "No target directory set, please select one.").show();
+			return;
+		}
+		if (targetPath.toFile().list().length > 0) {
+			new Alert(AlertType.WARNING, "Target directory contains folders or files, please select an empty one.")
+					.show();
 			return;
 		}
 
