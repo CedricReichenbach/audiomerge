@@ -13,6 +13,7 @@ import javafx.scene.layout.Pane;
 
 public abstract class Page {
 
+
 	protected Scene scene;
 
 	protected GridPane rootGrid;
@@ -20,7 +21,7 @@ public abstract class Page {
 	public Page() {
 		scene = new Scene(wrapForScroll(this.createRootPane()), AudioMergeUI.DEFAULT_WIDTH,
 				AudioMergeUI.DEFAULT_HEIGHT);
-		scene.getStylesheets().add(ClassLoader.getSystemResource("application.css").toExternalForm());
+		scene.getStylesheets().add(AudioMergeUI.STYLESHEET);
 	}
 
 	protected Pane createRootPane() {

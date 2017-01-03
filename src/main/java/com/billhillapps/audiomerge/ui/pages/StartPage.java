@@ -6,9 +6,9 @@ import java.util.function.Consumer;
 import com.billhillapps.audiomerge.processing.MergeManager;
 import com.billhillapps.audiomerge.ui.DirectoryList;
 import com.billhillapps.audiomerge.ui.DirectoryPicker;
+import com.billhillapps.audiomerge.ui.ThemedAlert;
 
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -48,30 +48,30 @@ public class StartPage extends Page {
 
 	private void startMerging() {
 		if (sourceDirList.hasInvalidPaths()) {
-			new Alert(AlertType.ERROR, "There are invalid source paths. Please fix them or remove them from the list.")
-					.show();
+			new ThemedAlert(AlertType.ERROR,
+					"There are invalid source paths. Please fix them or remove them from the list.").show();
 			return;
 		}
 
 		final Path[] sourcePaths = sourceDirList.getChosenDirs().toArray(new Path[] {});
 		if (sourcePaths.length == 0) {
-			new Alert(AlertType.INFORMATION, "No directory selected, please add at least one.").show();
+			new ThemedAlert(AlertType.INFORMATION, "No directory selected, please add at least one.").show();
 			return;
 		}
 
 		if (!targetDirPicker.isPathValid()) {
-			new Alert(AlertType.ERROR, "Target path is invalid. Please adjust it and try again.").show();
+			new ThemedAlert(AlertType.ERROR, "Target path is invalid. Please adjust it and try again.").show();
 			return;
 		}
 
 		final Path targetPath = targetDirPicker.getChosenPath();
 		if (targetPath == null) {
-			new Alert(AlertType.INFORMATION, "No target directory set, please select one.").show();
+			new ThemedAlert(AlertType.INFORMATION, "No target directory set, please select one.").show();
 			return;
 		}
 		if (targetPath.toFile().list().length > 0) {
-			new Alert(AlertType.WARNING, "Target directory contains folders or files, please select an empty one.")
-					.show();
+			new ThemedAlert(AlertType.WARNING,
+					"Target directory contains folders or files, please select an empty one.").show();
 			return;
 		}
 
