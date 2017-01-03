@@ -15,8 +15,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.billhillapps.audiomerge.processing.CollectionIO;
-import com.billhillapps.audiomerge.similarity.deciders.NameDistanceArtistDecider;
 import com.billhillapps.audiomerge.test.LexicographicalAlbumDecider;
+import com.billhillapps.audiomerge.test.LexicographicalArtistDecider;
 import com.billhillapps.audiomerge.test.LexigraphicalSongDecider;
 
 public class MusicCollectionTest {
@@ -29,11 +29,11 @@ public class MusicCollectionTest {
 		Path collectionPathB = Paths.get(ClassLoader.getSystemResource("collection-b").toURI());
 		Path collectionPathC = Paths.get(ClassLoader.getSystemResource("collection-c").toURI());
 
-		collectionA = CollectionIO.fromDirectory(collectionPathA, new NameDistanceArtistDecider(),
+		collectionA = CollectionIO.fromDirectory(collectionPathA, new LexicographicalArtistDecider(),
 				new LexicographicalAlbumDecider(), new LexigraphicalSongDecider());
-		collectionB = CollectionIO.fromDirectory(collectionPathB, new NameDistanceArtistDecider(),
+		collectionB = CollectionIO.fromDirectory(collectionPathB, new LexicographicalArtistDecider(),
 				new LexicographicalAlbumDecider(), new LexigraphicalSongDecider());
-		collectionC = CollectionIO.fromDirectory(collectionPathC, new NameDistanceArtistDecider(),
+		collectionC = CollectionIO.fromDirectory(collectionPathC, new LexicographicalArtistDecider(),
 				new LexicographicalAlbumDecider(), new LexigraphicalSongDecider());
 	}
 
@@ -53,9 +53,9 @@ public class MusicCollectionTest {
 
 		collectionB.mergeIn(collectionC);
 
-		assertThat(collectionB.getArtists(), hasItem(isArtist("Hussalonia")));
+		assertThat(collectionB.getArtists(), hasItem(isArtist("Husalonia")));
 		assertThat(collectionB.getAllSongs(),
-				hasItem(isSong("This Song Wont Sell A Thing", "Hussalonia", "The Public Domain EP")));
+				hasItem(isSong("This Song Wont Sell A Thing", "Husalonia", "The Public Domain EP")));
 	}
 
 	@Test
@@ -64,8 +64,8 @@ public class MusicCollectionTest {
 		collectionA.mergeIn(collectionC);
 
 		// there are actually 4 different songs, but 1 of them has two different
-		// title spellings, and another 1 has two different album title
-		// spellings
+		// title and artist spellings, and another 1 has two different album
+		// title spellings
 		assertThat(collectionA.getAllSongs().size(), is(6));
 		assertThat(collectionA.getAllSongs(),
 				hasItem(isSong("Sonata No. 14 (Moonlight Sonata)", "Ludwig van Beethoven", "Unknown Album")));
@@ -74,7 +74,7 @@ public class MusicCollectionTest {
 		assertThat(collectionA.getAllSongs(),
 				hasItem(isSong("This Song Won't Sell A Thing.", "Hussalonia", "The Public Domain EP")));
 		assertThat(collectionA.getAllSongs(),
-				hasItem(isSong("This Song Wont Sell A Thing", "Hussalonia", "The Public Domain EP")));
+				hasItem(isSong("This Song Wont Sell A Thing", "Husalonia", "The Public Domain EP")));
 	}
 
 	@Test

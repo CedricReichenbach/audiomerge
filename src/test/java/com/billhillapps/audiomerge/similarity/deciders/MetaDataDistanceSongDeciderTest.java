@@ -66,11 +66,10 @@ public class MetaDataDistanceSongDeciderTest {
 		Song songC = new MockSong("c", "-", "-", 192);
 
 		// simulate picking "[d]efault" every time
-		simulateStdInput("d");
+		simulateStdInput("d", "d", "d");
+
 		assertTrue(decider.resolve(songA, songB) < 0);
-		simulateStdInput("d");
 		assertTrue(decider.resolve(songA, songC) < 0);
-		simulateStdInput("d");
 		assertTrue(decider.resolve(songB, songC) > 0);
 	}
 }

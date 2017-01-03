@@ -74,7 +74,7 @@ public class CollectionIOTest {
 
 		assertThat(collectionC.getTitle(), endsWith("collection-c"));
 		assertThat(collectionC.getArtists().size(), is(1));
-		assertThat(collectionC.getArtists(), hasItem(isArtist("Hussalonia")));
+		assertThat(collectionC.getArtists(), hasItem(isArtist("Husalonia")));
 		assertThat(collectionC.getArtists(), not(hasItem(isArtist("Ludwig van Beethoven"))));
 		assertThat(collectionC.getArtists(), not(hasItem(isArtist("Kevin MacLeod"))));
 		assertThat(collectionC.getArtists(), not(hasItem(isArtist("Alessandro Moreschi"))));

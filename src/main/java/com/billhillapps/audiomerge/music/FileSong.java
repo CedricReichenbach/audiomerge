@@ -94,6 +94,7 @@ public class FileSong extends Song {
 	public void saveTo(Path path) {
 		final Path filePath = path.resolve(originalPath.getFileName());
 		try {
+			// TODO: Check if file exists (use decider if so?)
 			Files.copy(originalPath, filePath);
 		} catch (IOException e) {
 			// XXX: Better handling (Exception system)
