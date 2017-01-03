@@ -58,6 +58,8 @@ public class StartPage extends Page {
 			new ThemedAlert(AlertType.INFORMATION, "No directory selected, please add at least one.").show();
 			return;
 		}
+		// TODO: Check and warn if same path has been selected multiple times
+		// (or a sub-path)
 
 		if (!targetDirPicker.isPathValid()) {
 			new ThemedAlert(AlertType.ERROR, "Target path is invalid. Please adjust it and try again.").show();

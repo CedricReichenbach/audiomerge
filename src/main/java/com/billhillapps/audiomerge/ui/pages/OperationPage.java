@@ -40,6 +40,9 @@ public class OperationPage extends Page {
 			progressBar.setProgress(progress);
 		});
 
-		this.mergeManager.execute();
+		new Thread(() -> {
+			this.mergeManager.execute();
+			// TODO: Join when finished or something
+		}).run();
 	}
 }
