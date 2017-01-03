@@ -26,6 +26,8 @@ public class OperationPage extends Page {
 	public void runMergeManager(MergeManager mergeManager) {
 		this.mergeManager = mergeManager;
 
+		// TODO: Use custom, GUI-based deciders
+
 		this.mergeManager.addProgressListener((progress, operation) -> {
 			progressLabel.setText(operation);
 			progressBar.setProgress(progress);

@@ -75,7 +75,6 @@ public class StartPage extends Page {
 			return;
 		}
 
-		// TODO: Use custom, GUI-based deciders
 		MergeManager mergeManager = new MergeManager(targetPath, sourcePaths);
 		onStartCallback.accept(mergeManager);
 	}
