@@ -4,6 +4,7 @@ import com.billhillapps.audiomerge.processing.MergeManager;
 import com.billhillapps.audiomerge.ui.ArtistChooser;
 import com.billhillapps.audiomerge.ui.deciders.GuiArtistDecider;
 
+import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
@@ -36,13 +37,15 @@ public class OperationPage extends Page {
 		// TODO: Use custom, GUI-based deciders for Album and Song
 
 		this.mergeManager.addProgressListener((progress, operation) -> {
-			progressLabel.setText(operation);
-			progressBar.setProgress(progress);
+			Platform.runLater(() -> {
+				progressLabel.setText(operation);
+				progressBar.setProgress(progress);
+			});
 		});
 
 		new Thread(() -> {
 			this.mergeManager.execute();
 			// TODO: Join when finished or something
-		}).run();
+		}).start();
 	}
 }
