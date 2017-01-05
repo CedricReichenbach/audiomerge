@@ -109,3 +109,15 @@
 	-fx-font-size: 120%;
 	-fx-text-fill: _gray-9;
 }
+
+.grid-option {
+	-fx-border-width: 1px;
+	-fx-border-color: _neon-blue;
+	-fx-border-radius: 2px;
+	-fx-background-radius: 2px;
+}
+.grid-option.selected {
+	-fx-background-color: _neon-blue;
+}
+.grid-option .label {
+}
