@@ -17,7 +17,8 @@ public class GridDecisionOption extends GridPane implements Toggle {
 	private static final String GRID_OPTION_CLASS = "grid-option";
 	private static final String SELECTED_CLASS = "selected";
 
-	SimpleBooleanProperty selectedProperty = new SimpleBooleanProperty(false);
+	private final SimpleBooleanProperty selectedProperty = new SimpleBooleanProperty(false);
+
 	private ToggleGroup toggleGroup;
 	private Object userData;
 
@@ -29,6 +30,8 @@ public class GridDecisionOption extends GridPane implements Toggle {
 		this.getStyleClass().add(GRID_OPTION_CLASS);
 
 		selectedProperty.addListener((observerable, oldValue, newValue) -> {
+			toggleGroup.selectToggle(this);
+
 			if (newValue) {
 				if (!this.getStyleClass().contains(SELECTED_CLASS))
 					this.getStyleClass().add(SELECTED_CLASS);

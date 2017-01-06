@@ -53,6 +53,7 @@ public class Artist extends ProgressAdapter implements Entity {
 
 		Artist otherArtist = (Artist) other;
 		albums.addAll(otherArtist.albums);
+		// TODO: Trickle down new metadata (to update songs)
 	}
 
 	public Collection<Album> getAlbums() {

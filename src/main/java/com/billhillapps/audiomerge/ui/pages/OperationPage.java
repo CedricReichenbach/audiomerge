@@ -7,6 +7,7 @@ import com.billhillapps.audiomerge.ui.deciders.GuiArtistDecider;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class OperationPage extends Page {
@@ -24,10 +25,12 @@ public class OperationPage extends Page {
 
 		this.progressLabel = new Label();
 		this.progressBar = new ProgressBar(0);
+		progressBar.setMaxWidth(Double.MAX_VALUE * 2);
 
-		rootGrid.add(artistChooser, 0, 0);
-		rootGrid.add(progressLabel, 0, 1);
-		rootGrid.add(progressBar, 0, 2);
+		VBox progress = new VBox(progressLabel, progressBar);
+
+		rootGrid.add(progress, 0, 0);
+		rootGrid.add(artistChooser, 0, 1);
 	}
 
 	public void runMergeManager(final MergeManager mergeManager) {
