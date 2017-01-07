@@ -29,6 +29,7 @@ public class DirectoryPicker extends HBox {
 		directoryChooser.setTitle("Select root directory of music collection");
 
 		pathField = new TextField();
+		pathField.setMinWidth(300);
 		pathField.textProperty().addListener((observable, oldValue, newValue) -> {
 			try {
 				chosenPath = StringUtils.isBlank(newValue) ? null : Paths.get(newValue);
@@ -41,7 +42,14 @@ public class DirectoryPicker extends HBox {
 		Button button = new Button("Select...");
 		button.setOnAction(event -> {
 			directoryChooser.setInitialDirectory(chosenPath != null ? chosenPath.toFile() : null);
-			File chosenFile = directoryChooser.showDialog(primaryStage);
+			File chosenFile;
+			try {
+				chosenFile = directoryChooser.showDialog(primaryStage);
+			} catch (IllegalArgumentException e) {
+				// chosenPath was not a valid directory path
+				directoryChooser.setInitialDirectory(null);
+				chosenFile = directoryChooser.showDialog(primaryStage);
+			}
 			if (chosenFile == null)
 				return;
 

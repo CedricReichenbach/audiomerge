@@ -10,23 +10,34 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 
 public abstract class DecisionChooser<T> extends GridPane {
 
 	private final Button confirmButton;
 
-	public DecisionChooser(String title) {
+	public DecisionChooser(String title, String description) {
+		super();
+
 		this.setVgap(SPACING);
 		this.setHgap(SPACING);
 
-		Label label = new Label(title);
-		label.setWrapText(true);
-		this.add(label, 0, 0, 3, 1);
+		ColumnConstraints colConstraints = new ColumnConstraints();
+		colConstraints.setPercentWidth(100d / 3);
+		this.getColumnConstraints().addAll(colConstraints, colConstraints, colConstraints);
+
+		Label titleLabel = new Label(title);
+		titleLabel.getStyleClass().add("title");
+		this.add(titleLabel, 0, 0, 3, 1);
+
+		Label descriptionLabel = new Label(description);
+		descriptionLabel.setWrapText(true);
+		this.add(descriptionLabel, 0, 1, 3, 1);
 
 		this.confirmButton = new Button("Continue");
 		confirmButton.setMaxWidth(Double.MAX_VALUE);
-		this.add(confirmButton, 0, 2, 3, 1);
+		this.add(confirmButton, 0, 3, 3, 1);
 	}
 
 	public Future<Integer> choose(T a, T b, T defaultChoice) {
@@ -44,9 +55,9 @@ public abstract class DecisionChooser<T> extends GridPane {
 			else if (defaultChoice == b)
 				optionB.setSelected(true);
 
-			this.add(optionA, 0, 1);
-			this.add(optionBoth, 1, 1);
-			this.add(optionB, 2, 1);
+			this.add(optionA, 0, 2);
+			this.add(optionBoth, 1, 2);
+			this.add(optionB, 2, 2);
 
 			confirmButton.setOnAction(event -> {
 				Toggle selected = toggleGroup.getSelectedToggle();
@@ -76,6 +87,7 @@ public abstract class DecisionChooser<T> extends GridPane {
 
 	protected GridDecisionOption buildKeepBothOption() {
 		Label label = new Label("Keep both");
+		
 		GridDecisionOption grid = new GridDecisionOption();
 		grid.add(label, 0, 0);
 		return grid;

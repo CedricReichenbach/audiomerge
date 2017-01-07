@@ -58,6 +58,13 @@ public class StartPage extends Page {
 			new ThemedAlert(AlertType.INFORMATION, "No directory selected, please add at least one.").show();
 			return;
 		}
+		for (Path sourcePath : sourcePaths)
+			if (sourcePath != null && !sourcePath.toFile().isDirectory()) {
+				new ThemedAlert(AlertType.WARNING, String.format(
+						"Source directory '%s' not found, please specify a different one or remove it.", sourcePath))
+								.show();
+				return;
+			}
 		// TODO: Check and warn if same path has been selected multiple times
 		// (or a sub-path)
 
@@ -69,6 +76,12 @@ public class StartPage extends Page {
 		final Path targetPath = targetDirPicker.getChosenPath();
 		if (targetPath == null) {
 			new ThemedAlert(AlertType.INFORMATION, "No target directory set, please select one.").show();
+			return;
+		}
+		if (targetPath != null && !targetPath.toFile().isDirectory()) {
+			new ThemedAlert(AlertType.WARNING,
+					String.format("Target directory '%s' not found, please specify a different one.", targetPath))
+							.show();
 			return;
 		}
 		if (targetPath.toFile().list().length > 0) {

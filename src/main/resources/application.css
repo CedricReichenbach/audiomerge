@@ -20,7 +20,9 @@
 	_dark-neon-green: derive(_neon-green, -25%);
 	_darker-neon-green: derive(_neon-green, -50%);
 	
-	_neon-blue: #0bf;
+	_neon-blue: #00bfff;
+	_lighter-neon-blue: derive(_neon-blue, 50%);
+	_light-neon-blue: derive(_neon-blue, 25%);
 	_dark-neon-blue: derive(_neon-blue, -25%);
 	_darker-neon-blue: derive(_neon-blue, -50%);
 	
@@ -52,6 +54,10 @@
 .root {
 	-fx-background: _bg-color;
 	-fx-font-size: 14px;
+}
+
+.bold {
+	-fx-font-weight: bold;
 }
 
 .text-field,
@@ -112,12 +118,20 @@
 
 .grid-option {
 	-fx-border-width: 1px;
-	-fx-border-color: _neon-blue;
+	-fx-border-color: _light-neon-blue;
 	-fx-border-radius: 5px;
 	-fx-background-radius: 5px;
 }
+.grid-option:hover {
+	-fx-background-color: linear-gradient(to bottom right, _darker-neon-blue, _darker-neon-purple);
+}
 .grid-option.selected {
-	-fx-background-color: _neon-blue;
+	-fx-background-color: _light-neon-blue;
+}
+.grid-option.selected .label {
+	-fx-text-fill: black;
 }
 .grid-option .label {
+	-fx-text-fill: _light-neon-blue;
+	-fx-text-alignment: center;
 }
