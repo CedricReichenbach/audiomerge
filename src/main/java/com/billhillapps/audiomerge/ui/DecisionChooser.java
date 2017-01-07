@@ -25,6 +25,10 @@ public abstract class DecisionChooser<T> extends GridPane {
 	public DecisionChooser(String title, String description) {
 		super();
 
+		// if invisible, also remove from layout
+		this.managedProperty().bind(this.visibleProperty());
+		this.setVisible(false);
+		
 		this.setHgap(SPACING);
 
 		ColumnConstraints colConstraints = new ColumnConstraints();
@@ -58,7 +62,6 @@ public abstract class DecisionChooser<T> extends GridPane {
 		vLine.getStyleClass().add("choice-line");
 		vLine.setMaxWidth(Double.MAX_VALUE);
 		vLine.setPrefHeight(2 * SPACING);
-		vLine.setVisible(false);
 		return vLine;
 	}
 
@@ -71,6 +74,8 @@ public abstract class DecisionChooser<T> extends GridPane {
 		CompletableFuture<Integer> future = new CompletableFuture<Integer>();
 
 		Platform.runLater(() -> {
+			this.setVisible(true);
+			
 			vLineA.setVisible(false);
 			vLineBoth.setVisible(false);
 			vLineB.setVisible(false);
@@ -106,6 +111,8 @@ public abstract class DecisionChooser<T> extends GridPane {
 					future.complete(0);
 				else if (selected == optionB)
 					future.complete(1);
+				
+				this.setVisible(false);
 			});
 		});
 

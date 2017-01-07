@@ -11,6 +11,8 @@ public class GuiArtistDecider extends NameDistanceArtistDecider {
 	final DecisionChooser<Artist> chooser;
 
 	public GuiArtistDecider(DecisionChooser<Artist> chooser) {
+		super();
+
 		this.chooser = chooser;
 	}
 

@@ -29,7 +29,7 @@ public class DirectoryPicker extends HBox {
 		directoryChooser.setTitle("Select root directory of music collection");
 
 		pathField = new TextField();
-		pathField.setMinWidth(300);
+		pathField.setPrefWidth(300);
 		pathField.textProperty().addListener((observable, oldValue, newValue) -> {
 			try {
 				chosenPath = StringUtils.isBlank(newValue) ? null : Paths.get(newValue);

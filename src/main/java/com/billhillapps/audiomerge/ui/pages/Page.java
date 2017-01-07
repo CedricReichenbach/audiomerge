@@ -13,7 +13,6 @@ import javafx.scene.layout.Pane;
 
 public abstract class Page {
 
-
 	protected Scene scene;
 
 	protected GridPane rootGrid;
@@ -30,7 +29,7 @@ public abstract class Page {
 		rootGrid.setAlignment(Pos.CENTER);
 		rootGrid.setVgap(SPACING);
 		rootGrid.setHgap(SPACING);
-		rootGrid.setPadding(new Insets(2 * SPACING));
+		rootGrid.setPadding(new Insets(4 * SPACING));
 
 		return rootGrid;
 	}
