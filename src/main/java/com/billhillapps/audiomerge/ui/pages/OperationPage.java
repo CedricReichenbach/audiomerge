@@ -24,6 +24,7 @@ public class OperationPage extends Page {
 		this.artistChooser = new ArtistChooser();
 
 		this.progressLabel = new Label();
+		progressLabel.getStyleClass().add("progress-label");
 		this.progressBar = new ProgressBar(0);
 		progressBar.setMaxWidth(Double.MAX_VALUE * 2);
 

@@ -6,8 +6,12 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.ColumnConstraints;
@@ -16,11 +20,11 @@ import javafx.scene.layout.GridPane;
 public abstract class DecisionChooser<T> extends GridPane {
 
 	private final Button confirmButton;
+	private final Separator vLineA, vLineB, vLineBoth;
 
 	public DecisionChooser(String title, String description) {
 		super();
 
-		this.setVgap(SPACING);
 		this.setHgap(SPACING);
 
 		ColumnConstraints colConstraints = new ColumnConstraints();
@@ -35,20 +39,52 @@ public abstract class DecisionChooser<T> extends GridPane {
 		descriptionLabel.setWrapText(true);
 		this.add(descriptionLabel, 0, 1, 3, 1);
 
+		vLineA = createLine();
+		vLineBoth = createLine();
+		vLineB = createLine();
+		this.add(vLineA, 0, 3);
+		this.add(vLineBoth, 1, 3);
+		this.add(vLineB, 2, 3);
+
 		this.confirmButton = new Button("Continue");
 		confirmButton.setMaxWidth(Double.MAX_VALUE);
-		this.add(confirmButton, 0, 3, 3, 1);
+		this.add(confirmButton, 0, 4, 3, 1);
+
+		giveBottomSpacing(titleLabel, descriptionLabel);
+	}
+
+	private Separator createLine() {
+		Separator vLine = new Separator(Orientation.VERTICAL);
+		vLine.getStyleClass().add("choice-line");
+		vLine.setMaxWidth(Double.MAX_VALUE);
+		vLine.setPrefHeight(2 * SPACING);
+		vLine.setVisible(false);
+		return vLine;
+	}
+
+	private void giveBottomSpacing(Node... nodes) {
+		for (Node node : nodes)
+			GridPane.setMargin(node, new Insets(0, 0, SPACING, 0));
 	}
 
 	public Future<Integer> choose(T a, T b, T defaultChoice) {
 		CompletableFuture<Integer> future = new CompletableFuture<Integer>();
 
 		Platform.runLater(() -> {
+			vLineA.setVisible(false);
+			vLineBoth.setVisible(false);
+			vLineB.setVisible(false);
+			confirmButton.setDisable(true);
+
 			GridDecisionOption optionA = buildOption(a);
 			GridDecisionOption optionBoth = buildKeepBothOption();
 			GridDecisionOption optionB = buildOption(b);
 
 			ToggleGroup toggleGroup = makeToggleGroup(optionA, optionBoth, optionB);
+
+			registerCallbacks(optionA, vLineA);
+			registerCallbacks(optionBoth, vLineBoth);
+			registerCallbacks(optionB, vLineB);
 
 			if (defaultChoice == a)
 				optionA.setSelected(true);
@@ -76,6 +112,14 @@ public abstract class DecisionChooser<T> extends GridPane {
 		return future;
 	}
 
+	private void registerCallbacks(GridDecisionOption option, Separator line) {
+		option.selectedProperty().addListener((observerable, oldValue, newValue) -> {
+			line.setVisible(newValue);
+
+			confirmButton.setDisable(!vLineA.isVisible() & !vLineBoth.isVisible() & !vLineB.isVisible());
+		});
+	}
+
 	private ToggleGroup makeToggleGroup(GridDecisionOption... options) {
 		ToggleGroup toggleGroup = new ToggleGroup();
 
@@ -87,7 +131,7 @@ public abstract class DecisionChooser<T> extends GridPane {
 
 	protected GridDecisionOption buildKeepBothOption() {
 		Label label = new Label("Keep both");
-		
+
 		GridDecisionOption grid = new GridDecisionOption();
 		grid.add(label, 0, 0);
 		return grid;

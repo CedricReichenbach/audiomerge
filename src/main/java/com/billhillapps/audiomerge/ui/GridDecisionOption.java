@@ -8,11 +8,9 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.adapter.JavaBeanObjectPropertyBuilder;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 
 // XXX: Maybe extract interface extending Pane and Toggle
 public class GridDecisionOption extends GridPane implements Toggle {
@@ -47,7 +45,7 @@ public class GridDecisionOption extends GridPane implements Toggle {
 			this.setSelected(!this.isSelected());
 		});
 	}
-
+	
 	@Override
 	public ToggleGroup getToggleGroup() {
 		return toggleGroup;

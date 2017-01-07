@@ -107,6 +107,18 @@
 	-fx-text-fill: _bg-color;
 }
 
+.progress-bar {
+}
+.progress-bar > .track {
+	-fx-background-color: transparent;
+	-fx-border-color: _neon-green;
+	-fx-border-radius: 0;
+}
+
+.progress-label {
+	-fx-text-fill: _neon-green;
+}
+
 .text-field.invalid {
 	-fx-border-color: _neon-red;
 }
@@ -134,4 +146,9 @@
 .grid-option .label {
 	-fx-text-fill: _light-neon-blue;
 	-fx-text-alignment: center;
+}
+
+.separator.choice-line .line {
+	-fx-border-color: linear-gradient(_light-neon-blue, white);
+	-fx-border-width: 0 1px;
 }

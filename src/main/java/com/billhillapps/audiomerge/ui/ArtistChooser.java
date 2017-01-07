@@ -7,8 +7,8 @@ import javafx.scene.control.Label;
 public class ArtistChooser extends DecisionChooser<Artist> {
 
 	public ArtistChooser() {
-		super("Similar artist names",
-				"Which one to proceed with? Contents of the other will be merged in, and no songs be lost.");
+		super("Duplicate artist detected",
+				"Which one to proceed with? Contents of the other will be merged in, no songs will be lost.");
 	}
 
 	@Override
