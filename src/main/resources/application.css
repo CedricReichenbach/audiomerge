@@ -60,6 +60,10 @@
 	-fx-font-weight: bold;
 }
 
+.italic {
+	-fx-font-stlye: italic;
+}
+
 .text-field,
 .button {
 	-fx-background-color: transparent;

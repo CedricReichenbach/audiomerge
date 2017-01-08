@@ -16,6 +16,7 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 
 public abstract class DecisionChooser<T> extends GridPane {
 
@@ -32,7 +33,8 @@ public abstract class DecisionChooser<T> extends GridPane {
 		this.setHgap(SPACING);
 
 		ColumnConstraints colConstraints = new ColumnConstraints();
-		colConstraints.setPercentWidth(100d / 3);
+		colConstraints.setHgrow(Priority.SOMETIMES);
+//		colConstraints.setPercentWidth(100d / 3);
 		this.getColumnConstraints().addAll(colConstraints, colConstraints, colConstraints);
 
 		Label titleLabel = new Label(title);
@@ -138,6 +140,7 @@ public abstract class DecisionChooser<T> extends GridPane {
 
 	protected GridDecisionOption buildKeepBothOption() {
 		Label label = new Label("Keep both");
+		label.setWrapText(true);
 
 		GridDecisionOption grid = new GridDecisionOption();
 		grid.add(label, 0, 0);

@@ -11,8 +11,8 @@ public class AudioMergeUI extends Application {
 
 	public static final double SPACING = 12;
 
-	public static final double DEFAULT_WIDTH = 600;
-	public static final double DEFAULT_HEIGHT = 400;
+	public static final double DEFAULT_WIDTH = 800;
+	public static final double DEFAULT_HEIGHT = 600;
 
 	public static final String STYLESHEET = ClassLoader.getSystemResource("application.css").toExternalForm();
 
