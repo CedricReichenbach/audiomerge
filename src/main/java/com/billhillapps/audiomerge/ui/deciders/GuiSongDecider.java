@@ -4,7 +4,7 @@ import java.util.concurrent.ExecutionException;
 
 import com.billhillapps.audiomerge.music.Song;
 import com.billhillapps.audiomerge.similarity.deciders.MetaDataDistanceSongDecider;
-import com.billhillapps.audiomerge.ui.DecisionChooser;
+import com.billhillapps.audiomerge.ui.choosers.DecisionChooser;
 
 public class GuiSongDecider extends MetaDataDistanceSongDecider {
 

@@ -4,7 +4,7 @@ import java.util.concurrent.ExecutionException;
 
 import com.billhillapps.audiomerge.music.Album;
 import com.billhillapps.audiomerge.similarity.deciders.TitleDistanceAlbumDecider;
-import com.billhillapps.audiomerge.ui.DecisionChooser;
+import com.billhillapps.audiomerge.ui.choosers.DecisionChooser;
 
 public class GuiAlbumDecider extends TitleDistanceAlbumDecider {
 

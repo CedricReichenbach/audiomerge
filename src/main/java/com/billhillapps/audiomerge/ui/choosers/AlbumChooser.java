@@ -1,6 +1,7 @@
-package com.billhillapps.audiomerge.ui;
+package com.billhillapps.audiomerge.ui.choosers;
 
 import com.billhillapps.audiomerge.music.Album;
+import com.billhillapps.audiomerge.ui.GridDecisionOption;
 
 import javafx.scene.control.Label;
 

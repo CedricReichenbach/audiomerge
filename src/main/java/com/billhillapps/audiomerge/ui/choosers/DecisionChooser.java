@@ -1,9 +1,11 @@
-package com.billhillapps.audiomerge.ui;
+package com.billhillapps.audiomerge.ui.choosers;
 
 import static com.billhillapps.audiomerge.ui.AudioMergeUI.SPACING;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
+
+import com.billhillapps.audiomerge.ui.GridDecisionOption;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -29,12 +31,12 @@ public abstract class DecisionChooser<T> extends GridPane {
 		// if invisible, also remove from layout
 		this.managedProperty().bind(this.visibleProperty());
 		this.setVisible(false);
-		
+
 		this.setHgap(SPACING);
 
 		ColumnConstraints colConstraints = new ColumnConstraints();
 		colConstraints.setHgrow(Priority.SOMETIMES);
-//		colConstraints.setPercentWidth(100d / 3);
+		// colConstraints.setPercentWidth(100d / 3);
 		this.getColumnConstraints().addAll(colConstraints, colConstraints, colConstraints);
 
 		Label titleLabel = new Label(title);
@@ -77,7 +79,7 @@ public abstract class DecisionChooser<T> extends GridPane {
 
 		Platform.runLater(() -> {
 			this.setVisible(true);
-			
+
 			vLineA.setVisible(false);
 			vLineBoth.setVisible(false);
 			vLineB.setVisible(false);
@@ -113,7 +115,7 @@ public abstract class DecisionChooser<T> extends GridPane {
 					future.complete(0);
 				else if (selected == optionB)
 					future.complete(1);
-				
+
 				this.setVisible(false);
 			});
 		});

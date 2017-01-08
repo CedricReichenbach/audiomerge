@@ -1,9 +1,9 @@
 package com.billhillapps.audiomerge.ui.pages;
 
 import com.billhillapps.audiomerge.processing.MergeManager;
-import com.billhillapps.audiomerge.ui.AlbumChooser;
-import com.billhillapps.audiomerge.ui.ArtistChooser;
-import com.billhillapps.audiomerge.ui.SongChooser;
+import com.billhillapps.audiomerge.ui.choosers.AlbumChooser;
+import com.billhillapps.audiomerge.ui.choosers.ArtistChooser;
+import com.billhillapps.audiomerge.ui.choosers.SongChooser;
 import com.billhillapps.audiomerge.ui.deciders.GuiAlbumDecider;
 import com.billhillapps.audiomerge.ui.deciders.GuiArtistDecider;
 import com.billhillapps.audiomerge.ui.deciders.GuiSongDecider;
