@@ -16,6 +16,10 @@ public class Statistics {
 		return instance;
 	}
 
+	public static void reset() {
+		instance = null;
+	}
+
 	private final Collection<Integer> sourceCollectionSizes = new ArrayList<>();
 	private int resultCollectionSize;
 
