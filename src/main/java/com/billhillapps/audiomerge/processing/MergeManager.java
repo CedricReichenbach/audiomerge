@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.billhillapps.audiomerge.music.MusicCollection;
 import com.billhillapps.audiomerge.similarity.deciders.MetaDataDistanceSongDecider;
@@ -47,7 +48,7 @@ public class MergeManager extends ProgressAdapter {
 		setCurrentOperation("Loading collections");
 		setProgress(0);
 
-		List<MusicCollection> collections = new ArrayList<>();
+		final List<MusicCollection> collections = new ArrayList<>();
 		for (int i = 0; i < sources.length; i++) {
 			Path source = sources[i];
 			try {
@@ -63,9 +64,17 @@ public class MergeManager extends ProgressAdapter {
 
 		// merge subsequent collections to first
 		MusicCollection firstCollection = collections.remove(0);
-		collections.forEach(collection -> {
-			firstCollection.mergeIn(collection);
+		final AtomicInteger collectionsMerged = new AtomicInteger(0);
+		firstCollection.addProgressListener((progress, operation) -> {
+			setProgress(1d * (collectionsMerged.get() + progress) / collections.size());
 		});
+		for (MusicCollection collection : collections) {
+			if (collection == firstCollection)
+				continue;
+
+			firstCollection.mergeIn(collection);
+			collectionsMerged.incrementAndGet();
+		}
 
 		firstCollection.mergeSimilars();
 

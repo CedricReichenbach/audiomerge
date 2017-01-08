@@ -57,7 +57,7 @@ public abstract class DecisionChooser<T> extends GridPane {
 		this.confirmButton = new Button("Continue");
 		confirmButton.setMaxWidth(Double.MAX_VALUE);
 		this.add(confirmButton, 0, 4, 3, 1);
-		
+
 		// TODO: Tick to always choose default option
 
 		giveBottomSpacing(titleLabel, descriptionLabel);
@@ -102,9 +102,7 @@ public abstract class DecisionChooser<T> extends GridPane {
 			else if (defaultChoice == b)
 				optionB.setSelected(true);
 
-			this.add(optionA, 0, 2);
-			this.add(optionBoth, 1, 2);
-			this.add(optionB, 2, 2);
+			this.addRow(2, optionA, optionBoth, optionB);
 
 			confirmButton.setOnAction(event -> {
 				Toggle selected = toggleGroup.getSelectedToggle();
@@ -118,6 +116,7 @@ public abstract class DecisionChooser<T> extends GridPane {
 				else if (selected == optionB)
 					future.complete(1);
 
+				this.getChildren().removeAll(optionA, optionBoth, optionB);
 				this.setVisible(false);
 			});
 		});
