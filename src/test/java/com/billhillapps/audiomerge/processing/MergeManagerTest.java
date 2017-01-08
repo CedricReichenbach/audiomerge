@@ -15,6 +15,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import com.billhillapps.audiomerge.music.FileSong;
 import com.billhillapps.audiomerge.test.BetterQualitySongDecider;
 import com.billhillapps.audiomerge.test.LexicographicalAlbumDecider;
 import com.billhillapps.audiomerge.test.LexicographicalArtistDecider;
@@ -55,16 +56,21 @@ public class MergeManagerTest {
 
 		assertThat(destinationPath.toFile().list().length, is(4));
 		assertThat(Arrays.asList(destinationPath.toFile().list()),
-				hasItems("Ludwig van Beethoven", "Husalonia", "Kevin MacLeod", "Alessandro Moreschi"));
+				hasItems("Ludwig van Beethoven", "Hussalonia", "Kevin MacLeod", "Alessandro Moreschi"));
 
 		assertTrue(destinationPath
 				.resolve("Ludwig van Beethoven/" + "Unknown Album/"
 						+ "Sonata No. 14 in C Sharp Minor Moonlight, Op. 27 No. 2 - I. Adagio sostenuto.mp3")
 				.toFile().exists());
-		assertTrue(destinationPath.resolve("Husalonia/" + "The Public Domain EP/" + "This Song Wont Sell A Thing.mp3")
+		assertTrue(destinationPath.resolve("Hussalonia/" + "The Public Domain EP/" + "This Song Wont Sell A Thing.mp3")
 				.toFile().exists());
 		assertTrue(destinationPath.resolve("Kevin MacLeod/" + "_Free PD_/" + "Amazing Grace.mp3").toFile().exists());
 		assertTrue(destinationPath.resolve("Alessandro Moreschi/" + "Bach - Ave Maria.mp3").toFile().exists());
+
+		Path changedArtistSongPath = destinationPath
+				.resolve("Hussalonia/" + "The Public Domain EP/" + "This Song Wont Sell A Thing.mp3");
+
+		assertThat(new FileSong(changedArtistSongPath).getArtistName(), is("Hussalonia"));
 	}
 
 }

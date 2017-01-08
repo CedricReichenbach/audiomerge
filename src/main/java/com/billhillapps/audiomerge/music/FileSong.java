@@ -9,9 +9,11 @@ import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.AudioHeader;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
+import org.jaudiotagger.audio.exceptions.CannotWriteException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.tag.FieldKey;
+import org.jaudiotagger.tag.KeyNotFoundException;
 import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.TagException;
 
@@ -25,6 +27,9 @@ public class FileSong extends Song {
 	private final Path originalPath;
 	private final AudioHeader header;
 	private final Tag tag;
+
+	private String albumTitleOverride = null;
+	private String artistNameOverride = null;
 
 	public FileSong(final Path filePath) {
 		this.originalPath = filePath;
@@ -45,8 +50,18 @@ public class FileSong extends Song {
 	}
 
 	@Override
+	public void setAlbumTitle(String albumTitle) {
+		this.albumTitleOverride = albumTitle;
+	}
+
+	@Override
 	public String getArtistName() {
 		return tryTags(FieldKey.ALBUM_ARTIST, FieldKey.ARTIST, FieldKey.ORIGINAL_ARTIST);
+	}
+
+	@Override
+	public void setArtistName(String artistName) {
+		this.artistNameOverride = artistName;
 	}
 
 	@Override
@@ -96,10 +111,31 @@ public class FileSong extends Song {
 		try {
 			// TODO: Check if file exists (use decider if so?)
 			Files.copy(originalPath, filePath);
+
+			if (albumTitleOverride != null || artistNameOverride != null)
+				overrideMetaData(filePath);
 		} catch (IOException e) {
 			// XXX: Better handling (Exception system)
 			throw new RuntimeException(String.format("Failed to copy song from '%s' to '%s'", originalPath, filePath),
 					e);
+		}
+	}
+
+	public void overrideMetaData(final Path filePath) throws IOException {
+		try {
+			AudioFile targetAudioFile = AudioFileIO.read(filePath.toFile());
+			Tag audioTag = targetAudioFile.getTag();
+
+			if (albumTitleOverride != null)
+				audioTag.setField(FieldKey.ALBUM, albumTitleOverride);
+
+			if (artistNameOverride != null)
+				audioTag.setField(FieldKey.ALBUM_ARTIST, artistNameOverride);
+
+			targetAudioFile.commit();
+		} catch (KeyNotFoundException | CannotReadException | TagException | ReadOnlyFileException
+				| InvalidAudioFrameException | CannotWriteException e) {
+			throw new RuntimeException(String.format("Failed to override meta data in target file '%s'", filePath), e);
 		}
 	}
 }

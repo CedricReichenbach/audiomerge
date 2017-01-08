@@ -5,12 +5,23 @@ import org.apache.commons.lang3.StringUtils;
 import com.billhillapps.audiomerge.processing.ProgressAdapter;
 
 public abstract class Song extends ProgressAdapter implements Entity {
-	
-	// TODO: Support some kind of selective meta data merging (e.g. content from A, but title from B)
+
+	// TODO: Support some kind of selective meta data merging (e.g. content from
+	// A, but title from B)
 
 	public abstract String getAlbumTitle();
 
+	public abstract void setAlbumTitle(String albumTitle);
+
+	/**
+	 * Return the name of this song's album artist.
+	 */
 	public abstract String getArtistName();
+
+	/**
+	 * Override the name of this song's album artist.
+	 */
+	public abstract void setArtistName(String artistName);
 
 	public abstract String getTitle();
 

@@ -53,9 +53,9 @@ public class MusicCollectionTest {
 
 		collectionB.mergeIn(collectionC);
 
-		assertThat(collectionB.getArtists(), hasItem(isArtist("Husalonia")));
+		assertThat(collectionB.getArtists(), hasItem(isArtist("Husxalonia")));
 		assertThat(collectionB.getAllSongs(),
-				hasItem(isSong("This Song Wont Sell A Thing", "Husalonia", "The Public Domain EP")));
+				hasItem(isSong("This Song Wont Sell A Thing", "Husxalonia", "The Public Domain EP")));
 	}
 
 	@Test
@@ -74,7 +74,7 @@ public class MusicCollectionTest {
 		assertThat(collectionA.getAllSongs(),
 				hasItem(isSong("This Song Won't Sell A Thing.", "Hussalonia", "The Public Domain EP")));
 		assertThat(collectionA.getAllSongs(),
-				hasItem(isSong("This Song Wont Sell A Thing", "Husalonia", "The Public Domain EP")));
+				hasItem(isSong("This Song Wont Sell A Thing", "Husxalonia", "The Public Domain EP")));
 	}
 
 	@Test
@@ -94,6 +94,24 @@ public class MusicCollectionTest {
 		assertThat(collectionA.getAllSongs(),
 				hasItem(isSong("This Song Won't Sell A Thing.", "Hussalonia", "The Public Domain EP")));
 		assertThat(collectionA.getAllSongs(),
-				not(hasItem(isSong("This Song Wont Sell A Thing", "Hussalonia", "The Public Domain EP"))));
+				not(hasItem(isSong("This Song Wont Sell A Thing", "Husalonia", "The Public Domain EP"))));
+	}
+
+	@Test
+	public void selectedArtistReflectedInSong() {
+		assertThat(collectionC.getAllSongs(),
+				hasItem(isSong("This Song Wont Sell A Thing", "Husxalonia", "The Public Domain EP")));
+
+		collectionA.mergeIn(collectionC);
+		collectionA.mergeSimilars();
+
+		assertThat(collectionA.getArtists(), hasItem(isArtist("Hussalonia")));
+		assertThat(collectionA.getArtists(), not(hasItem(isArtist("Husxalonia"))));
+		assertThat(collectionA.getAllSongs(),
+				not(hasItem(isSong("This Song Wont Sell A Thing", "Husxalonia", "The Public Domain EP"))));
+		assertThat(collectionA.getAllSongs(),
+				not(hasItem(isSong("This Song Won't Sell A Thing.", "Husxalonia", "The Public Domain EP"))));
+		assertThat(collectionA.getAllSongs(),
+				hasItem(isSong("This Song Won't Sell A Thing.", "Hussalonia", "The Public Domain EP")));
 	}
 }

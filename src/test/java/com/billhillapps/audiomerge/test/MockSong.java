@@ -10,8 +10,8 @@ import com.billhillapps.audiomerge.music.Song;
 public class MockSong extends Song {
 
 	final String title;
-	final String artistName;
-	final String albumTitle;
+	String artistName;
+	String albumTitle;
 	final long bitRate;
 
 	public MockSong(String title, String artistName, String albumTitle, long bitRate) {
@@ -55,5 +55,15 @@ public class MockSong extends Song {
 	@Override
 	public void saveTo(Path path) {
 		throw new NotImplementedException("Not needed");
+	}
+
+	@Override
+	public void setAlbumTitle(String albumTitle) {
+		this.albumTitle = albumTitle;
+	}
+
+	@Override
+	public void setArtistName(String artistName) {
+		this.artistName = artistName;
 	}
 }

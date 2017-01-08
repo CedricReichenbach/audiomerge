@@ -53,7 +53,8 @@ public class Artist extends ProgressAdapter implements Entity {
 
 		Artist otherArtist = (Artist) other;
 		albums.addAll(otherArtist.albums);
-		// TODO: Trickle down new metadata (to update songs)
+
+		albums.forEach(album -> album.getSongs().forEach(song -> song.setArtistName(this.getName())));
 	}
 
 	public Collection<Album> getAlbums() {

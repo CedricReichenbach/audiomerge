@@ -14,5 +14,4 @@ public class NameDistanceArtistDecider implements Decider<Artist> {
 	public int resolve(Artist a, Artist b) {
 		return DeciderUtil.resolveUsingStdIn(a, b);
 	}
-
 }

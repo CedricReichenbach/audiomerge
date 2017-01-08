@@ -41,7 +41,8 @@ public class Album extends ProgressAdapter implements Entity {
 
 		Album otherAlbum = (Album) other;
 		songs.addAll(otherAlbum.songs);
-		// TODO: Trickle down new metadata (to update songs)
+
+		songs.forEach(song -> song.setAlbumTitle(this.getAlbumTitle()));
 	}
 
 	@Override
