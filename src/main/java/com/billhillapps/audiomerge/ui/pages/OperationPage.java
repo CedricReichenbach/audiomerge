@@ -5,7 +5,6 @@ import static com.billhillapps.audiomerge.ui.AudioMergeUI.SPACING;
 import java.util.function.Consumer;
 
 import com.billhillapps.audiomerge.processing.MergeManager;
-import com.billhillapps.audiomerge.ui.AudioMergeUI;
 import com.billhillapps.audiomerge.ui.choosers.AlbumChooser;
 import com.billhillapps.audiomerge.ui.choosers.ArtistChooser;
 import com.billhillapps.audiomerge.ui.choosers.SongChooser;

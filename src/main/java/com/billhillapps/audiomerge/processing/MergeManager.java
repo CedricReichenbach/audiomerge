@@ -16,6 +16,8 @@ public class MergeManager extends ProgressAdapter {
 	private final Path destination;
 	private final Path[] sources;
 
+	private final Statistics statistics = Statistics.getInstance();
+
 	private NameDistanceArtistDecider artistDecider = new NameDistanceArtistDecider();
 	private TitleDistanceAlbumDecider albumDecider = new TitleDistanceAlbumDecider();
 	private MetaDataDistanceSongDecider songDecider = new MetaDataDistanceSongDecider();
@@ -59,6 +61,8 @@ public class MergeManager extends ProgressAdapter {
 			setProgress(1d * i / sources.length);
 		}
 
+		collections.forEach(collection -> statistics.sniffSourceCollection(collection));
+
 		setCurrentOperation("Merging collections");
 		setProgress(0);
 
@@ -77,6 +81,8 @@ public class MergeManager extends ProgressAdapter {
 		}
 
 		firstCollection.mergeSimilars();
+
+		statistics.sniffResultCollection(firstCollection);
 
 		firstCollection.saveTo(destination);
 	}
