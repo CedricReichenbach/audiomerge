@@ -57,6 +57,8 @@ public abstract class DecisionChooser<T> extends GridPane {
 		this.confirmButton = new Button("Continue");
 		confirmButton.setMaxWidth(Double.MAX_VALUE);
 		this.add(confirmButton, 0, 4, 3, 1);
+		
+		// TODO: Tick to always choose default option
 
 		giveBottomSpacing(titleLabel, descriptionLabel);
 	}

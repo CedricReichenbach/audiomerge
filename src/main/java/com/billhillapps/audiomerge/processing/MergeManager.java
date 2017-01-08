@@ -27,6 +27,10 @@ public class MergeManager extends ProgressAdapter {
 		this.sources = sources;
 	}
 
+	public Path getDestination() {
+		return destination;
+	}
+
 	public void setArtistDecider(NameDistanceArtistDecider artistDecider) {
 		this.artistDecider = artistDecider;
 	}

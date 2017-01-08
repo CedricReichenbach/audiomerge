@@ -1,6 +1,7 @@
 package com.billhillapps.audiomerge.ui;
 
 import com.billhillapps.audiomerge.processing.MergeManager;
+import com.billhillapps.audiomerge.ui.pages.FinishPage;
 import com.billhillapps.audiomerge.ui.pages.OperationPage;
 import com.billhillapps.audiomerge.ui.pages.StartPage;
 
@@ -19,6 +20,7 @@ public class AudioMergeUI extends Application {
 	private Stage primaryStage;
 	private StartPage startPage;
 	private OperationPage operationPage;
+	private FinishPage finishPage;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -27,7 +29,9 @@ public class AudioMergeUI extends Application {
 		startPage = new StartPage(primaryStage);
 		startPage.onStart(this::showOperationPage);
 
-		operationPage = new OperationPage(primaryStage);
+		operationPage = new OperationPage(this::showFinishPage);
+		
+		finishPage = new FinishPage(getHostServices()::showDocument);
 
 		showStartPage();
 
@@ -42,6 +46,11 @@ public class AudioMergeUI extends Application {
 	private void showOperationPage(MergeManager mergeManager) {
 		primaryStage.setScene(operationPage.getScene());
 		operationPage.runMergeManager(mergeManager);
+	}
+	
+	private void showFinishPage(MergeManager mergeManager) {
+		primaryStage.setScene(finishPage.getScene());
+		finishPage.showFinish(mergeManager);
 	}
 
 	public static void main(String[] args) {

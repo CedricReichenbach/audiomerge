@@ -1,5 +1,7 @@
 package com.billhillapps.audiomerge.ui.pages;
 
+import java.util.function.Consumer;
+
 import com.billhillapps.audiomerge.processing.MergeManager;
 import com.billhillapps.audiomerge.ui.choosers.AlbumChooser;
 import com.billhillapps.audiomerge.ui.choosers.ArtistChooser;
@@ -14,7 +16,6 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class OperationPage extends Page {
 
@@ -28,8 +29,12 @@ public class OperationPage extends Page {
 
 	private MergeManager mergeManager;
 
-	public OperationPage(Stage primaryStage) {
+	private final Consumer<MergeManager> onFinishCallback;
+
+	public OperationPage(Consumer<MergeManager> onFinish) {
 		super();
+
+		this.onFinishCallback = onFinish;
 
 		rootGrid.setMaxWidth(CONTENT_WIDTH);
 
@@ -75,7 +80,10 @@ public class OperationPage extends Page {
 
 		Thread mergeThread = new Thread(() -> {
 			this.mergeManager.execute();
-			// TODO: Join when finished or something
+
+			Platform.runLater(() -> {
+				onFinishCallback.accept(this.mergeManager);
+			});
 		});
 		mergeThread.setDaemon(true);
 		mergeThread.start();

@@ -102,5 +102,4 @@ public class StartPage extends Page {
 	public void onStart(Consumer<MergeManager> onStartCallback) {
 		this.onStartCallback = onStartCallback;
 	}
-
 }
