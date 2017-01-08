@@ -1,8 +1,11 @@
 package com.billhillapps.audiomerge.ui.pages;
 
+import static com.billhillapps.audiomerge.ui.AudioMergeUI.SPACING;
+
 import java.util.function.Consumer;
 
 import com.billhillapps.audiomerge.processing.MergeManager;
+import com.billhillapps.audiomerge.ui.AudioMergeUI;
 import com.billhillapps.audiomerge.ui.choosers.AlbumChooser;
 import com.billhillapps.audiomerge.ui.choosers.ArtistChooser;
 import com.billhillapps.audiomerge.ui.choosers.SongChooser;
@@ -11,6 +14,7 @@ import com.billhillapps.audiomerge.ui.deciders.GuiArtistDecider;
 import com.billhillapps.audiomerge.ui.deciders.GuiSongDecider;
 
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane;
@@ -47,6 +51,7 @@ public class OperationPage extends Page {
 		this.progressBar = new ProgressBar(0);
 		progressBar.setPrefWidth(CONTENT_WIDTH);
 		progressBar.setMaxWidth(Double.MAX_VALUE);
+		progressBar.setPadding(new Insets(0, 0, 2 * SPACING, 0));
 
 		VBox progress = new VBox(progressLabel, progressBar);
 

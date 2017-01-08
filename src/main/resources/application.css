@@ -112,11 +112,18 @@
 }
 
 .progress-bar {
+	-fx-background-insets: 0;
 }
 .progress-bar > .track {
 	-fx-background-color: transparent;
 	-fx-border-color: _neon-green;
 	-fx-border-radius: 0;
+	-fx-background-insets: 0;
+}
+.progress-bar .bar {
+	-fx-background-color: linear-gradient(to bottom right, repeat, _turquoise, _neon-green);
+	-fx-background-radius: 0;
+	-fx-background-insets: 0;
 }
 
 .progress-label {
