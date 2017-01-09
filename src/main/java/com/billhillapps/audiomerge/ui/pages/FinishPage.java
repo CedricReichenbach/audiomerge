@@ -1,6 +1,7 @@
 package com.billhillapps.audiomerge.ui.pages;
 
 import static com.billhillapps.audiomerge.ui.AudioMergeUI.SPACING;
+import static java.lang.String.format;
 
 import java.util.Collection;
 import java.util.function.Consumer;
@@ -39,17 +40,28 @@ public class FinishPage extends Page {
 	private Node buildStatistics() {
 		Statistics statistics = Statistics.getInstance();
 
-		StringBuilder statsText = new StringBuilder();
+		StringBuilder text = new StringBuilder();
 
 		Collection<Integer> sourceSizes = statistics.getSourceCollectionSizes();
-		statsText.append(String.format("%1$s collection%2$s of size%2$s ", sourceSizes.size(),
-				sourceSizes.size() == 1 ? "" : "s"));
-		statsText.append(String.join(" / ", sourceSizes.stream().map(i -> i.toString()).collect(Collectors.toList())));
-		statsText.append(" (number of songs) have been merged, resulting in one collection of size ");
-		statsText.append(statistics.getResultCollectionSize());
-		statsText.append(".");
+		text.append(format("%s collection%s containing ", sourceSizes.size(), sourceSizes.size() == 1 ? "" : "s"));
+		text.append(String.join(" + ", sourceSizes.stream().map(i -> i.toString()).collect(Collectors.toList())));
+		if (sourceSizes.size() == 0)
+			text.append("0");
+		if (sourceSizes.size() > 1) {
+			text.append(" = ");
+			text.append(sourceSizes.stream().mapToInt(Integer::intValue).sum());
+		}
+		text.append(" songs have been merged, resulting in one collection containing ");
+		text.append(statistics.getResultCollectionSize());
+		text.append(" songs.\n");
 
-		Label label = new Label(statsText.toString());
+		text.append(
+				format("A total of %s duplicate songs were merged, among which %s were detected similarities (not exact matches).\n",
+						statistics.getTotalSongsMerged(), statistics.getSimilarSongsMerged()));
+		text.append(format("%s artist and %s album similarities were detected and merged.",
+				statistics.getSimilarArtistsMerged(), statistics.getSimilarAlbumsMerged()));
+
+		Label label = new Label(text.toString());
 		label.setWrapText(true);
 		return label;
 	}
