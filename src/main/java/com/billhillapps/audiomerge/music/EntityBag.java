@@ -52,7 +52,7 @@ public class EntityBag<T extends Entity> extends ProgressAdapter {
 	 */
 	public void add(T newItem) {
 		// XXX: What if two items are #equals, but not #shallowEquals nor
-		// #areSimilar? Might lead to incosistencies (but should never occur
+		// #areSimilar? Might lead to inconsistencies (but should never occur
 		// though)
 		for (T item : items) {
 			if (item.shallowEquals(newItem)) {

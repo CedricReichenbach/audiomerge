@@ -22,8 +22,10 @@ public class Statistics {
 
 	private final Collection<Integer> sourceCollectionSizes = new ArrayList<>();
 	private int resultCollectionSize;
-
-	// TODO: Count merged direct matches and similarities
+	private int totalSongsMerged = 0;
+	private int similarSongsMerged = 0;
+	private int similarAlbumsMerged = 0;
+	private int similarArtistsMerged = 0;
 
 	private Statistics() {
 	}
@@ -36,11 +38,43 @@ public class Statistics {
 		resultCollectionSize = collection.getAllSongs().size();
 	}
 
+	public void songsMerged() {
+		totalSongsMerged++;
+	}
+
+	public void similarSongsMerged(int n) {
+		similarSongsMerged += n;
+	}
+
+	public void similarAlbumsMerged(int n) {
+		similarAlbumsMerged += n;
+	}
+
+	public void similarArtistsMerged(int n) {
+		similarArtistsMerged += n;
+	}
+
 	public Collection<Integer> getSourceCollectionSizes() {
 		return sourceCollectionSizes;
 	}
 
 	public int getResultCollectionSize() {
 		return resultCollectionSize;
+	}
+
+	public int getTotalSongsMerged() {
+		return totalSongsMerged;
+	}
+
+	public int getSimilarSongsMerged() {
+		return similarSongsMerged;
+	}
+
+	public int getSimilarAlbumsMerged() {
+		return similarAlbumsMerged;
+	}
+
+	public int getSimilarArtistsMerged() {
+		return similarArtistsMerged;
 	}
 }

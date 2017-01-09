@@ -46,6 +46,9 @@ public class FileSong extends Song {
 
 	@Override
 	public String getAlbumTitle() {
+		if (albumTitleOverride != null)
+			return albumTitleOverride;
+
 		return tryTags(FieldKey.ALBUM, FieldKey.ORIGINAL_ALBUM);
 	}
 
@@ -56,6 +59,9 @@ public class FileSong extends Song {
 
 	@Override
 	public String getArtistName() {
+		if (artistNameOverride != null)
+			return artistNameOverride;
+
 		return tryTags(FieldKey.ALBUM_ARTIST, FieldKey.ARTIST, FieldKey.ORIGINAL_ARTIST);
 	}
 
@@ -94,6 +100,8 @@ public class FileSong extends Song {
 
 	@Override
 	public void mergeIn(Entity other) {
+		super.mergeIn(other);
+
 		// do nothing for now, as songs cannot really be "merged"
 
 		// TODO: Maybe merge meta data by filling empty spots by ones from the

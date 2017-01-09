@@ -3,6 +3,7 @@ package com.billhillapps.audiomerge.music;
 import org.apache.commons.lang3.StringUtils;
 
 import com.billhillapps.audiomerge.processing.ProgressAdapter;
+import com.billhillapps.audiomerge.processing.Statistics;
 
 public abstract class Song extends ProgressAdapter implements Entity {
 
@@ -27,6 +28,7 @@ public abstract class Song extends ProgressAdapter implements Entity {
 
 	public abstract long getBitRate();
 
+	// XXX: Strong enough?
 	public boolean shallowEquals(Entity other) {
 		if (!(other instanceof Song))
 			return false;
@@ -34,7 +36,13 @@ public abstract class Song extends ProgressAdapter implements Entity {
 		Song otherSong = (Song) other;
 		return StringUtils.equals(otherSong.getTitle(), this.getTitle())
 				&& StringUtils.equals(otherSong.getArtistName(), this.getArtistName())
-				&& StringUtils.equals(otherSong.getAlbumTitle(), this.getAlbumTitle());
+				&& StringUtils.equals(otherSong.getAlbumTitle(), this.getAlbumTitle())
+				&& otherSong.getBitRate() == this.getBitRate();
+	}
+
+	@Override
+	public void mergeIn(Entity other) {
+		Statistics.getInstance().songsMerged();
 	}
 
 	public String toString() {

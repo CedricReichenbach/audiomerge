@@ -64,9 +64,9 @@ public class MusicCollectionTest {
 		collectionA.mergeIn(collectionC);
 
 		// there are actually 4 different songs, but 1 of them has two different
-		// title and artist spellings, and another 1 has two different album
-		// title spellings
-		assertThat(collectionA.getAllSongs().size(), is(6));
+		// title and artist spellings, 1 has two different album
+		// title spellings and another 1 has two different bit rates
+		assertThat(collectionA.getAllSongs().size(), is(7));
 		assertThat(collectionA.getAllSongs(),
 				hasItem(isSong("Sonata No. 14 (Moonlight Sonata)", "Ludwig van Beethoven", "Unknown Album")));
 		assertThat(collectionA.getAllSongs(), hasItem(isSong("Amazing Grace", "Kevin MacLeod", "Free PD")));
@@ -82,7 +82,7 @@ public class MusicCollectionTest {
 		collectionA.mergeIn(collectionB);
 		collectionA.mergeIn(collectionC);
 
-		assertThat(collectionA.getAllSongs().size(), is(6));
+		assertThat(collectionA.getAllSongs().size(), is(7));
 
 		collectionA.mergeSimilars();
 

@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.billhillapps.audiomerge.processing.PathUtil;
 import com.billhillapps.audiomerge.processing.ProgressAdapter;
+import com.billhillapps.audiomerge.processing.Statistics;
 import com.billhillapps.audiomerge.similarity.Decider;
 
 public class Album extends ProgressAdapter implements Entity {
@@ -40,9 +41,9 @@ public class Album extends ProgressAdapter implements Entity {
 			throw new RuntimeException("Cannot merge different types");
 
 		Album otherAlbum = (Album) other;
-		songs.addAll(otherAlbum.songs);
 
-		songs.forEach(song -> song.setAlbumTitle(this.getAlbumTitle()));
+		otherAlbum.songs.forEach(song -> song.setAlbumTitle(this.getAlbumTitle()));
+		songs.addAll(otherAlbum.songs);
 	}
 
 	@Override
@@ -56,7 +57,9 @@ public class Album extends ProgressAdapter implements Entity {
 
 	@Override
 	public void mergeSimilars() {
-		songs.mergeSimilars();
+		int merged = songs.mergeSimilars();
+		Statistics.getInstance().similarSongsMerged(merged);
+
 		songs.asCollection().forEach(Song::mergeSimilars);
 	}
 

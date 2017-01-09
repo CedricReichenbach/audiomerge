@@ -4,7 +4,6 @@ import java.nio.file.Path;
 
 import org.apache.commons.lang3.NotImplementedException;
 
-import com.billhillapps.audiomerge.music.Entity;
 import com.billhillapps.audiomerge.music.Song;
 
 public class MockSong extends Song {
@@ -20,11 +19,6 @@ public class MockSong extends Song {
 		this.artistName = artistName;
 		this.albumTitle = albumTitle;
 		this.bitRate = bitRate;
-	}
-
-	@Override
-	public void mergeIn(Entity other) {
-		// do nothing
 	}
 
 	@Override

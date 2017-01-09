@@ -2,6 +2,7 @@ package com.billhillapps.audiomerge.test;
 
 import java.io.ByteArrayInputStream;
 import java.util.Arrays;
+import java.util.stream.IntStream;
 
 public class TestUtil {
 
@@ -13,5 +14,9 @@ public class TestUtil {
 
 	private static String buildLine(String content) {
 		return String.format("%s%n", content);
+	}
+
+	public static void runNTimes(int n, Runnable lambda) {
+		IntStream.rangeClosed(1, n).forEach(i -> lambda.run());
 	}
 }

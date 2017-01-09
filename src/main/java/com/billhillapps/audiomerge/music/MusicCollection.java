@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.function.BiConsumer;
 
 import com.billhillapps.audiomerge.processing.ProgressAdapter;
+import com.billhillapps.audiomerge.processing.Statistics;
 import com.billhillapps.audiomerge.similarity.Decider;
 
 /**
@@ -72,7 +73,9 @@ public class MusicCollection extends ProgressAdapter {
 	}
 
 	public void mergeSimilars() {
-		artists.mergeSimilars();
+		int merged = artists.mergeSimilars();
+		Statistics.getInstance().similarArtistsMerged(merged);
+
 		artists.asCollection().forEach(Artist::mergeSimilars);
 	}
 
