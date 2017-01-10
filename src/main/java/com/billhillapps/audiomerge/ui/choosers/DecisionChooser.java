@@ -12,6 +12,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Toggle;
@@ -24,6 +25,9 @@ public abstract class DecisionChooser<T> extends GridPane {
 
 	private final Button confirmButton;
 	private final Separator vLineA, vLineB, vLineBoth;
+	private final CheckBox alwaysUseDefaultCheckbox;
+
+	private boolean alwaysUseDefault = false;
 
 	public DecisionChooser(String title, String description) {
 		super();
@@ -58,7 +62,12 @@ public abstract class DecisionChooser<T> extends GridPane {
 		confirmButton.setMaxWidth(Double.MAX_VALUE);
 		this.add(confirmButton, 0, 4, 3, 1);
 
-		// TODO: Tick to always choose default option
+		// TODO: Styling and distance
+		this.alwaysUseDefaultCheckbox = new CheckBox("Always pick default option, don't ask again");
+		alwaysUseDefaultCheckbox.setVisible(false);
+		alwaysUseDefaultCheckbox.selectedProperty()
+				.addListener((observerable, oldValue, newValue) -> alwaysUseDefault = newValue);
+		this.add(alwaysUseDefaultCheckbox, 0, 5, 3, 1);
 
 		giveBottomSpacing(titleLabel, descriptionLabel);
 	}
@@ -80,6 +89,15 @@ public abstract class DecisionChooser<T> extends GridPane {
 		CompletableFuture<Integer> future = new CompletableFuture<Integer>();
 
 		Platform.runLater(() -> {
+			if (defaultChoice == a | defaultChoice == b) {
+				if (alwaysUseDefault) {
+					future.complete(0);
+					return;
+				}
+
+				alwaysUseDefaultCheckbox.setVisible(defaultChoice == a | defaultChoice == b);
+			}
+
 			this.setVisible(true);
 
 			vLineA.setVisible(false);
