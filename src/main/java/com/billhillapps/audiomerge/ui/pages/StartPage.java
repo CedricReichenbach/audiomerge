@@ -54,19 +54,8 @@ public class StartPage extends Page {
 		}
 
 		final Path[] sourcePaths = sourceDirList.getChosenDirs().toArray(new Path[] {});
-		if (sourcePaths.length == 0) {
-			new ThemedAlert(AlertType.INFORMATION, "No directory selected, please add at least one.").show();
+		if (!sourcePathsSanityChecks(sourcePaths))
 			return;
-		}
-		for (Path sourcePath : sourcePaths)
-			if (sourcePath != null && !sourcePath.toFile().isDirectory()) {
-				new ThemedAlert(AlertType.WARNING, String.format(
-						"Source directory '%s' not found, please specify a different one or remove it.", sourcePath))
-								.show();
-				return;
-			}
-		// TODO: Check and warn if same path has been selected multiple times
-		// (or a sub-path)
 
 		if (!targetDirPicker.isPathValid()) {
 			new ThemedAlert(AlertType.ERROR, "Target path is invalid. Please adjust it and try again.").show();
@@ -74,24 +63,64 @@ public class StartPage extends Page {
 		}
 
 		final Path targetPath = targetDirPicker.getChosenPath();
+		if (!targetPathsSanityChecks(targetPath))
+			return;
+
+		MergeManager mergeManager = new MergeManager(targetPath, sourcePaths);
+		onStartCallback.accept(mergeManager);
+	}
+
+	private boolean sourcePathsSanityChecks(final Path[] sourcePaths) {
+		if (sourcePaths.length == 0) {
+			new ThemedAlert(AlertType.INFORMATION, "No directory selected, please add at least one.").show();
+			return false;
+		}
+
+		for (Path sourcePath : sourcePaths)
+			if (sourcePath != null && !sourcePath.toFile().isDirectory()) {
+				new ThemedAlert(AlertType.WARNING, String.format(
+						"Source directory '%s' not found, please specify a different one or remove it.", sourcePath))
+								.show();
+				return false;
+			}
+
+		for (int a = 0; a < sourcePaths.length; a++)
+			for (int b = 0; b < sourcePaths.length; b++) {
+				if (a == b)
+					continue;
+
+				Path pathA = sourcePaths[a];
+				Path pathB = sourcePaths[b];
+				if (pathA.startsWith(pathB)) {
+					new ThemedAlert(AlertType.WARNING,
+							String.format("The same directory was chosen more than once, or a subdirectory of it:"
+									+ "\n%s\nand\n%s"
+									+ "\nPlease remove or change one.", pathA, pathB)).show();
+					return false;
+				}
+			}
+
+		return true;
+	}
+
+	private boolean targetPathsSanityChecks(final Path targetPath) {
 		if (targetPath == null) {
 			new ThemedAlert(AlertType.INFORMATION, "No target directory set, please select one.").show();
-			return;
+			return false;
 		}
 		if (targetPath != null && !targetPath.toFile().isDirectory()) {
 			new ThemedAlert(AlertType.WARNING,
 					String.format("Target directory '%s' not found, please specify a different one.", targetPath))
 							.show();
-			return;
+			return false;
 		}
 		if (targetPath.toFile().list().length > 0) {
 			new ThemedAlert(AlertType.WARNING,
 					"Target directory contains folders or files, please select an empty one.").show();
-			return;
+			return false;
 		}
 
-		MergeManager mergeManager = new MergeManager(targetPath, sourcePaths);
-		onStartCallback.accept(mergeManager);
+		return true;
 	}
 
 	@Override
