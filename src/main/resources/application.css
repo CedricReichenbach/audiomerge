@@ -61,7 +61,7 @@
 }
 
 .italic {
-	-fx-font-stlye: italic;
+	-fx-font-style: italic;
 }
 
 .text-field,
@@ -74,7 +74,8 @@
 	-fx-background-radius: 0;
 	-fx-background-insets: 0;
 }
-.button:hover {
+.button:hover,
+.check-box:hover .box {
 	_gradient-a: ladder(_gray-0, _dark-gold, _dark-rose);
 	_gradient-b: ladder(_gray-25, _dark-gold, _dark-rose);
 	_gradient-c: ladder(_gray-5, _dark-gold, _dark-rose);
@@ -89,7 +90,8 @@
 							); */
 	-fx-background-color: linear-gradient(to bottom right, _dark-gold, _dark-rose);
 }
-.button:hover:pressed {
+.button:hover:pressed,
+.check-box:hover:pressed .box {
 	-fx-background-color: white;
 	-fx-text-fill: _bg-color;
 }
@@ -137,6 +139,24 @@
 .label.title {
 	-fx-font-size: 120%;
 	-fx-text-fill: _gray-9;
+}
+
+.check-box {	
+}
+.check-box .box {
+	-fx-background-color: transparent;
+	-fx-border-color: white;
+	-fx-background-insets: 0;
+}
+.check-box .box .mark {
+	-fx-background-color: transparent;
+	-fx-background-insets: 0;
+}
+.check-box:selected .box .mark {
+	-fx-background-color: white;
+}
+.check-box:selected:hover:pressed .box .mark {
+	-fx-background-color: black;
 }
 
 .grid-option {

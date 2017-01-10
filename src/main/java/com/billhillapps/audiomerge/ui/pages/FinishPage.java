@@ -28,7 +28,7 @@ public class FinishPage extends Page {
 
 		rootGrid.setVgap(SPACING);
 
-		Label title = new Label("Merging finished successfully!");
+		Label title = new Label("Merging finished successfully");
 		title.getStyleClass().add("title");
 		rootGrid.add(title, 0, 0);
 

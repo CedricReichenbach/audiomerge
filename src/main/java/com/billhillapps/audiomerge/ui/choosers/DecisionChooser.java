@@ -40,7 +40,6 @@ public abstract class DecisionChooser<T> extends GridPane {
 
 		ColumnConstraints colConstraints = new ColumnConstraints();
 		colConstraints.setHgrow(Priority.SOMETIMES);
-		// colConstraints.setPercentWidth(100d / 3);
 		this.getColumnConstraints().addAll(colConstraints, colConstraints, colConstraints);
 
 		Label titleLabel = new Label(title);
@@ -69,7 +68,7 @@ public abstract class DecisionChooser<T> extends GridPane {
 				.addListener((observerable, oldValue, newValue) -> alwaysUseDefault = newValue);
 		this.add(alwaysUseDefaultCheckbox, 0, 5, 3, 1);
 
-		giveBottomSpacing(titleLabel, descriptionLabel);
+		giveBottomSpacing(titleLabel, descriptionLabel, confirmButton);
 	}
 
 	private Separator createLine() {
