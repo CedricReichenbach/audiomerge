@@ -86,6 +86,5 @@ public class StatisticsTest {
 		assertThat(statistics.getSimilarSongsMerged(), is(2));
 		assertThat(statistics.getSimilarAlbumsMerged(), is(1));
 		assertThat(statistics.getSimilarArtistsMerged(), is(1));
-		// TODO: artists and albums
 	}
 }

@@ -17,7 +17,7 @@ public class MetaDataDistanceSongDecider implements Decider<Song> {
 	}
 
 	protected int betterQuality(Song a, Song b) {
-		// TODO: Consider other aspects than bitrate?
+		// XXX: Consider other aspects than bitrate?
 
 		// -, because we want the higher bit rate (sort descending)
 		return -Long.compare(a.getBitRate(), b.getBitRate());

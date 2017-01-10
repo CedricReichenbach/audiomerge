@@ -33,6 +33,6 @@ public interface Entity extends ProgressAware {
 	 */
 	public void saveTo(Path path);
 
-	// TODO: Maybe create AbstractEntity with some common implementations
+	// XXX: Maybe create AbstractEntity with some common implementations
 	// currently duplicated in Artist and Album
 }
