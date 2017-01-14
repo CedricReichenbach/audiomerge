@@ -6,6 +6,7 @@ import com.billhillapps.audiomerge.ui.pages.OperationPage;
 import com.billhillapps.audiomerge.ui.pages.StartPage;
 
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class AudioMergeUI extends Application {
@@ -16,6 +17,7 @@ public class AudioMergeUI extends Application {
 	public static final double DEFAULT_HEIGHT = 600;
 
 	public static final String STYLESHEET = ClassLoader.getSystemResource("application.css").toExternalForm();
+	public static final Image LOGO = new Image(ClassLoader.getSystemResourceAsStream("logo.png"));
 
 	private Stage primaryStage;
 	private StartPage startPage;
@@ -30,12 +32,13 @@ public class AudioMergeUI extends Application {
 		startPage.onStart(this::showOperationPage);
 
 		operationPage = new OperationPage(this::showFinishPage);
-		
+
 		finishPage = new FinishPage(getHostServices()::showDocument);
 
 		showStartPage();
 
 		primaryStage.setTitle("AudioMerge");
+		primaryStage.getIcons().add(LOGO);
 		primaryStage.show();
 	}
 
@@ -47,7 +50,7 @@ public class AudioMergeUI extends Application {
 		primaryStage.setScene(operationPage.getScene());
 		operationPage.runMergeManager(mergeManager);
 	}
-	
+
 	private void showFinishPage(MergeManager mergeManager) {
 		primaryStage.setScene(finishPage.getScene());
 		finishPage.showFinish(mergeManager);
