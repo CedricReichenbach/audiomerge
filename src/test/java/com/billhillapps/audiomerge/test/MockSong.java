@@ -65,4 +65,9 @@ public class MockSong extends Song {
 	public void setArtistName(String artistName) {
 		this.artistName = artistName;
 	}
+
+	@Override
+	public Path getPath() {
+		return null;
+	}
 }

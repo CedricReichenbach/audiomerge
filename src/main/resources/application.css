@@ -113,6 +113,9 @@
 	-fx-text-fill: _bg-color;
 }
 
+.button.play-stop {
+}
+
 .progress-bar {
 	-fx-background-insets: 0;
 }

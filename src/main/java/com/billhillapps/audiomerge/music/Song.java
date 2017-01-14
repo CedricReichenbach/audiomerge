@@ -1,5 +1,7 @@
 package com.billhillapps.audiomerge.music;
 
+import java.nio.file.Path;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.billhillapps.audiomerge.processing.ProgressAdapter;
@@ -27,8 +29,15 @@ public abstract class Song extends ProgressAdapter implements Entity {
 	public abstract String getTitle();
 
 	public abstract long getBitRate();
-	
+
 	public abstract boolean isVariableBitRate();
+
+	/**
+	 * Get path to file containing this song, if available.
+	 * 
+	 * If this song doesn't correspond to a file, null may be returned.
+	 */
+	public abstract Path getPath();
 
 	// XXX: Strong enough?
 	public boolean shallowEquals(Entity other) {

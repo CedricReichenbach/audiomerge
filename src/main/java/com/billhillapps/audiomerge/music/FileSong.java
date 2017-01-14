@@ -151,4 +151,9 @@ public class FileSong extends Song {
 			throw new RuntimeException(String.format("Failed to override meta data in target file '%s'", filePath), e);
 		}
 	}
+
+	@Override
+	public Path getPath() {
+		return this.originalPath;
+	}
 }

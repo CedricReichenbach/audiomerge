@@ -1,8 +1,15 @@
 package com.billhillapps.audiomerge.ui.choosers;
 
+import static com.billhillapps.audiomerge.ui.AudioMergeUI.SPACING;
+
+import java.nio.file.Path;
+
 import com.billhillapps.audiomerge.music.Song;
+import com.billhillapps.audiomerge.ui.AudioPlayer;
 import com.billhillapps.audiomerge.ui.GridDecisionOption;
 
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
@@ -19,6 +26,7 @@ public class SongChooser extends DecisionChooser<Song> {
 		Label label = new Label("Song");
 		label.getStyleClass().add("italic");
 		optionGrid.add(label, 0, 0, 2, 1);
+		GridPane.setMargin(label, new Insets(0, 0, SPACING / 2, 0));
 
 		addToGrid(optionGrid, "Title", song.getTitle(), 1);
 		String bitRate = song.getBitRate() + " kbit/s";
@@ -27,6 +35,14 @@ public class SongChooser extends DecisionChooser<Song> {
 		addToGrid(optionGrid, "Bit rate", bitRate, 2);
 		addToGrid(optionGrid, "Artist", song.getArtistName(), 3);
 		addToGrid(optionGrid, "Album", song.getAlbumTitle(), 4);
+
+		Path songPath = song.getPath();
+		if (songPath != null) {
+			AudioPlayer player = new AudioPlayer(songPath);
+			optionGrid.add(player, 0, 5, 2, 1);
+			GridPane.setMargin(player, new Insets(SPACING / 2, 0, 0, 0));
+			GridPane.setHalignment(player, HPos.CENTER);
+		}
 
 		return optionGrid;
 	}
