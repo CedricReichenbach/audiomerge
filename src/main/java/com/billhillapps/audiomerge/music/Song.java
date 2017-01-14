@@ -27,6 +27,8 @@ public abstract class Song extends ProgressAdapter implements Entity {
 	public abstract String getTitle();
 
 	public abstract long getBitRate();
+	
+	public abstract boolean isVariableBitRate();
 
 	// XXX: Strong enough?
 	public boolean shallowEquals(Entity other) {

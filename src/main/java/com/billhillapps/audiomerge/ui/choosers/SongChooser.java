@@ -21,8 +21,10 @@ public class SongChooser extends DecisionChooser<Song> {
 		optionGrid.add(label, 0, 0, 2, 1);
 
 		addToGrid(optionGrid, "Title", song.getTitle(), 1);
-		addToGrid(optionGrid, "Bit rate", song.getBitRate() + " kbit/s", 2);
-		// TODO: Maybe show if variable bit rate
+		String bitRate = song.getBitRate() + " kbit/s";
+		if (song.isVariableBitRate())
+			bitRate += " (variable)";
+		addToGrid(optionGrid, "Bit rate", bitRate, 2);
 		addToGrid(optionGrid, "Artist", song.getArtistName(), 3);
 		addToGrid(optionGrid, "Album", song.getAlbumTitle(), 4);
 

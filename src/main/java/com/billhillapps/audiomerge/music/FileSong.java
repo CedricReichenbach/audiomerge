@@ -79,6 +79,11 @@ public class FileSong extends Song {
 	public long getBitRate() {
 		return header.getBitRateAsNumber();
 	}
+	
+	@Override
+	public boolean isVariableBitRate() {
+		return header.isVariableBitRate();
+	}
 
 	/**
 	 * Try reading tags in given order. Start with first and continue with next

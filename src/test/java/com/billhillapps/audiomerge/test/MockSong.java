@@ -42,6 +42,11 @@ public class MockSong extends Song {
 	}
 
 	@Override
+	public boolean isVariableBitRate() {
+		return false;
+	}
+
+	@Override
 	public void mergeSimilars() {
 		// do nothing
 	}
