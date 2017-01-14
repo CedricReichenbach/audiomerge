@@ -17,7 +17,8 @@ public class AudioMergeUI extends Application {
 	public static final double DEFAULT_HEIGHT = 600;
 
 	public static final String STYLESHEET = ClassLoader.getSystemResource("application.css").toExternalForm();
-	public static final Image LOGO = new Image(ClassLoader.getSystemResourceAsStream("logo.png"));
+	public static final Image LOGO_LARGE = new Image(ClassLoader.getSystemResourceAsStream("logo_circled.png"));
+	public static final Image LOGO_TINY = new Image(ClassLoader.getSystemResourceAsStream("logo.png"));
 
 	private Stage primaryStage;
 	private StartPage startPage;
@@ -38,7 +39,7 @@ public class AudioMergeUI extends Application {
 		showStartPage();
 
 		primaryStage.setTitle("AudioMerge");
-		primaryStage.getIcons().add(LOGO);
+		primaryStage.getIcons().addAll(LOGO_TINY, LOGO_LARGE);
 		primaryStage.show();
 	}
 
