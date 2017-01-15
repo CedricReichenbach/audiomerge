@@ -43,12 +43,36 @@ public class CollectionIO {
 		MusicCollection collection = new MusicCollection(path.getFileName().toString(), artistDecider, albumDecider,
 				songDecider);
 
-		Stream<Path> files = Files.find(path, Integer.MAX_VALUE, (filePath,
-				fileAttributes) -> fileAttributes.isRegularFile() && (includeOtherFiles || MATCHER.matches(filePath)));
+		Stream<Path> files = Files.find(path, Integer.MAX_VALUE,
+				(filePath, fileAttributes) -> fileAttributes.isRegularFile()
+						&& (includeOtherFiles || MATCHER.matches(filePath)) && !isHidden(filePath));
 		files.forEach(file -> collection.insertSong(songFromFile(file)));
 		files.close();
 
 		return collection;
+	}
+
+	/**
+	 * Check if a file is hidden.
+	 * 
+	 * In this context, hidden means either
+	 * 
+	 * <ul>
+	 * <li>The file is considered hidden by the OS</li>
+	 * <li>The file or one of its container directories starts with a dot
+	 * (".")</li>
+	 * </ul>
+	 * 
+	 * This hybrid behavior is used for better cross-platform consistency, e.g.
+	 * in case a collection has historically been copied from an OS X system to
+	 * a Windows one.
+	 */
+	private static boolean isHidden(Path filePath) {
+		for (Path part : filePath)
+			if (part.toString().startsWith("."))
+				return true;
+
+		return filePath.toFile().isHidden();
 	}
 
 	private static Song songFromFile(Path filePath) {
