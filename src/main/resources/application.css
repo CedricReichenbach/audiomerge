@@ -53,7 +53,12 @@
 
 .root {
 	-fx-background: _bg-color;
+	-fx-text-fill: white;
 	-fx-font-size: 14px;
+}
+
+.hyperlink {
+	-fx-text-fill: _neon-blue;
 }
 
 .bold {
@@ -125,10 +130,16 @@
 	-fx-border-radius: 0;
 	-fx-background-insets: 0;
 }
+.progress-bar:indeterminate > .track {
+	-fx-background-color: linear-gradient(to bottom right, repeat, _darker-turquoise, _darker-neon-green);
+}
 .progress-bar .bar {
 	-fx-background-color: linear-gradient(to bottom right, repeat, _turquoise, _neon-green);
 	-fx-background-radius: 0;
 	-fx-background-insets: 0;
+}
+.progress-bar:indeterminate .bar {
+	-fx-background-color: _neon-green;
 }
 
 .progress-label {

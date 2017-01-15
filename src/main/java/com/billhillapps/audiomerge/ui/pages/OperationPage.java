@@ -2,9 +2,12 @@ package com.billhillapps.audiomerge.ui.pages;
 
 import static com.billhillapps.audiomerge.ui.AudioMergeUI.SPACING;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.function.Consumer;
 
 import com.billhillapps.audiomerge.processing.MergeManager;
+import com.billhillapps.audiomerge.ui.ThemedAlert;
 import com.billhillapps.audiomerge.ui.choosers.AlbumChooser;
 import com.billhillapps.audiomerge.ui.choosers.ArtistChooser;
 import com.billhillapps.audiomerge.ui.choosers.SongChooser;
@@ -12,15 +15,21 @@ import com.billhillapps.audiomerge.ui.deciders.GuiAlbumDecider;
 import com.billhillapps.audiomerge.ui.deciders.GuiArtistDecider;
 import com.billhillapps.audiomerge.ui.deciders.GuiSongDecider;
 
+import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class OperationPage extends Page {
+
+	private final String BUG_REPORT_LINK = "https://github.com/CedricReichenbach/audiomerge/issues/new";
 
 	private final Double CONTENT_WIDTH = 800d;
 
@@ -33,11 +42,13 @@ public class OperationPage extends Page {
 	private MergeManager mergeManager;
 
 	private final Consumer<MergeManager> onFinishCallback;
+	private final HostServices hostServices;
 
-	public OperationPage(Consumer<MergeManager> onFinish) {
+	public OperationPage(Consumer<MergeManager> onFinish, HostServices hostServices) {
 		super();
 
 		this.onFinishCallback = onFinish;
+		this.hostServices = hostServices;
 
 		rootGrid.setMaxWidth(CONTENT_WIDTH);
 
@@ -83,7 +94,12 @@ public class OperationPage extends Page {
 		});
 
 		Thread mergeThread = new Thread(() -> {
-			this.mergeManager.execute();
+			try {
+				this.mergeManager.execute();
+			} catch (Exception e) {
+				mergeFailed(e);
+				throw e;
+			}
 
 			Platform.runLater(() -> {
 				onFinishCallback.accept(this.mergeManager);
@@ -91,5 +107,36 @@ public class OperationPage extends Page {
 		});
 		mergeThread.setDaemon(true);
 		mergeThread.start();
+	}
+
+	private void mergeFailed(Exception exception) {
+		Platform.runLater(() -> {
+			Label text = new Label(
+					String.format("Merging failed.\nProblem: %s\nIf you think this is a bug, please report it here:",
+							exception.getMessage()));
+			Hyperlink link = buildBugReportLink(exception);
+			FlowPane content = new FlowPane(text, link);
+
+			ThemedAlert alert = new ThemedAlert(AlertType.ERROR);
+			alert.getDialogPane().setContent(content);
+			alert.showAndWait();
+			System.exit(1);
+		});
+	}
+
+	private Hyperlink buildBugReportLink(Exception exception) {
+		Hyperlink link = new Hyperlink(BUG_REPORT_LINK);
+		String body;
+		try {
+			body = URLEncoder.encode(String.format("*Message:* `%s`\n*Cause:* `%s`", exception.getMessage(),
+					exception.getCause().getClass().getCanonicalName()), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			System.err.println("Failed to build body argument for bug reporting URL");
+			e.printStackTrace();
+			body = "";
+		}
+		String args = "?body=" + body;
+		link.setOnAction(event -> hostServices.showDocument(BUG_REPORT_LINK + args));
+		return link;
 	}
 }

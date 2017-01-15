@@ -32,7 +32,7 @@ public class AudioMergeUI extends Application {
 		startPage = new StartPage(primaryStage);
 		startPage.onStart(this::showOperationPage);
 
-		operationPage = new OperationPage(this::showFinishPage);
+		operationPage = new OperationPage(this::showFinishPage, getHostServices());
 
 		finishPage = new FinishPage(getHostServices()::showDocument);
 

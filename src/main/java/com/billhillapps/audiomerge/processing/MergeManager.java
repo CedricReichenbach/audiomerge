@@ -47,8 +47,8 @@ public class MergeManager extends ProgressAdapter {
 	}
 
 	public void execute() {
-		setCurrentOperation("Loading collections");
-		setProgress(0);
+		setCurrentOperation(String.format("Loading collection 1 of %s", sources.length));
+		setProgress(-1);
 
 		final List<MusicCollection> collections = new ArrayList<>();
 		for (int i = 0; i < sources.length; i++) {
@@ -58,7 +58,7 @@ public class MergeManager extends ProgressAdapter {
 			} catch (IOException e) {
 				throw new RuntimeException(String.format("Collection from directory '%s' could not be loaded", source));
 			}
-			setProgress(1d * i / sources.length);
+			setCurrentOperation(String.format("Loading collection %s of %s", i, sources.length));
 		}
 
 		collections.forEach(collection -> statistics.sniffSourceCollection(collection));
