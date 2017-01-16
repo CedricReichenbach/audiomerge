@@ -40,6 +40,9 @@ public class FileSong extends Song {
 			tag = audioFile.getTag();
 		} catch (CannotReadException | IOException | TagException | ReadOnlyFileException
 				| InvalidAudioFrameException e) {
+			// TODO: Support some kind of deciders for certain exceptions, e.g.
+			// CannotReadException (happens often on WAV files with incorrect
+			// headers)
 			throw new RuntimeException(String.format("Failed to read file '%s' for metadata", filePath), e);
 		}
 	}
@@ -79,7 +82,7 @@ public class FileSong extends Song {
 	public long getBitRate() {
 		return header.getBitRateAsNumber();
 	}
-	
+
 	@Override
 	public boolean isVariableBitRate() {
 		return header.isVariableBitRate();
