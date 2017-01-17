@@ -58,8 +58,10 @@ public class FinishPage extends Page {
 		text.append(
 				format("A total of %s duplicate songs were merged, among which %s were detected similarities (not exact matches).\n",
 						statistics.getTotalSongsMerged(), statistics.getSimilarSongsMerged()));
-		text.append(format("%s artist and %s album similarities were detected and merged.",
+		text.append(format("%s artist and %s album similarities were detected and merged.\n",
 				statistics.getSimilarArtistsMerged(), statistics.getSimilarAlbumsMerged()));
+
+		text.append(format("%s files were skipped due to loading errors.", statistics.getReadErrorsIgnored()));
 
 		Label label = new Label(text.toString());
 		label.setWrapText(true);

@@ -18,6 +18,7 @@ import com.billhillapps.audiomerge.processing.CollectionIO;
 import com.billhillapps.audiomerge.test.LexicographicalAlbumDecider;
 import com.billhillapps.audiomerge.test.LexicographicalArtistDecider;
 import com.billhillapps.audiomerge.test.LexigraphicalSongDecider;
+import com.billhillapps.audiomerge.test.problems.IgnoreAllSupervisor;
 
 public class MusicCollectionTest {
 
@@ -30,11 +31,11 @@ public class MusicCollectionTest {
 		Path collectionPathC = Paths.get(ClassLoader.getSystemResource("collection-c").toURI());
 
 		collectionA = CollectionIO.fromDirectory(collectionPathA, new LexicographicalArtistDecider(),
-				new LexicographicalAlbumDecider(), new LexigraphicalSongDecider());
+				new LexicographicalAlbumDecider(), new LexigraphicalSongDecider(), new IgnoreAllSupervisor());
 		collectionB = CollectionIO.fromDirectory(collectionPathB, new LexicographicalArtistDecider(),
-				new LexicographicalAlbumDecider(), new LexigraphicalSongDecider());
+				new LexicographicalAlbumDecider(), new LexigraphicalSongDecider(), new IgnoreAllSupervisor());
 		collectionC = CollectionIO.fromDirectory(collectionPathC, new LexicographicalArtistDecider(),
-				new LexicographicalAlbumDecider(), new LexigraphicalSongDecider());
+				new LexicographicalAlbumDecider(), new LexigraphicalSongDecider(), new IgnoreAllSupervisor());
 	}
 
 	@After

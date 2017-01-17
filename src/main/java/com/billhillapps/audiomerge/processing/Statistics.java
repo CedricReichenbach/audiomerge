@@ -26,6 +26,7 @@ public class Statistics {
 	private int similarSongsMerged = 0;
 	private int similarAlbumsMerged = 0;
 	private int similarArtistsMerged = 0;
+	private int readErrorsIgnored = 0;
 
 	private Statistics() {
 	}
@@ -76,5 +77,13 @@ public class Statistics {
 
 	public int getSimilarArtistsMerged() {
 		return similarArtistsMerged;
+	}
+
+	public int getReadErrorsIgnored() {
+		return readErrorsIgnored;
+	}
+
+	public void readErrorIgnored() {
+		this.readErrorsIgnored++;
 	}
 }

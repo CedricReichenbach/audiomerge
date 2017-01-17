@@ -17,6 +17,7 @@ import com.billhillapps.audiomerge.test.BetterQualitySongDecider;
 import com.billhillapps.audiomerge.test.LexicographicalAlbumDecider;
 import com.billhillapps.audiomerge.test.LexicographicalArtistDecider;
 import com.billhillapps.audiomerge.test.TestUtil;
+import com.billhillapps.audiomerge.test.problems.IgnoreAllSupervisor;
 
 public class StatisticsTest {
 
@@ -48,6 +49,7 @@ public class StatisticsTest {
 		mergeManager.setArtistDecider(new LexicographicalArtistDecider());
 		mergeManager.setAlbumDecider(new LexicographicalAlbumDecider());
 		mergeManager.setSongDecider(new BetterQualitySongDecider());
+		mergeManager.setCannotReadReviewer(new IgnoreAllSupervisor());
 	}
 
 	@After
@@ -86,5 +88,12 @@ public class StatisticsTest {
 		assertThat(statistics.getSimilarSongsMerged(), is(2));
 		assertThat(statistics.getSimilarAlbumsMerged(), is(1));
 		assertThat(statistics.getSimilarArtistsMerged(), is(1));
+	}
+
+	@Test
+	public void ignoresCounted() {
+		mergeManager.execute();
+
+		assertThat(statistics.getReadErrorsIgnored(), is(1));
 	}
 }

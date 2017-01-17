@@ -6,7 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+
 import com.billhillapps.audiomerge.music.MusicCollection;
+import com.billhillapps.audiomerge.processing.problems.ProblemSupervisor;
+import com.billhillapps.audiomerge.processing.problems.StdIOProblemSupervisor;
 import com.billhillapps.audiomerge.similarity.deciders.MetaDataDistanceSongDecider;
 import com.billhillapps.audiomerge.similarity.deciders.NameDistanceArtistDecider;
 import com.billhillapps.audiomerge.similarity.deciders.TitleDistanceAlbumDecider;
@@ -21,6 +25,8 @@ public class MergeManager extends ProgressAdapter {
 	private NameDistanceArtistDecider artistDecider = new NameDistanceArtistDecider();
 	private TitleDistanceAlbumDecider albumDecider = new TitleDistanceAlbumDecider();
 	private MetaDataDistanceSongDecider songDecider = new MetaDataDistanceSongDecider();
+
+	private ProblemSupervisor<CannotReadException> cannotReadReviewer = new StdIOProblemSupervisor();
 
 	public MergeManager(Path destination, Path... sources) {
 		if (sources.length < 1)
@@ -46,6 +52,10 @@ public class MergeManager extends ProgressAdapter {
 		this.songDecider = songDecider;
 	}
 
+	public void setCannotReadReviewer(ProblemSupervisor<CannotReadException> cannotReadReviewer) {
+		this.cannotReadReviewer = cannotReadReviewer;
+	}
+
 	public void execute() {
 		final List<MusicCollection> collections = new ArrayList<>();
 		for (int i = 0; i < sources.length; i++) {
@@ -54,7 +64,8 @@ public class MergeManager extends ProgressAdapter {
 
 			Path source = sources[i];
 			try {
-				collections.add(CollectionIO.fromDirectory(source, artistDecider, albumDecider, songDecider));
+				collections.add(CollectionIO.fromDirectory(source, artistDecider, albumDecider, songDecider,
+						cannotReadReviewer));
 			} catch (IOException e) {
 				throw new RuntimeException(String.format("Collection from directory '%s' could not be loaded", source));
 			}

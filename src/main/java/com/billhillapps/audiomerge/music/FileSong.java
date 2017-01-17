@@ -31,18 +31,14 @@ public class FileSong extends Song {
 	private String albumTitleOverride = null;
 	private String artistNameOverride = null;
 
-	public FileSong(final Path filePath) {
+	public FileSong(final Path filePath) throws CannotReadException {
 		this.originalPath = filePath;
 
 		try {
 			AudioFile audioFile = AudioFileIO.read(filePath.toFile());
 			header = audioFile.getAudioHeader();
 			tag = audioFile.getTag();
-		} catch (CannotReadException | IOException | TagException | ReadOnlyFileException
-				| InvalidAudioFrameException e) {
-			// TODO: Support some kind of deciders for certain exceptions, e.g.
-			// CannotReadException (happens often on WAV files with incorrect
-			// headers)
+		} catch (IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException e) {
 			throw new RuntimeException(String.format("Failed to read file '%s' for metadata", filePath), e);
 		}
 	}

@@ -20,6 +20,8 @@ import com.billhillapps.audiomerge.music.Artist;
 import com.billhillapps.audiomerge.music.MusicCollection;
 import com.billhillapps.audiomerge.music.Song;
 import com.billhillapps.audiomerge.test.LambdaMatcher;
+import com.billhillapps.audiomerge.test.problems.IgnoreAllSupervisor;
+import com.billhillapps.audiomerge.test.problems.PanickingSupervisor;
 
 public class CollectionIOTest {
 
@@ -38,7 +40,7 @@ public class CollectionIOTest {
 
 	@Test
 	public void testOriginalSongLists() throws Exception {
-		MusicCollection collectionA = CollectionIO.fromDirectory(collectionPathA);
+		MusicCollection collectionA = CollectionIO.fromDirectory(collectionPathA, new IgnoreAllSupervisor());
 
 		assertThat(collectionA.getTitle(), endsWith("collection-a"));
 		assertThat(collectionA.getArtists().size(), is(4));
@@ -78,6 +80,11 @@ public class CollectionIOTest {
 		assertThat(collectionC.getArtists(), not(hasItem(isArtist("Ludwig van Beethoven"))));
 		assertThat(collectionC.getArtists(), not(hasItem(isArtist("Kevin MacLeod"))));
 		assertThat(collectionC.getArtists(), not(hasItem(isArtist("Alessandro Moreschi"))));
+	}
+
+	@Test(expected = LoadingFailedException.class)
+	public void corruptFileCausesException() throws Exception {
+		CollectionIO.fromDirectory(collectionPathA, new PanickingSupervisor());
 	}
 
 }

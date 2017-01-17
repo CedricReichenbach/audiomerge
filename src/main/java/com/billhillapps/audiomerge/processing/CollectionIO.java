@@ -8,11 +8,15 @@ import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.util.stream.Stream;
 
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+
 import com.billhillapps.audiomerge.music.Album;
 import com.billhillapps.audiomerge.music.Artist;
 import com.billhillapps.audiomerge.music.FileSong;
 import com.billhillapps.audiomerge.music.MusicCollection;
 import com.billhillapps.audiomerge.music.Song;
+import com.billhillapps.audiomerge.processing.problems.ProblemSupervisor;
+import com.billhillapps.audiomerge.processing.problems.StdIOProblemSupervisor;
 import com.billhillapps.audiomerge.similarity.Decider;
 import com.billhillapps.audiomerge.similarity.deciders.MetaDataDistanceSongDecider;
 import com.billhillapps.audiomerge.similarity.deciders.NameDistanceArtistDecider;
@@ -28,26 +32,46 @@ public class CollectionIO {
 	private static final PathMatcher MATCHER = FileSystems.getDefault()
 			.getPathMatcher("glob:**.{mp3,wma,wav,aiff,aac,ogg,flac,alac}");
 
+	// XXX: Maybe move from static methods to object to mitigate defaults mess
 	public static MusicCollection fromDirectory(Path path) throws IOException {
+		return fromDirectory(path, new StdIOProblemSupervisor());
+	}
+
+	public static MusicCollection fromDirectory(Path path, ProblemSupervisor<CannotReadException> cannotReadSupervisor)
+			throws IOException {
 		return fromDirectory(path, false, new NameDistanceArtistDecider(), new TitleDistanceAlbumDecider(),
-				new MetaDataDistanceSongDecider());
+				new MetaDataDistanceSongDecider(), cannotReadSupervisor);
 	}
 
 	public static MusicCollection fromDirectory(Path path, Decider<Artist> artistDecider, Decider<Album> albumDecider,
-			Decider<Song> songDecider) throws IOException {
-		return fromDirectory(path, false, artistDecider, albumDecider, songDecider);
+			Decider<Song> songDecider, ProblemSupervisor<CannotReadException> cannotReadSupervisor) throws IOException {
+		return fromDirectory(path, false, artistDecider, albumDecider, songDecider, cannotReadSupervisor);
 	}
 
 	public static MusicCollection fromDirectory(Path path, boolean includeOtherFiles, Decider<Artist> artistDecider,
-			Decider<Album> albumDecider, Decider<Song> songDecider) throws IOException {
+			Decider<Album> albumDecider, Decider<Song> songDecider,
+			ProblemSupervisor<CannotReadException> cannotReadSupervisor) throws IOException {
 		MusicCollection collection = new MusicCollection(path.getFileName().toString(), artistDecider, albumDecider,
 				songDecider);
 
 		Stream<Path> files = Files.find(path, Integer.MAX_VALUE,
 				(filePath, fileAttributes) -> fileAttributes.isRegularFile()
 						&& (includeOtherFiles || MATCHER.matches(filePath)) && !isHidden(filePath));
-		files.forEach(file -> collection.insertSong(songFromFile(file)));
-		files.close();
+		try {
+			files.forEach(file -> {
+				try {
+					collection.insertSong(songFromFile(file));
+				} catch (CannotReadException e) {
+					if (cannotReadSupervisor.ignoreProblem(e)) {
+						Statistics.getInstance().readErrorIgnored();
+					} else {
+						throw new LoadingFailedException("Failed to load a song, exiting soon...", e);
+					}
+				}
+			});
+		} finally {
+			files.close();
+		}
 
 		return collection;
 	}
@@ -75,7 +99,7 @@ public class CollectionIO {
 		return filePath.toFile().isHidden();
 	}
 
-	private static Song songFromFile(Path filePath) {
+	private static Song songFromFile(Path filePath) throws CannotReadException {
 		// TODO: If not music file, treat specially
 		return new FileSong(filePath);
 	}

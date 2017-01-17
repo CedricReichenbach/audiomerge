@@ -19,6 +19,7 @@ import com.billhillapps.audiomerge.music.FileSong;
 import com.billhillapps.audiomerge.test.BetterQualitySongDecider;
 import com.billhillapps.audiomerge.test.LexicographicalAlbumDecider;
 import com.billhillapps.audiomerge.test.LexicographicalArtistDecider;
+import com.billhillapps.audiomerge.test.problems.IgnoreAllSupervisor;
 
 public class MergeManagerTest {
 
@@ -45,12 +46,13 @@ public class MergeManagerTest {
 	}
 
 	@Test
-	public void totalMerge() {
+	public void totalMerge() throws Exception {
 		MergeManager mergeManager = new MergeManager(destinationPath, collectionPathA, collectionPathB,
 				collectionPathC);
 		mergeManager.setArtistDecider(new LexicographicalArtistDecider());
 		mergeManager.setAlbumDecider(new LexicographicalAlbumDecider());
 		mergeManager.setSongDecider(new BetterQualitySongDecider());
+		mergeManager.setCannotReadReviewer(new IgnoreAllSupervisor());
 
 		mergeManager.execute();
 
