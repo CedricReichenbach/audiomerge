@@ -3,6 +3,7 @@ package com.billhillapps.audiomerge.ui.choosers;
 import static com.billhillapps.audiomerge.ui.AudioMergeUI.SPACING;
 
 import java.nio.file.Path;
+import java.util.function.Consumer;
 
 import com.billhillapps.audiomerge.music.Song;
 import com.billhillapps.audiomerge.ui.AudioPlayer;
@@ -10,13 +11,19 @@ import com.billhillapps.audiomerge.ui.GridDecisionOption;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
 public class SongChooser extends DecisionChooser<Song> {
 
-	public SongChooser() {
+	private final Consumer<String> directoryOpener;
+
+	public SongChooser(Consumer<String> directoryOpener) {
 		super("Duplicate song detected", "Which one to proceed with? The other one will be deleted.");
+
+		this.directoryOpener = directoryOpener;
 	}
 
 	@Override
@@ -38,13 +45,22 @@ public class SongChooser extends DecisionChooser<Song> {
 
 		Path songPath = song.getPath();
 		if (songPath != null) {
+			Button openDir = new Button("Open directory");
+			openDir.setOnAction(event -> directoryOpener.accept(songPath.toString()));
+			optionGrid.add(openDir, 0, 5, 2, 1);
+			centerAndPad(openDir);
+
 			AudioPlayer player = new AudioPlayer(songPath);
-			optionGrid.add(player, 0, 5, 2, 1);
-			GridPane.setMargin(player, new Insets(SPACING / 2, 0, 0, 0));
-			GridPane.setHalignment(player, HPos.CENTER);
+			optionGrid.add(player, 0, 6, 2, 1);
+			centerAndPad(player);
 		}
 
 		return optionGrid;
+	}
+
+	private void centerAndPad(Node node) {
+		GridPane.setMargin(node, new Insets(SPACING / 2, 0, 0, 0));
+		GridPane.setHalignment(node, HPos.CENTER);
 	}
 
 	private void addToGrid(final GridPane grid, final String key, final String value, final int row) {

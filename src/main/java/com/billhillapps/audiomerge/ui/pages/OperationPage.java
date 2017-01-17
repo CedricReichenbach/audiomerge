@@ -14,14 +14,15 @@ import com.billhillapps.audiomerge.ui.choosers.SongChooser;
 import com.billhillapps.audiomerge.ui.deciders.GuiAlbumDecider;
 import com.billhillapps.audiomerge.ui.deciders.GuiArtistDecider;
 import com.billhillapps.audiomerge.ui.deciders.GuiSongDecider;
+import com.billhillapps.audiomerge.ui.problems.CannotReadPrompt;
+import com.billhillapps.audiomerge.ui.problems.GuiCannotReadSupervisor;
 
-import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -36,25 +37,27 @@ public class OperationPage extends Page {
 	private final ArtistChooser artistChooser;
 	private final AlbumChooser albumChooser;
 	private final SongChooser songChooser;
+	private final CannotReadPrompt cannotReadPrompt;
 	private final Label progressLabel;
 	private final ProgressBar progressBar;
 
 	private MergeManager mergeManager;
 
 	private final Consumer<MergeManager> onFinishCallback;
-	private final HostServices hostServices;
+	private final Consumer<String> directoryOpener;
 
-	public OperationPage(Consumer<MergeManager> onFinish, HostServices hostServices) {
+	public OperationPage(Consumer<MergeManager> onFinish, Consumer<String> directoryOpener) {
 		super();
 
 		this.onFinishCallback = onFinish;
-		this.hostServices = hostServices;
+		this.directoryOpener = directoryOpener;
 
 		rootGrid.setMaxWidth(CONTENT_WIDTH);
 
 		this.artistChooser = new ArtistChooser();
 		this.albumChooser = new AlbumChooser();
-		this.songChooser = new SongChooser();
+		this.songChooser = new SongChooser(directoryOpener);
+		this.cannotReadPrompt = new CannotReadPrompt(directoryOpener);
 
 		this.progressLabel = new Label();
 		progressLabel.getStyleClass().add("progress-label");
@@ -69,6 +72,7 @@ public class OperationPage extends Page {
 		rootGrid.add(artistChooser, 0, 1);
 		rootGrid.add(albumChooser, 0, 1);
 		rootGrid.add(songChooser, 0, 1);
+		rootGrid.add(cannotReadPrompt, 0, 1);
 	}
 
 	// XXX: A bit hacky
@@ -85,6 +89,7 @@ public class OperationPage extends Page {
 		mergeManager.setArtistDecider(new GuiArtistDecider(artistChooser));
 		mergeManager.setAlbumDecider(new GuiAlbumDecider(albumChooser));
 		mergeManager.setSongDecider(new GuiSongDecider(songChooser));
+		mergeManager.setCannotReadReviewer(new GuiCannotReadSupervisor(cannotReadPrompt));
 
 		this.mergeManager.addProgressListener((progress, operation) -> {
 			Platform.runLater(() -> {
@@ -136,7 +141,7 @@ public class OperationPage extends Page {
 			body = "";
 		}
 		String args = "?body=" + body;
-		link.setOnAction(event -> hostServices.showDocument(BUG_REPORT_LINK + args));
+		link.setOnAction(event -> directoryOpener.accept(BUG_REPORT_LINK + args));
 		return link;
 	}
 }

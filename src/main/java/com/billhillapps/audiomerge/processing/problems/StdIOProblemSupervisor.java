@@ -30,5 +30,4 @@ public class StdIOProblemSupervisor implements ProblemSupervisor<CannotReadExcep
 			System.out.println("I don't understand. Please type one of the characters s/g:");
 		} while (true);
 	}
-
 }
