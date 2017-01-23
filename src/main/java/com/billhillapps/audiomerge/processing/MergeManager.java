@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 
 import com.billhillapps.audiomerge.music.MusicCollection;
+import com.billhillapps.audiomerge.processing.problems.CannotReadFileProblem;
 import com.billhillapps.audiomerge.processing.problems.ProblemSupervisor;
 import com.billhillapps.audiomerge.processing.problems.StdIOProblemSupervisor;
 import com.billhillapps.audiomerge.similarity.deciders.MetaDataDistanceSongDecider;
@@ -26,7 +27,7 @@ public class MergeManager extends ProgressAdapter {
 	private TitleDistanceAlbumDecider albumDecider = new TitleDistanceAlbumDecider();
 	private MetaDataDistanceSongDecider songDecider = new MetaDataDistanceSongDecider();
 
-	private ProblemSupervisor<CannotReadException> cannotReadReviewer = new StdIOProblemSupervisor();
+	private ProblemSupervisor<CannotReadFileProblem, CannotReadException> cannotReadReviewer = new StdIOProblemSupervisor();
 
 	public MergeManager(Path destination, Path... sources) {
 		if (sources.length < 1)
@@ -52,7 +53,8 @@ public class MergeManager extends ProgressAdapter {
 		this.songDecider = songDecider;
 	}
 
-	public void setCannotReadReviewer(ProblemSupervisor<CannotReadException> cannotReadReviewer) {
+	public void setCannotReadReviewer(
+			ProblemSupervisor<CannotReadFileProblem, CannotReadException> cannotReadReviewer) {
 		this.cannotReadReviewer = cannotReadReviewer;
 	}
 

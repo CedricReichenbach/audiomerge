@@ -15,6 +15,7 @@ import com.billhillapps.audiomerge.music.Artist;
 import com.billhillapps.audiomerge.music.FileSong;
 import com.billhillapps.audiomerge.music.MusicCollection;
 import com.billhillapps.audiomerge.music.Song;
+import com.billhillapps.audiomerge.processing.problems.CannotReadFileProblem;
 import com.billhillapps.audiomerge.processing.problems.ProblemSupervisor;
 import com.billhillapps.audiomerge.processing.problems.StdIOProblemSupervisor;
 import com.billhillapps.audiomerge.similarity.Decider;
@@ -37,32 +38,33 @@ public class CollectionIO {
 		return fromDirectory(path, new StdIOProblemSupervisor());
 	}
 
-	public static MusicCollection fromDirectory(Path path, ProblemSupervisor<CannotReadException> cannotReadSupervisor)
-			throws IOException {
+	public static MusicCollection fromDirectory(Path path,
+			ProblemSupervisor<CannotReadFileProblem, CannotReadException> cannotReadSupervisor) throws IOException {
 		return fromDirectory(path, false, new NameDistanceArtistDecider(), new TitleDistanceAlbumDecider(),
 				new MetaDataDistanceSongDecider(), cannotReadSupervisor);
 	}
 
 	public static MusicCollection fromDirectory(Path path, Decider<Artist> artistDecider, Decider<Album> albumDecider,
-			Decider<Song> songDecider, ProblemSupervisor<CannotReadException> cannotReadSupervisor) throws IOException {
+			Decider<Song> songDecider,
+			ProblemSupervisor<CannotReadFileProblem, CannotReadException> cannotReadSupervisor) throws IOException {
 		return fromDirectory(path, false, artistDecider, albumDecider, songDecider, cannotReadSupervisor);
 	}
 
 	public static MusicCollection fromDirectory(Path path, boolean includeOtherFiles, Decider<Artist> artistDecider,
 			Decider<Album> albumDecider, Decider<Song> songDecider,
-			ProblemSupervisor<CannotReadException> cannotReadSupervisor) throws IOException {
+			ProblemSupervisor<CannotReadFileProblem, CannotReadException> cannotReadSupervisor) throws IOException {
 		MusicCollection collection = new MusicCollection(path.getFileName().toString(), artistDecider, albumDecider,
 				songDecider);
 
-		Stream<Path> files = Files.find(path, Integer.MAX_VALUE,
+		Stream<Path> filePaths = Files.find(path, Integer.MAX_VALUE,
 				(filePath, fileAttributes) -> fileAttributes.isRegularFile()
 						&& (includeOtherFiles || MATCHER.matches(filePath)) && !isHidden(filePath));
 		try {
-			files.forEach(file -> {
+			filePaths.forEach(filePath -> {
 				try {
-					collection.insertSong(songFromFile(file));
+					collection.insertSong(songFromFile(filePath));
 				} catch (CannotReadException e) {
-					if (cannotReadSupervisor.ignoreProblem(e)) {
+					if (cannotReadSupervisor.ignoreProblem(new CannotReadFileProblem(e, filePath))) {
 						Statistics.getInstance().readErrorIgnored();
 					} else {
 						throw new LoadingFailedException("Failed to load a song, exiting soon...", e);
@@ -70,7 +72,7 @@ public class CollectionIO {
 				}
 			});
 		} finally {
-			files.close();
+			filePaths.close();
 		}
 
 		return collection;

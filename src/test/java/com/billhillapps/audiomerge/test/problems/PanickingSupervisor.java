@@ -2,12 +2,13 @@ package com.billhillapps.audiomerge.test.problems;
 
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 
+import com.billhillapps.audiomerge.processing.problems.CannotReadFileProblem;
 import com.billhillapps.audiomerge.processing.problems.ProblemSupervisor;
 
-public class PanickingSupervisor implements ProblemSupervisor<CannotReadException> {
+public class PanickingSupervisor implements ProblemSupervisor<CannotReadFileProblem, CannotReadException> {
 
 	@Override
-	public boolean ignoreProblem(CannotReadException exception) {
+	public boolean ignoreProblem(CannotReadFileProblem problem) {
 		return false;
 	}
 

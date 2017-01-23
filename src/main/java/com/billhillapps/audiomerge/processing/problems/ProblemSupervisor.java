@@ -12,8 +12,9 @@ package com.billhillapps.audiomerge.processing.problems;
  *
  * @param <T>
  *            Exception type indicating this problem
+ * @param <E>
  */
-public interface ProblemSupervisor<T extends Exception> {
+public interface ProblemSupervisor<P extends Problem<E>, E extends Exception> {
 
-	public boolean ignoreProblem(T exception);
+	public boolean ignoreProblem(P problem);
 }
