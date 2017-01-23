@@ -59,6 +59,7 @@ public class OperationPage extends Page {
 		this.songChooser = new SongChooser(directoryOpener);
 		this.cannotReadPrompt = new CannotReadPrompt(directoryOpener);
 		cannotReadPrompt.setPrefWidth(CONTENT_WIDTH);
+		cannotReadPrompt.setMaxWidth(Double.MAX_VALUE);
 
 		this.progressLabel = new Label();
 		progressLabel.getStyleClass().add("progress-label");

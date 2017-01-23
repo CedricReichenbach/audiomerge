@@ -46,7 +46,8 @@
 	_dark-neon-purple: derive(_neon-purple, -25%);
 	_darker-neon-purple: derive(_neon-purple, -50%);
 	
-	_neon-red: #f35;
+	_neon-red: #f89;
+	_dark-neon-red: derive(_neon-red, -25%);
 }
 
 /* ~~ STYLING ~~ */
@@ -100,11 +101,25 @@
 	-fx-background-color: white;
 	-fx-text-fill: _bg-color;
 }
+
 .button.dynamic,
 .button.dynamic {
 	-fx-border-radius: 100%;
 	-fx-background-radius: 100%;
 }
+
+.button.critical {
+	-fx-text-fill: _neon-red;
+	-fx-border-color: _neon-red;
+}
+.button.critical:hover {
+	-fx-background-color: linear-gradient(to bottom right, _darker-rose, _darker-neon-purple);
+}
+.button.critical:hover:pressed {
+	-fx-background-color: _neon-red;
+	-fx-text-fill: black;
+}
+
 .button.start {
 	-fx-text-fill: _neon-green;
 	-fx-border-color: _neon-green;

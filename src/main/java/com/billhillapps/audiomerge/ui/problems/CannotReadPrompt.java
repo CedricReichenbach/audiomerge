@@ -9,8 +9,10 @@ import java.util.function.Consumer;
 import com.billhillapps.audiomerge.processing.problems.CannotReadFileProblem;
 
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 
 public class CannotReadPrompt extends GridPane {
@@ -30,6 +32,10 @@ public class CannotReadPrompt extends GridPane {
 
 		this.setVgap(SPACING / 2);
 		this.setHgap(SPACING / 2);
+
+		ColumnConstraints colConstraints = new ColumnConstraints();
+		colConstraints.setPercentWidth(50);
+		this.getColumnConstraints().addAll(colConstraints, colConstraints);
 	}
 
 	public Future<Boolean> promptForSkip(CannotReadFileProblem problem) {
@@ -38,25 +44,32 @@ public class CannotReadPrompt extends GridPane {
 		Platform.runLater(() -> {
 			this.setVisible(true);
 
-			// TODO: Differentiate path (and maybe message) from text, e.g.
-			// through mono or italic font
-			String text = String.format("Problem while reading audio file: %s\nPath: %s",
-					problem.getException().getMessage(), problem.getPath());
-			Label description = new Label(text);
-			this.add(description, 0, 0, 2, 1);
+			String titleText = String.format("Problem while reading audio file: %s",
+					problem.getException().getMessage());
+			Label title = new Label(titleText);
+			title.getStyleClass().add("title");
+			this.add(title, 0, 0, 2, 1);
 
-			// TODO: Stretch buttons to full (or half) width
+			Label description = new Label(problem.getPath().toString());
+			this.add(description, 0, 1, 2, 1);
+
 			Button openDirButton = new Button("Open directory");
 			openDirButton.setOnAction(event -> directoryOpener.accept(problem.getPath().getParent().toString()));
-			this.add(openDirButton, 0, 1, 2, 1);
+			this.add(openDirButton, 0, 2, 2, 1);
 
-			Button abort = new Button("Abort merging, stop application");
-			abort.setOnAction(event -> this.complete(false));
-			this.add(abort, 0, 2);
+			Button abortButton = new Button("Abort merging, stop application");
+			abortButton.setOnAction(event -> this.complete(false));
+			abortButton.getStyleClass().add("critical");
+			this.add(abortButton, 0, 3);
 
-			Button skip = new Button("Skip this file and continue");
-			skip.setOnAction(event -> this.complete(true));
-			this.add(skip, 1, 2);
+			Button skipButton = new Button("Skip this file and continue");
+			skipButton.setOnAction(event -> this.complete(true));
+			this.add(skipButton, 1, 3);
+
+			GridPane.setMargin(openDirButton, new Insets(0, 0, SPACING, 0));
+			openDirButton.setMaxWidth(Double.MAX_VALUE);
+			abortButton.setMaxWidth(Double.MAX_VALUE);
+			skipButton.setMaxWidth(Double.MAX_VALUE);
 		});
 
 		return future;
