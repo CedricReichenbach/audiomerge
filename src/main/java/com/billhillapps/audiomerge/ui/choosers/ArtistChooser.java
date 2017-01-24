@@ -7,9 +7,10 @@ import javafx.scene.control.Label;
 
 public class ArtistChooser extends DecisionChooser<Artist> {
 
-	public ArtistChooser() {
+	public ArtistChooser(Runnable focusTrigger) {
 		super("Duplicate artist detected",
-				"Which one to proceed with? Contents of the other will be merged in, no songs will be lost.");
+				"Which one to proceed with? Contents of the other will be merged in, no songs will be lost.",
+				focusTrigger);
 	}
 
 	@Override

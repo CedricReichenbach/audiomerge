@@ -46,7 +46,7 @@ public class OperationPage extends Page {
 	private final Consumer<MergeManager> onFinishCallback;
 	private final Consumer<String> directoryOpener;
 
-	public OperationPage(Consumer<MergeManager> onFinish, Consumer<String> directoryOpener) {
+	public OperationPage(Consumer<MergeManager> onFinish, Consumer<String> directoryOpener, Runnable focusTrigger) {
 		super();
 
 		this.onFinishCallback = onFinish;
@@ -54,10 +54,10 @@ public class OperationPage extends Page {
 
 		rootGrid.setMaxWidth(CONTENT_WIDTH);
 
-		this.artistChooser = new ArtistChooser();
-		this.albumChooser = new AlbumChooser();
-		this.songChooser = new SongChooser(directoryOpener);
-		this.cannotReadPrompt = new CannotReadPrompt(directoryOpener);
+		this.artistChooser = new ArtistChooser(focusTrigger);
+		this.albumChooser = new AlbumChooser(focusTrigger);
+		this.songChooser = new SongChooser(directoryOpener, focusTrigger);
+		this.cannotReadPrompt = new CannotReadPrompt(directoryOpener, focusTrigger);
 		cannotReadPrompt.setPrefWidth(CONTENT_WIDTH);
 		cannotReadPrompt.setMaxWidth(Double.MAX_VALUE);
 

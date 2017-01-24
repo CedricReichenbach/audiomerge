@@ -23,14 +23,18 @@ import javafx.scene.layout.Priority;
 
 public abstract class DecisionChooser<T> extends GridPane {
 
+	private final Runnable focusTrigger;
+
 	private final Button confirmButton;
 	private final Separator vLineA, vLineB, vLineBoth;
 	private final CheckBox alwaysUseDefaultCheckbox;
 
 	private boolean alwaysUseDefault = false;
 
-	public DecisionChooser(String title, String description) {
+	public DecisionChooser(String title, String description, Runnable focusTrigger) {
 		super();
+
+		this.focusTrigger = focusTrigger;
 
 		// if invisible, also remove from layout
 		this.managedProperty().bind(this.visibleProperty());
@@ -98,6 +102,7 @@ public abstract class DecisionChooser<T> extends GridPane {
 			}
 
 			this.setVisible(true);
+			this.focusTrigger.run();
 
 			vLineA.setVisible(false);
 			vLineBoth.setVisible(false);

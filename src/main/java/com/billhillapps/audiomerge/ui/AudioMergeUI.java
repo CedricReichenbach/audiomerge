@@ -29,10 +29,12 @@ public class AudioMergeUI extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
 
+		final Runnable focusTrigger = primaryStage::requestFocus;
+
 		startPage = new StartPage(primaryStage);
 		startPage.onStart(this::showOperationPage);
 
-		operationPage = new OperationPage(this::showFinishPage, getHostServices()::showDocument);
+		operationPage = new OperationPage(this::showFinishPage, getHostServices()::showDocument, focusTrigger);
 
 		finishPage = new FinishPage(getHostServices()::showDocument);
 

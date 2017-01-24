@@ -19,6 +19,7 @@ import javafx.scene.layout.GridPane;
 public class CannotReadPrompt extends GridPane {
 
 	private final Consumer<String> directoryOpener;
+	private final Runnable focusTrigger;
 
 	private CompletableFuture<Boolean> future;
 
@@ -28,10 +29,11 @@ public class CannotReadPrompt extends GridPane {
 	private final Label descriptionLabel = new Label();
 	private final Button openDirButton = new Button("Open directory");
 
-	public CannotReadPrompt(Consumer<String> directoryOpener) {
+	public CannotReadPrompt(Consumer<String> directoryOpener, Runnable focusTrigger) {
 		super();
 
 		this.directoryOpener = directoryOpener;
+		this.focusTrigger = focusTrigger;
 
 		// if invisible, also remove from layout
 		this.managedProperty().bind(this.visibleProperty());
@@ -57,6 +59,7 @@ public class CannotReadPrompt extends GridPane {
 			}
 
 			updateUI(problem);
+			focusTrigger.run();
 		});
 
 		return future;

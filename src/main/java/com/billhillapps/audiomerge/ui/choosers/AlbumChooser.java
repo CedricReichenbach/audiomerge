@@ -7,9 +7,10 @@ import javafx.scene.control.Label;
 
 public class AlbumChooser extends DecisionChooser<Album> {
 
-	public AlbumChooser() {
+	public AlbumChooser(Runnable focusTrigger) {
 		super("Duplicate album detected",
-				"Which one to proceed with? Contents of the other will be merged in, no songs will be lost.");
+				"Which one to proceed with? Contents of the other will be merged in, no songs will be lost.",
+				focusTrigger);
 	}
 
 	@Override

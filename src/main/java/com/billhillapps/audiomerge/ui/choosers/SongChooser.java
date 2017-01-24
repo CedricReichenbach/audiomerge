@@ -20,8 +20,8 @@ public class SongChooser extends DecisionChooser<Song> {
 
 	private final Consumer<String> directoryOpener;
 
-	public SongChooser(Consumer<String> directoryOpener) {
-		super("Duplicate song detected", "Which one to proceed with? The other one will be deleted.");
+	public SongChooser(Consumer<String> directoryOpener, Runnable focusTrigger) {
+		super("Duplicate song detected", "Which one to proceed with? The other one will be deleted.", focusTrigger);
 
 		this.directoryOpener = directoryOpener;
 	}
