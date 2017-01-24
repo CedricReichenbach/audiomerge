@@ -2,12 +2,10 @@ package com.billhillapps.audiomerge.ui.problems;
 
 import java.util.concurrent.ExecutionException;
 
-import org.jaudiotagger.audio.exceptions.CannotReadException;
-
-import com.billhillapps.audiomerge.processing.problems.CannotReadFileProblem;
+import com.billhillapps.audiomerge.processing.problems.AudioLoadingProblem;
 import com.billhillapps.audiomerge.processing.problems.ProblemSupervisor;
 
-public class GuiCannotReadSupervisor implements ProblemSupervisor<CannotReadFileProblem, CannotReadException> {
+public class GuiCannotReadSupervisor implements ProblemSupervisor<AudioLoadingProblem> {
 
 	private final CannotReadPrompt prompt;
 
@@ -16,7 +14,7 @@ public class GuiCannotReadSupervisor implements ProblemSupervisor<CannotReadFile
 	}
 
 	@Override
-	public boolean ignoreProblem(CannotReadFileProblem problem) {
+	public boolean ignoreProblem(AudioLoadingProblem problem) {
 		try {
 			return prompt.promptForSkip(problem).get();
 		} catch (InterruptedException | ExecutionException e) {

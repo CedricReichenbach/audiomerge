@@ -17,6 +17,8 @@ import org.jaudiotagger.tag.KeyNotFoundException;
 import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.TagException;
 
+import com.billhillapps.audiomerge.processing.problems.AudioLoadingException;
+
 /**
  * Implementation of {@link Song}, based on a music file.
  * 
@@ -31,14 +33,16 @@ public class FileSong extends Song {
 	private String albumTitleOverride = null;
 	private String artistNameOverride = null;
 
-	public FileSong(final Path filePath) throws CannotReadException {
+	public FileSong(final Path filePath) throws AudioLoadingException {
 		this.originalPath = filePath;
 
 		try {
 			AudioFile audioFile = AudioFileIO.read(filePath.toFile());
 			header = audioFile.getAudioHeader();
 			tag = audioFile.getTag();
-		} catch (IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException e) {
+		} catch (CannotReadException | InvalidAudioFrameException e) {
+			throw new AudioLoadingException(e);
+		} catch (IOException | TagException | ReadOnlyFileException e) {
 			throw new RuntimeException(String.format("Failed to read file '%s' for metadata", filePath), e);
 		}
 	}

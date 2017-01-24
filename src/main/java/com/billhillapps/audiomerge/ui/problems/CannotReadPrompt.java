@@ -6,7 +6,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
 
-import com.billhillapps.audiomerge.processing.problems.CannotReadFileProblem;
+import com.billhillapps.audiomerge.processing.problems.AudioLoadingProblem;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -47,7 +47,7 @@ public class CannotReadPrompt extends GridPane {
 		initUI();
 	}
 
-	public Future<Boolean> promptForSkip(CannotReadFileProblem problem) {
+	public Future<Boolean> promptForSkip(AudioLoadingProblem problem) {
 		future = new CompletableFuture<>();
 
 		Platform.runLater(() -> {
@@ -90,7 +90,7 @@ public class CannotReadPrompt extends GridPane {
 		skipButton.setMaxWidth(Double.MAX_VALUE);
 	}
 
-	private void updateUI(CannotReadFileProblem problem) {
+	private void updateUI(AudioLoadingProblem problem) {
 		String titleText = String.format("Problem while reading audio file: %s", problem.getException().getMessage());
 		titleLabel.setText(titleText);
 

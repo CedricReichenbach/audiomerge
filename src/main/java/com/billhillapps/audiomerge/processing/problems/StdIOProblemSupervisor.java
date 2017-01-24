@@ -2,14 +2,12 @@ package com.billhillapps.audiomerge.processing.problems;
 
 import java.util.Scanner;
 
-import org.jaudiotagger.audio.exceptions.CannotReadException;
-
 import com.billhillapps.audiomerge.stdio.StdIOUtil;
 
-public class StdIOProblemSupervisor implements ProblemSupervisor<CannotReadFileProblem, CannotReadException> {
+public class StdIOProblemSupervisor implements ProblemSupervisor<AudioLoadingProblem> {
 
 	@Override
-	public boolean ignoreProblem(CannotReadFileProblem problem) {
+	public boolean ignoreProblem(AudioLoadingProblem problem) {
 		System.out.println("PROBLEM LOADING AN AUDIO FILE: " + problem.getException().getMessage());
 		System.out.println("PATH: " + problem.getPath());
 		System.out.println("How to proceed?\n- [s]kip this song\n- [g]ive up (and stop application)");
