@@ -11,6 +11,7 @@ import com.billhillapps.audiomerge.processing.problems.CannotReadFileProblem;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -20,6 +21,12 @@ public class CannotReadPrompt extends GridPane {
 	private final Consumer<String> directoryOpener;
 
 	private CompletableFuture<Boolean> future;
+
+	private boolean alwaysSkip = false;
+
+	private final Label titleLabel = new Label();
+	private final Label descriptionLabel = new Label();
+	private final Button openDirButton = new Button("Open directory");
 
 	public CannotReadPrompt(Consumer<String> directoryOpener) {
 		super();
@@ -36,43 +43,62 @@ public class CannotReadPrompt extends GridPane {
 		ColumnConstraints colConstraints = new ColumnConstraints();
 		colConstraints.setPercentWidth(50);
 		this.getColumnConstraints().addAll(colConstraints, colConstraints);
+
+		initUI();
 	}
 
 	public Future<Boolean> promptForSkip(CannotReadFileProblem problem) {
 		future = new CompletableFuture<>();
 
 		Platform.runLater(() -> {
-			this.setVisible(true);
+			if (alwaysSkip) {
+				future.complete(true);
+				return;
+			}
 
-			String titleText = String.format("Problem while reading audio file: %s",
-					problem.getException().getMessage());
-			Label title = new Label(titleText);
-			title.getStyleClass().add("title");
-			this.add(title, 0, 0, 2, 1);
-
-			Label description = new Label(problem.getPath().toString());
-			this.add(description, 0, 1, 2, 1);
-
-			Button openDirButton = new Button("Open directory");
-			openDirButton.setOnAction(event -> directoryOpener.accept(problem.getPath().getParent().toString()));
-			this.add(openDirButton, 0, 2, 2, 1);
-
-			Button abortButton = new Button("Abort merging, stop application");
-			abortButton.setOnAction(event -> this.complete(false));
-			abortButton.getStyleClass().add("critical");
-			this.add(abortButton, 0, 3);
-
-			Button skipButton = new Button("Skip this file and continue");
-			skipButton.setOnAction(event -> this.complete(true));
-			this.add(skipButton, 1, 3);
-
-			GridPane.setMargin(openDirButton, new Insets(0, 0, SPACING, 0));
-			openDirButton.setMaxWidth(Double.MAX_VALUE);
-			abortButton.setMaxWidth(Double.MAX_VALUE);
-			skipButton.setMaxWidth(Double.MAX_VALUE);
+			updateUI(problem);
 		});
 
 		return future;
+	}
+
+	private void initUI() {
+		titleLabel.getStyleClass().add("title");
+		this.add(titleLabel, 0, 0, 2, 1);
+
+		this.add(descriptionLabel, 0, 1, 2, 1);
+
+		this.add(openDirButton, 0, 2, 2, 1);
+
+		Button abortButton = new Button("Abort merging, stop application");
+		abortButton.setOnAction(event -> this.complete(false));
+		abortButton.getStyleClass().add("critical");
+		this.add(abortButton, 0, 3);
+
+		Button skipButton = new Button("Skip this file and continue");
+		skipButton.setOnAction(event -> this.complete(true));
+		this.add(skipButton, 1, 3);
+
+		CheckBox alwaysSkipCheckbox = new CheckBox("Always skip on reading errors");
+		alwaysSkipCheckbox.selectedProperty()
+				.addListener((observable, oldValue, newValue) -> this.alwaysSkip = newValue);
+		this.add(alwaysSkipCheckbox, 1, 4);
+
+		GridPane.setMargin(openDirButton, new Insets(0, 0, SPACING, 0));
+		openDirButton.setMaxWidth(Double.MAX_VALUE);
+		abortButton.setMaxWidth(Double.MAX_VALUE);
+		skipButton.setMaxWidth(Double.MAX_VALUE);
+	}
+
+	private void updateUI(CannotReadFileProblem problem) {
+		String titleText = String.format("Problem while reading audio file: %s", problem.getException().getMessage());
+		titleLabel.setText(titleText);
+
+		descriptionLabel.setText(problem.getPath().toString());
+
+		openDirButton.setOnAction(event -> directoryOpener.accept(problem.getPath().getParent().toString()));
+
+		this.setVisible(true);
 	}
 
 	private void complete(boolean answer) {
