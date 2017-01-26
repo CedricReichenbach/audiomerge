@@ -73,6 +73,8 @@ public class EntityBag<T extends Entity> extends ProgressAdapter {
 	 */
 	public int mergeSimilars() {
 		int count = 0;
+		// FIXME: The same pair gets sometimes suggested multiple times (again
+		// after keeping both)
 		while (mergeOneSimilarPair())
 			count++;
 		return count;
