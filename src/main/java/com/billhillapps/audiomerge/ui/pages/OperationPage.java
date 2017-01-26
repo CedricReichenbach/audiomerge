@@ -135,8 +135,9 @@ public class OperationPage extends Page {
 		Hyperlink link = new Hyperlink(BUG_REPORT_LINK);
 		String body;
 		try {
+			Throwable cause = exception.getCause();
 			body = URLEncoder.encode(String.format("*Message:* `%s`\n*Cause:* `%s`", exception.getMessage(),
-					exception.getCause().getClass().getCanonicalName()), "UTF-8");
+					cause == null ? "(null)" : cause.getClass().getCanonicalName()), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			System.err.println("Failed to build body argument for bug reporting URL");
 			e.printStackTrace();

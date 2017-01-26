@@ -97,7 +97,12 @@ public class FileSong extends Song {
 	 */
 	private String tryTags(FieldKey... fieldKeys) {
 		for (FieldKey fieldKey : fieldKeys) {
-			String value = tag.getFirst(fieldKey);
+			String value;
+			try {
+				value = tag.getFirst(fieldKey);
+			} catch (UnsupportedOperationException e) {
+				continue;
+			}
 
 			if (StringUtils.isNotBlank(value))
 				return StringUtils.trim(value);

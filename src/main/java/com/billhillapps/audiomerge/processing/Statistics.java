@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import com.billhillapps.audiomerge.music.MusicCollection;
 
+// TODO: Add stats about skipped files due to loading problems
 public class Statistics {
 
 	private static Statistics instance;

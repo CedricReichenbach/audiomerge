@@ -67,8 +67,10 @@ public class CannotReadPrompt extends GridPane {
 
 	private void initUI() {
 		titleLabel.getStyleClass().add("title");
+		titleLabel.setWrapText(true);
 		this.add(titleLabel, 0, 0, 2, 1);
 
+		descriptionLabel.setWrapText(true);
 		this.add(descriptionLabel, 0, 1, 2, 1);
 
 		this.add(openDirButton, 0, 2, 2, 1);
