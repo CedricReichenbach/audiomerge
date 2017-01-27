@@ -2,6 +2,7 @@ package com.billhillapps.audiomerge.music;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -65,34 +66,23 @@ public class EntityBag<T extends Entity> extends ProgressAdapter {
 	}
 
 	/**
-	 * Search repeatedly for similar items and merge them, one pair at a time.
-	 * Once no more pairs are found, the algorithm stops and returns the total
-	 * number of merges.
-	 * 
-	 * @return Number of items reduced by merges
-	 */
-	public int mergeSimilars() {
-		int count = 0;
-		// FIXME: The same pair gets sometimes suggested multiple times (again
-		// after keeping both)
-		while (mergeOneSimilarPair())
-			count++;
-		return count;
-	}
-
-	/**
 	 * Search though the Cartesian product of this set (all possible combination
 	 * of pairs) with itself to find and merge similar items, based on the
 	 * {@link Decider} of this {@link EntityBag}.
 	 * 
-	 * @return boolean indicating whether a pair was found and removed
+	 * This algorithm assumes that merging two items doesn't affect their
+	 * similarity to third items. Furthermore, it is assumed that similarity is
+	 * commutative and transitive. Hence, two objects are only compared once at
+	 * most, and comparisons are not repeated after merging.
+	 * 
+	 * @return Number of items reduced by merges
 	 */
-	private boolean mergeOneSimilarPair() {
-		T toBeRemoved = null;
+	public int mergeSimilars() {
+		List<Integer> toRemoveIndices = new ArrayList<>();
 
-		mainloop: for (int a = 0; a < items.size(); a++) {
+		for (int a = 0; a < items.size(); a++) {
 			for (int b = 0; b < items.size(); b++) {
-				if (a >= b)
+				if (a >= b || toRemoveIndices.contains(a) || toRemoveIndices.contains(b))
 					continue;
 
 				T itemA = items.get(a);
@@ -107,22 +97,18 @@ public class EntityBag<T extends Entity> extends ProgressAdapter {
 
 				if (pickIndicator < 0) {
 					itemA.mergeIn(itemB);
-					toBeRemoved = itemB;
-					break mainloop;
+					toRemoveIndices.add(b);
 				} else {
 					itemB.mergeIn(itemA);
-					toBeRemoved = itemA;
-					break mainloop;
+					toRemoveIndices.add(a);
 				}
 			}
 		}
 
-		if (toBeRemoved != null) {
-			items.remove(toBeRemoved);
-			return true;
-		}
+		Collections.reverse(toRemoveIndices);
+		toRemoveIndices.forEach(i -> items.remove((int) i));
 
-		return false;
+		return toRemoveIndices.size();
 	}
 
 	public void addAll(EntityBag<T> otherBag) {
