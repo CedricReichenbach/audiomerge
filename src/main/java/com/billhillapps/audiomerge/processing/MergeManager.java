@@ -79,7 +79,7 @@ public class MergeManager extends ProgressAdapter {
 		MusicCollection firstCollection = collections.remove(0);
 		final AtomicInteger collectionsMerged = new AtomicInteger(0);
 		firstCollection.addProgressListener((progress, operation) -> {
-			// FIXME: Progress is always >= for some reason
+			// FIXME: Progress is always >= 1 for some reason
 			setProgress(1d * (collectionsMerged.get() + progress) / collections.size());
 		});
 		for (MusicCollection collection : collections) {

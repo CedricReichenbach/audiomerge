@@ -2,6 +2,8 @@ package com.billhillapps.audiomerge.processing;
 
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -9,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
+import org.apache.commons.lang3.mutable.MutableDouble;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -32,6 +35,8 @@ public class MergeManagerTest {
 	private Path collectionPathB;
 	private Path collectionPathC;
 
+	private MergeManager mergeManager;
+
 	@Before
 	public void setUp() throws Exception {
 		collectionPathA = Paths.get(ClassLoader.getSystemResource("collection-a").toURI());
@@ -39,6 +44,12 @@ public class MergeManagerTest {
 		collectionPathC = Paths.get(ClassLoader.getSystemResource("collection-c").toURI());
 
 		destinationPath = destinationFolder.getRoot().toPath();
+
+		mergeManager = new MergeManager(destinationPath, collectionPathA, collectionPathB, collectionPathC);
+		mergeManager.setArtistDecider(new LexicographicalArtistDecider());
+		mergeManager.setAlbumDecider(new LexicographicalAlbumDecider());
+		mergeManager.setSongDecider(new BetterQualitySongDecider());
+		mergeManager.setCannotReadReviewer(new IgnoreAllSupervisor());
 	}
 
 	@After
@@ -47,13 +58,6 @@ public class MergeManagerTest {
 
 	@Test
 	public void totalMerge() throws Exception {
-		MergeManager mergeManager = new MergeManager(destinationPath, collectionPathA, collectionPathB,
-				collectionPathC);
-		mergeManager.setArtistDecider(new LexicographicalArtistDecider());
-		mergeManager.setAlbumDecider(new LexicographicalAlbumDecider());
-		mergeManager.setSongDecider(new BetterQualitySongDecider());
-		mergeManager.setCannotReadReviewer(new IgnoreAllSupervisor());
-
 		mergeManager.execute();
 
 		assertThat(destinationPath.toFile().list().length, is(4));
@@ -75,4 +79,24 @@ public class MergeManagerTest {
 		assertThat(new FileSong(changedArtistSongPath).getArtistName(), is("Hussalonia"));
 	}
 
+	@Test
+	public void progressMonotonicallyGrows() {
+		MutableDouble lastProgress = new MutableDouble(-Double.MAX_VALUE);
+
+		mergeManager.addProgressListener((progress, operation) -> {
+			assertThat(progress, greaterThanOrEqualTo(lastProgress.getValue()));
+			lastProgress.setValue(progress);
+		});
+
+		mergeManager.execute();
+	}
+
+	@Test
+	public void progressInRange() {
+		mergeManager.addProgressListener((progress, operation) -> {
+			assertThat(progress, lessThanOrEqualTo(1d));
+		});
+
+		mergeManager.execute();
+	}
 }

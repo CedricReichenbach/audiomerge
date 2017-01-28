@@ -86,5 +86,4 @@ public class CollectionIOTest {
 	public void corruptFileCausesException() throws Exception {
 		CollectionIO.fromDirectory(collectionPathA, new PanickingSupervisor());
 	}
-
 }
