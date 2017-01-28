@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
 
 import com.billhillapps.audiomerge.music.MusicCollection;
 import com.billhillapps.audiomerge.processing.problems.AudioLoadingProblem;
@@ -74,13 +75,14 @@ public class MergeManager extends ProgressAdapter {
 
 		setCurrentOperation("Merging collections");
 		setProgress(0);
+		final AtomicInteger collectionsMerged = new AtomicInteger(0);
+		final BiConsumer<Double, String> mergeProgressListener = (progress, operation) -> {
+			setProgress(1d * (collectionsMerged.get() + progress) / collections.size());
+		};
 
 		// merge subsequent collections to first
 		MusicCollection firstCollection = collections.remove(0);
-		final AtomicInteger collectionsMerged = new AtomicInteger(0);
-		firstCollection.addProgressListener((progress, operation) -> {
-			setProgress(1d * (collectionsMerged.get() + progress) / collections.size());
-		});
+		firstCollection.addProgressListener(mergeProgressListener);
 		for (MusicCollection collection : collections) {
 			if (collection == firstCollection)
 				continue;
@@ -88,7 +90,14 @@ public class MergeManager extends ProgressAdapter {
 			firstCollection.mergeIn(collection);
 			collectionsMerged.incrementAndGet();
 		}
+		firstCollection.removeProgressListener(mergeProgressListener);
 
+		setCurrentOperation("Resolving similarities");
+		setProgress(0);
+
+		firstCollection.addProgressListener((progress, operation) -> {
+			setProgress(progress);
+		});
 		firstCollection.mergeSimilars();
 
 		statistics.sniffResultCollection(firstCollection);

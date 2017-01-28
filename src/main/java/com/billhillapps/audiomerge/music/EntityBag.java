@@ -80,10 +80,13 @@ public class EntityBag<T extends Entity> extends ProgressAdapter {
 	public int mergeSimilars() {
 		List<Integer> toRemoveIndices = new ArrayList<>();
 
+		setProgress(0);
 		for (int a = 0; a < items.size(); a++) {
 			for (int b = 0; b < items.size(); b++) {
 				if (a >= b || toRemoveIndices.contains(a) || toRemoveIndices.contains(b))
 					continue;
+
+				setProgress((a * items.size() + b) * 2d / (items.size() * items.size() - 1d));
 
 				T itemA = items.get(a);
 				T itemB = items.get(b);

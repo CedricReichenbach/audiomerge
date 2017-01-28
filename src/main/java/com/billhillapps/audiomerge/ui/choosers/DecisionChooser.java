@@ -88,6 +88,7 @@ public abstract class DecisionChooser<T> extends GridPane {
 			GridPane.setMargin(node, new Insets(0, 0, SPACING, 0));
 	}
 
+	// TODO: Add keyboard shortcuts, since there can be MANY prompts
 	public Future<Integer> choose(T a, T b, T defaultChoice) {
 		CompletableFuture<Integer> future = new CompletableFuture<Integer>();
 

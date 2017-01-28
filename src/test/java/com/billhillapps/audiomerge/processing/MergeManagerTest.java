@@ -10,6 +10,7 @@ import static org.junit.Assert.assertTrue;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.junit.After;
@@ -82,9 +83,13 @@ public class MergeManagerTest {
 	@Test
 	public void progressMonotonicallyGrows() {
 		MutableDouble lastProgress = new MutableDouble(-Double.MAX_VALUE);
+		AtomicReference<String> lastOperation = new AtomicReference<String>("");
 
 		mergeManager.addProgressListener((progress, operation) -> {
-			assertThat(progress, greaterThanOrEqualTo(lastProgress.getValue()));
+			if (!lastOperation.get().equals(operation))
+				lastOperation.set(operation);
+			else
+				assertThat(progress, greaterThanOrEqualTo(lastProgress.getValue()));
 			lastProgress.setValue(progress);
 		});
 

@@ -73,10 +73,16 @@ public class MusicCollection extends ProgressAdapter {
 	}
 
 	public void mergeSimilars() {
+		setCurrentOperation("Merge similars");
+		setProgress(0);
+		BiConsumer<Double, String> listener = (progress, description) -> setProgress(progress);
+
 		int merged = artists.mergeSimilars();
 		Statistics.getInstance().similarArtistsMerged(merged);
 
+		artists.addProgressListener(listener);
 		artists.asCollection().forEach(Artist::mergeSimilars);
+		artists.removeProgressListener(listener);
 	}
 
 	public void saveTo(Path path) {
