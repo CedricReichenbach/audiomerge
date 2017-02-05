@@ -212,3 +212,13 @@
 	-fx-border-color: linear-gradient(_light-neon-blue, white);
 	-fx-border-width: 0 1px;
 }
+
+.shortcut {
+	-fx-text-fill: _gray-5;
+	-fx-background-color: _bg-color;
+	-fx-border-color: _gray-4;
+	-fx-border-width: 1px;
+	-fx-border-radius: 5px;
+	-fx-background-radius: 5px;
+	-fx-effect: dropshadow(gaussian, _gray-3, 0, 0, 0, 2px);
+}

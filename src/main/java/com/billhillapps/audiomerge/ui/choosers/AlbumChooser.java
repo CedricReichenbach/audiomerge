@@ -1,16 +1,20 @@
 package com.billhillapps.audiomerge.ui.choosers;
 
+import java.util.function.Consumer;
+
 import com.billhillapps.audiomerge.music.Album;
 import com.billhillapps.audiomerge.ui.GridDecisionOption;
 
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 
 public class AlbumChooser extends DecisionChooser<Album> {
 
-	public AlbumChooser(Runnable focusTrigger) {
+	public AlbumChooser(Runnable focusTrigger, Consumer<EventHandler<? super KeyEvent>> keyPressedRegistrar) {
 		super("Duplicate album detected",
 				"Which one to proceed with? Contents of the other will be merged in, no songs will be lost.",
-				focusTrigger);
+				focusTrigger, keyPressedRegistrar);
 	}
 
 	@Override

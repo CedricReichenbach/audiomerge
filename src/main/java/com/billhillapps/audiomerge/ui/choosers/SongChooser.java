@@ -9,19 +9,23 @@ import com.billhillapps.audiomerge.music.Song;
 import com.billhillapps.audiomerge.ui.AudioPlayer;
 import com.billhillapps.audiomerge.ui.GridDecisionOption;
 
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 
 public class SongChooser extends DecisionChooser<Song> {
 
 	private final Consumer<String> directoryOpener;
 
-	public SongChooser(Consumer<String> directoryOpener, Runnable focusTrigger) {
-		super("Duplicate song detected", "Which one to proceed with? The other one will be deleted.", focusTrigger);
+	public SongChooser(Consumer<String> directoryOpener, Runnable focusTrigger,
+			Consumer<EventHandler<? super KeyEvent>> keyPressedRegistrar) {
+		super("Duplicate song detected", "Which one to proceed with? The other one will be deleted.", focusTrigger,
+				keyPressedRegistrar);
 
 		this.directoryOpener = directoryOpener;
 	}

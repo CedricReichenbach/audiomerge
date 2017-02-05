@@ -18,15 +18,19 @@ import com.billhillapps.audiomerge.ui.problems.CannotReadPrompt;
 import com.billhillapps.audiomerge.ui.problems.GuiCannotReadSupervisor;
 
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 public class OperationPage extends Page {
 
@@ -54,9 +58,11 @@ public class OperationPage extends Page {
 
 		rootGrid.setMaxWidth(CONTENT_WIDTH);
 
-		this.artistChooser = new ArtistChooser(focusTrigger);
-		this.albumChooser = new AlbumChooser(focusTrigger);
-		this.songChooser = new SongChooser(directoryOpener, focusTrigger);
+		final Consumer<EventHandler<? super KeyEvent>> keyPressedRegistrar = handler -> scene
+				.addEventHandler(KeyEvent.KEY_PRESSED, handler);
+		this.artistChooser = new ArtistChooser(focusTrigger, keyPressedRegistrar);
+		this.albumChooser = new AlbumChooser(focusTrigger, keyPressedRegistrar);
+		this.songChooser = new SongChooser(directoryOpener, focusTrigger, keyPressedRegistrar);
 		this.cannotReadPrompt = new CannotReadPrompt(directoryOpener, focusTrigger);
 		cannotReadPrompt.setPrefWidth(CONTENT_WIDTH);
 		cannotReadPrompt.setMaxWidth(Double.MAX_VALUE);
