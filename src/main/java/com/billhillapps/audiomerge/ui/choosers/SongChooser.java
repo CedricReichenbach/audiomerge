@@ -50,7 +50,7 @@ public class SongChooser extends DecisionChooser<Song> {
 		Path songPath = song.getPath();
 		if (songPath != null) {
 			Button openDir = new Button("Open directory");
-			openDir.setOnAction(event -> directoryOpener.accept(songPath.toString()));
+			openDir.setOnAction(event -> directoryOpener.accept(songPath.getParent().toString()));
 			optionGrid.add(openDir, 0, 5, 2, 1);
 			centerAndPad(openDir);
 
