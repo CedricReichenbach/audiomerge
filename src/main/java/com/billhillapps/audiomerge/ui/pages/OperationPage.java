@@ -124,9 +124,12 @@ public class OperationPage extends Page {
 
 	private void mergeFailed(Exception exception) {
 		Platform.runLater(() -> {
-			Label text = new Label(
+			Text text = new Text(
 					String.format("Merging failed.\nProblem: %s\nIf you think this is a bug, please report it here:",
 							exception.getMessage()));
+			text.setWrappingWidth(CONTENT_WIDTH);
+			text.setFill(Color.WHITE); // XXX: Ugly workaround because CSS doesn't work
+
 			Hyperlink link = buildBugReportLink(exception);
 			FlowPane content = new FlowPane(text, link);
 
