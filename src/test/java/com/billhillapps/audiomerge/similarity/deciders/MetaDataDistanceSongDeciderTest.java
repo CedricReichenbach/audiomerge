@@ -34,10 +34,13 @@ public class MetaDataDistanceSongDeciderTest {
 
 	@Test
 	public void typoSimilarity() {
-		Song songA = new MockSong("halo word", "-", "-", 0);
+		Song songA = new MockSong("helo word", "-", "-", 0);
+		Song songC = new MockSong("halo world", "-", "-", 0);
 		Song songB = new MockSong("hello world", "-", "-", 0);
 
 		assertTrue(decider.areSimilar(songA, songB));
+		assertTrue(decider.areSimilar(songA, songC));
+		assertTrue(decider.areSimilar(songB, songC));
 	}
 
 	@Test

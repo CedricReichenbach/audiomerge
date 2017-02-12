@@ -22,6 +22,30 @@ public class NameDistanceArtistDeciderTest {
 	}
 
 	@Test
+	public void specialCharacterSimilarity() {
+		Artist artistA = new Artist("R.E.M.", null, null);
+		Artist artistB = new Artist("rem", null, null);
+
+		assertTrue(decider.areSimilar(artistA, artistB));
+	}
+
+	@Test
+	public void beyonceWithOrWithoutKnowles() {
+		Artist artistA = new Artist("Beyoncé", null, null);
+		Artist artistB = new Artist("Beyoncé Knowles", null, null);
+
+		assertTrue(decider.areSimilar(artistA, artistB));
+	}
+
+	@Test
+	public void pharrellWithOrWithoutWilliams() {
+		Artist artistA = new Artist("Pharrell", null, null);
+		Artist artistB = new Artist("Pharrell Williams", null, null);
+
+		assertTrue(decider.areSimilar(artistA, artistB));
+	}
+
+	@Test
 	public void umlautSimilarity() {
 		Artist artistA = new Artist("Gölä", null, null);
 		Artist artistB = new Artist("gola", null, null);
