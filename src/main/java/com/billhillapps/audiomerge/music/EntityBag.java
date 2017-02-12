@@ -108,6 +108,8 @@ public class EntityBag<T extends Entity> extends ProgressAdapter {
 			}
 		}
 
+		// remove from back to front to avoid operating on shifted data
+		Collections.sort(toRemoveIndices);
 		Collections.reverse(toRemoveIndices);
 		toRemoveIndices.forEach(i -> items.remove((int) i));
 

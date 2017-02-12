@@ -2,6 +2,7 @@ package com.billhillapps.audiomerge.music;
 
 import static com.billhillapps.audiomerge.test.MockEntityMatcher.isTestEntity;
 import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.After;
@@ -51,5 +52,18 @@ public class EntityBagTest {
 		assertThat(entityBag.asCollection(), hasItem(isTestEntity("abc")));
 		assertThat(entityBag.asCollection(), hasItem(isTestEntity("def")));
 		assertThat(entityBag.asCollection(), hasItem(isTestEntity("wxyz", new String[] { "foo", "bar" })));
+	}
+
+	@Test
+	public void testMergeSimilars() {
+		final String[] content = {};
+		entityBag.add(new MockEntity("A_1", content));
+		entityBag.add(new MockEntity("B_1", content));
+		entityBag.add(new MockEntity("B_2", content));
+		entityBag.add(new MockEntity("A_2", content));
+
+		entityBag.mergeSimilars();
+
+		assertThat(entityBag.asCollection().size(), is(2));
 	}
 }
