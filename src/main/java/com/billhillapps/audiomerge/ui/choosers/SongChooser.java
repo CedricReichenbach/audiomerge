@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.MediaException;
 
 public class SongChooser extends DecisionChooser<Song> {
 
@@ -54,9 +55,14 @@ public class SongChooser extends DecisionChooser<Song> {
 			optionGrid.add(openDir, 0, 5, 2, 1);
 			centerAndPad(openDir);
 
-			AudioPlayer player = new AudioPlayer(songPath);
-			optionGrid.add(player, 0, 6, 2, 1);
-			centerAndPad(player);
+			try {
+				AudioPlayer player = new AudioPlayer(songPath);
+				optionGrid.add(player, 0, 6, 2, 1);
+				centerAndPad(player);
+			} catch (MediaException e) {
+				System.err.println("Failed to create play button for song: " + songPath);
+				e.printStackTrace();
+			}
 		}
 
 		return optionGrid;

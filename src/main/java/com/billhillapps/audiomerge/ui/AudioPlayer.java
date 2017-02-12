@@ -4,6 +4,7 @@ import java.nio.file.Path;
 
 import javafx.scene.control.Button;
 import javafx.scene.media.Media;
+import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
 
 public class AudioPlayer extends Button {
@@ -14,9 +15,9 @@ public class AudioPlayer extends Button {
 	private final MediaPlayer mediaPlayer;
 	private boolean playing = false;
 
-	public AudioPlayer(final Path path) {
+	public AudioPlayer(final Path path) throws MediaException {
 		super(PLAY_ICON);
-		
+
 		this.getStyleClass().addAll("dynamic", "play-stop");
 
 		mediaPlayer = new MediaPlayer(new Media(path.toUri().toString()));
