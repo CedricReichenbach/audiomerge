@@ -28,6 +28,8 @@ public class AlbumChooser extends DecisionChooser<Album> {
 		title.getStyleClass().add("bold");
 		grid.add(title, 0, 1);
 
+		// TODO: Somehow show artist too
+
 		return grid;
 	}
 
