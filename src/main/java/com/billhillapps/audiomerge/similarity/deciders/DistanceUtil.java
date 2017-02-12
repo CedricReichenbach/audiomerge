@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class DistanceUtil {
 
-	public static final double JARO_WINKLER_THRESHOLD = 0.85;
+	public static final double JARO_WINKLER_THRESHOLD = 0.88;
 
 	public static boolean areSimilar(String a, String b) {
 		return similarity(a, b) >= JARO_WINKLER_THRESHOLD;
