@@ -151,6 +151,7 @@ public class FileSong extends Song {
 				audioTag.setField(FieldKey.ALBUM, albumTitleOverride);
 
 			if (artistNameOverride != null)
+				// FIXME: NullPointerException - audioTag null?
 				audioTag.setField(FieldKey.ALBUM_ARTIST, artistNameOverride);
 
 			targetAudioFile.commit();

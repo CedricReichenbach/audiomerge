@@ -47,11 +47,13 @@ public class SongChooser extends DecisionChooser<Song> {
 		addToGrid(optionGrid, "Bit rate", bitRate, 2);
 		addToGrid(optionGrid, "Artist", song.getArtistName(), 3);
 		addToGrid(optionGrid, "Album", song.getAlbumTitle(), 4);
+		// TODO: Show format (and maybe file extension)
 
 		Path songPath = song.getPath();
 		if (songPath != null) {
 			Button openDir = new Button("Open directory");
 			openDir.setOnAction(event -> directoryOpener.accept(songPath.getParent().toString()));
+			// TODO: Preselect song file
 			optionGrid.add(openDir, 0, 5, 2, 1);
 			centerAndPad(openDir);
 
@@ -59,6 +61,7 @@ public class SongChooser extends DecisionChooser<Song> {
 				AudioPlayer player = new AudioPlayer(songPath);
 				optionGrid.add(player, 0, 6, 2, 1);
 				centerAndPad(player);
+				// XXX: Does in stop when continuing wizard? (no)
 			} catch (MediaException e) {
 				System.err.println("Failed to create play button for song: " + songPath);
 				e.printStackTrace();
