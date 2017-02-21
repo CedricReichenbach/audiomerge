@@ -39,7 +39,8 @@ public class FileSong extends Song {
 		try {
 			AudioFile audioFile = AudioFileIO.read(filePath.toFile());
 			header = audioFile.getAudioHeader();
-			tag = audioFile.getTag();
+
+			tag = audioFile.getTagOrCreateDefault();
 		} catch (CannotReadException | InvalidAudioFrameException e) {
 			throw new AudioLoadingException(e);
 		} catch (IOException | TagException | ReadOnlyFileException e) {
@@ -145,14 +146,20 @@ public class FileSong extends Song {
 	public void overrideMetaData(final Path filePath) throws IOException {
 		try {
 			AudioFile targetAudioFile = AudioFileIO.read(filePath.toFile());
-			Tag audioTag = targetAudioFile.getTag();
+			Tag audioTag = targetAudioFile.getTagOrCreateAndSetDefault();
 
 			if (albumTitleOverride != null)
 				audioTag.setField(FieldKey.ALBUM, albumTitleOverride);
 
-			if (artistNameOverride != null)
-				// FIXME: NullPointerException - audioTag null?
-				audioTag.setField(FieldKey.ALBUM_ARTIST, artistNameOverride);
+			if (artistNameOverride != null) {
+				try {
+					audioTag.setField(FieldKey.ALBUM_ARTIST, artistNameOverride);
+				} catch (NullPointerException e) {
+					// setField sometimes throws a NPE because certain tags
+					// (like ID3v1) don't support ALBUM_ARTIST
+					audioTag.setField(FieldKey.ARTIST, artistNameOverride);
+				}
+			}
 
 			targetAudioFile.commit();
 		} catch (KeyNotFoundException | CannotReadException | TagException | ReadOnlyFileException
