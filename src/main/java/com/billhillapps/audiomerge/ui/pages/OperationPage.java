@@ -145,6 +145,7 @@ public class OperationPage extends Page {
 		String body;
 		try {
 			Throwable cause = exception.getCause();
+			// XXX: Can we include whole stack trace? URL length limitations? Privacy issues?
 			body = URLEncoder.encode(String.format("*Message:* `%s`\n*Cause:* `%s`", exception.getMessage(),
 					cause == null ? "(null)" : cause.getClass().getCanonicalName()), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
