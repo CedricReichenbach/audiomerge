@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
@@ -129,9 +130,8 @@ public class FileSong extends Song {
 
 	@Override
 	public void saveTo(Path path) {
-		final Path filePath = path.resolve(originalPath.getFileName());
+		Path filePath = createUniqueTargetPath(path);
 		try {
-			// TODO: Check if file exists (use decider if so?)
 			Files.copy(originalPath, filePath);
 
 			if (albumTitleOverride != null || artistNameOverride != null)
@@ -141,6 +141,21 @@ public class FileSong extends Song {
 			throw new RuntimeException(String.format("Failed to copy song from '%s' to '%s'", originalPath, filePath),
 					e);
 		}
+	}
+
+	private Path createUniqueTargetPath(Path path) {
+		Path filePath = path.resolve(originalPath.getFileName());
+		int fileSuffixNumber = 1;
+		while (Files.exists(filePath)) {
+			// TODO: Maybe use decider instead of directly adding a hard-coded
+			// suffix
+			final String fileSuffix = String.format("(%s)", ++fileSuffixNumber);
+			final String bareName = FilenameUtils.removeExtension(originalPath.toFile().getName());
+			final String extension = FilenameUtils.getExtension(originalPath.toFile().getName());
+
+			filePath = path.resolve(String.format("%s%s.%s", bareName, fileSuffix, extension));
+		}
+		return filePath;
 	}
 
 	public void overrideMetaData(final Path filePath) throws IOException {
