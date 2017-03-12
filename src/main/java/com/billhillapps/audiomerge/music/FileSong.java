@@ -176,10 +176,21 @@ public class FileSong extends Song {
 				}
 			}
 
+			boolean writeProtectionLifted = false;
+			if (!filePath.toFile().canWrite())
+				// TODO: Maybe log something here (using a proper logger)?
+				writeProtectionLifted = filePath.toFile().setWritable(true);
+
 			targetAudioFile.commit();
+
+			if (writeProtectionLifted)
+				filePath.toFile().setWritable(false);
 		} catch (KeyNotFoundException | CannotReadException | TagException | ReadOnlyFileException
 				| InvalidAudioFrameException | CannotWriteException e) {
 			throw new RuntimeException(String.format("Failed to override meta data in target file '%s'", filePath), e);
+		} catch (SecurityException e) {
+			throw new RuntimeException(String.format("Failed to check write protection on target file '%s'", filePath),
+					e);
 		}
 	}
 
