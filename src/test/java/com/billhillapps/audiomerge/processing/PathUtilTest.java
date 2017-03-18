@@ -1,7 +1,12 @@
 package com.billhillapps.audiomerge.processing;
 
 import static com.billhillapps.audiomerge.processing.PathUtil.sanitizePathElement;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.junit.Test;
 
@@ -26,5 +31,13 @@ public class PathUtilTest {
 		assertEquals("_.", sanitizePathElement("."));
 		assertEquals("_..", sanitizePathElement(".."));
 		assertEquals("_...", sanitizePathElement("..."));
+	}
+
+	@Test
+	public void folderDotSuffixIsReplaced() {
+		final Path path = Paths.get("/foo/bar");
+		final String newDir = ".hello.world...";
+
+		assertThat(PathUtil.createSafeSubpath(path, newDir), is(Paths.get("/foo/bar/_hello.world_")));
 	}
 }

@@ -21,6 +21,11 @@ public class PathUtil {
 		// remove slashes, as subElement just represents a single segment
 		String halfSafeElement = subElement.replaceAll("[\\\\/]", "_");
 
+		// - leading dots may hide items in some systems
+		// - trailing dots are ignored in windows
+		//  => replace both to avoid side effects
+		halfSafeElement = halfSafeElement.replaceAll("^\\.+|\\.+$", "_");
+
 		Path subPath;
 		try {
 			// try without sanitizing first, because the user's FS might
