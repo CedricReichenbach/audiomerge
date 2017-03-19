@@ -168,6 +168,7 @@ public class FileSong extends Song {
 
 			if (artistNameOverride != null) {
 				try {
+					// FIXME: Throws UnsupportedOperationException (for WAV files?)
 					audioTag.setField(FieldKey.ALBUM_ARTIST, artistNameOverride);
 				} catch (NullPointerException e) {
 					// setField sometimes throws a NPE because certain tags
