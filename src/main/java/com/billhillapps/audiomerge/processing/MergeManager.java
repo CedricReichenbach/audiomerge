@@ -64,8 +64,7 @@ public class MergeManager extends ProgressAdapter {
 
 			Path source = sources[i];
 			try {
-				collections.add(CollectionIO.fromDirectory(source, artistDecider, albumDecider, songDecider,
-						cannotReadReviewer));
+				collections.add(CollectionIO.fromDirectory(source, artistDecider, albumDecider, songDecider, cannotReadReviewer));
 			} catch (IOException e) {
 				throw new RuntimeException(String.format("Collection from directory '%s' could not be loaded", source));
 			}
@@ -95,9 +94,7 @@ public class MergeManager extends ProgressAdapter {
 		setCurrentOperation("Resolving similarities");
 		setProgress(0);
 
-		firstCollection.addProgressListener((progress, operation) -> {
-			setProgress(progress);
-		});
+		firstCollection.addProgressListener((progress, operation) -> setProgress(progress));
 		firstCollection.mergeSimilars();
 
 		statistics.sniffResultCollection(firstCollection);

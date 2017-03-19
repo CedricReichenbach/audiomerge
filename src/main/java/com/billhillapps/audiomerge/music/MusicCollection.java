@@ -25,8 +25,7 @@ public class MusicCollection extends ProgressAdapter {
 
 	private final EntityBag<Artist> artists;
 
-	public MusicCollection(String title, Decider<Artist> artistDecider, Decider<Album> albumDecider,
-			Decider<Song> songDecider) {
+	public MusicCollection(String title, Decider<Artist> artistDecider, Decider<Album> albumDecider, Decider<Song> songDecider) {
 		this.title = title;
 		this.albumDecider = albumDecider;
 		this.songDecider = songDecider;
