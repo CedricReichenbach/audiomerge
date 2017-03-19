@@ -86,7 +86,11 @@ public class EntityBag<T extends Entity> extends ProgressAdapter {
 				if (a >= b || toRemoveIndices.contains(a) || toRemoveIndices.contains(b))
 					continue;
 
-				setProgress((a * items.size() + b) * 2d / (items.size() * items.size() - 1d));
+				final int size = items.size();
+				// only ones in "triangle"
+				final int doneElements = a * size - a * (a + 1) / 2 + b;
+				// already done elements divided by size of "upper half" of grid (triangular matrix)
+				setProgress(doneElements * 2d / (size * (size + 1d)));
 
 				T itemA = items.get(a);
 				T itemB = items.get(b);

@@ -75,15 +75,21 @@ public class MusicCollection extends ProgressAdapter {
 	public void mergeSimilars() {
 		setCurrentOperation("Merge similars");
 		setProgress(0);
-		// FIXME: Progress seems to stay on 0 (at least during manual triage)
-		BiConsumer<Double, String> listener = (progress, description) -> setProgress(progress);
+		// assume (top-level) artist merging is about 50% of effort
+		final BiConsumer<Double, String> listener = (progress, description) -> setProgress(progress / 2);
+		artists.addProgressListener(listener);
 
-		int merged = artists.mergeSimilars();
+		final int merged = artists.mergeSimilars();
 		Statistics.getInstance().similarArtistsMerged(merged);
 
-		artists.addProgressListener(listener);
-		artists.asCollection().forEach(Artist::mergeSimilars);
 		artists.removeProgressListener(listener);
+
+		final Collection<Artist> artistsCollection = artists.asCollection();
+		int artistsDone = 0;
+		for (Artist artist : artistsCollection) {
+			artist.mergeSimilars();
+			setProgress(0.5 + 0.5 * ++artistsDone / artistsCollection.size());
+		}
 	}
 
 	public void saveTo(Path path) {

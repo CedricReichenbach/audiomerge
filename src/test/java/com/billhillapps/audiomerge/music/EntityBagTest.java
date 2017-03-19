@@ -3,8 +3,14 @@ package com.billhillapps.audiomerge.music;
 import static com.billhillapps.audiomerge.test.MockEntityMatcher.isTestEntity;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.assertThat;
 
+import java.util.concurrent.atomic.AtomicReference;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.mutable.MutableDouble;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -65,5 +71,31 @@ public class EntityBagTest {
 		entityBag.mergeSimilars();
 
 		assertThat(entityBag.asCollection().size(), is(2));
+	}
+
+	@Test
+	public void progressInBoundsAndMonotonicallyIncreasing() {
+		final String[] content = {};
+		entityBag.add(new MockEntity("A_1", content));
+		entityBag.add(new MockEntity("A_2", content));
+		entityBag.add(new MockEntity("B", content));
+		entityBag.add(new MockEntity("C", content));
+		entityBag.add(new MockEntity("D", content));
+
+		final MutableDouble lastProgress = new MutableDouble(-Double.MAX_VALUE);
+		final AtomicReference<String> lastOperation = new AtomicReference<String>("");
+		entityBag.addProgressListener((progress, operation) -> {
+			assertThat(progress, is(lessThanOrEqualTo(1d)));
+
+			if (!StringUtils.equals(operation, lastOperation.get())) {
+				lastOperation.set(operation);
+				return;
+			}
+
+			assertThat(progress, greaterThanOrEqualTo(lastProgress.getValue()));
+			lastProgress.setValue(progress);
+		});
+
+		entityBag.mergeSimilars();
 	}
 }
