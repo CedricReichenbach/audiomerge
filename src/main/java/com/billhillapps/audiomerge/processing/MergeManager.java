@@ -99,6 +99,9 @@ public class MergeManager extends ProgressAdapter {
 
 		statistics.sniffResultCollection(firstCollection);
 
+		setCurrentOperation("Saving merged collection to target location");
+		setProgress(-1);
+
 		firstCollection.saveTo(destination);
 	}
 }
