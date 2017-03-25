@@ -160,18 +160,17 @@ public class FileSong extends Song {
 
 	public void overrideMetaData(final Path filePath) throws IOException {
 		try {
-			AudioFile targetAudioFile = AudioFileIO.read(filePath.toFile());
-			Tag audioTag = targetAudioFile.getTagOrCreateAndSetDefault();
+			final AudioFile targetAudioFile = AudioFileIO.read(filePath.toFile());
+			final Tag audioTag = targetAudioFile.getTagOrCreateAndSetDefault();
 
 			if (albumTitleOverride != null)
 				audioTag.setField(FieldKey.ALBUM, albumTitleOverride);
 
 			if (artistNameOverride != null) {
 				try {
-					// FIXME: Throws UnsupportedOperationException (for WAV files?)
 					audioTag.setField(FieldKey.ALBUM_ARTIST, artistNameOverride);
-				} catch (NullPointerException e) {
-					// setField sometimes throws a NPE because certain tags
+				} catch (NullPointerException | UnsupportedOperationException e) {
+					// setField sometimes throws an exception because certain tags
 					// (like ID3v1) don't support ALBUM_ARTIST
 					audioTag.setField(FieldKey.ARTIST, artistNameOverride);
 				}

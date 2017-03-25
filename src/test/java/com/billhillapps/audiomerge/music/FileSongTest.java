@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -68,7 +69,31 @@ public class FileSongTest {
 		writeProtectedSong.saveTo(destinationPath);
 
 		final Song reloadedSong = new FileSong(destinationPath.resolve(writeProtectedFile.getFileName()));
-
 		assertThat(reloadedSong.getArtistName(), is("foobar"));
+	}
+
+	@Test
+	public void wavArtistOverrideDoesNotCrash() throws Exception {
+		final Path albumArtistUnsupportedPath = cornerCasesDir.resolve("album-artist-unsupported.wav");
+		final Song albumArtistUnsupported = new FileSong(albumArtistUnsupportedPath);
+
+		albumArtistUnsupported.setArtistName("sample artist");
+		// we just don't want this to throw an exception
+		albumArtistUnsupported.saveTo(destinationPath);
+	}
+
+	@Ignore("Not working due to only partial support of WAV in Jaudiotagger")
+	@Test
+	public void wavArtistGetsOverridden() throws Exception {
+		final Path albumArtistUnsupportedPath = cornerCasesDir.resolve("album-artist-unsupported.wav");
+		final Song albumArtistUnsupported = new FileSong(albumArtistUnsupportedPath);
+
+		assertThat(albumArtistUnsupported.getArtistName(), is("foobar"));
+
+		albumArtistUnsupported.setArtistName("sample artist");
+		albumArtistUnsupported.saveTo(destinationPath);
+
+		final Song reloadedSong = new FileSong(destinationPath.resolve(albumArtistUnsupportedPath.getFileName()));
+		assertThat(reloadedSong.getArtistName(), is("sample artist"));
 	}
 }
