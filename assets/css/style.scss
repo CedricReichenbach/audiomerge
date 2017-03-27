@@ -56,8 +56,28 @@ a {
 	background-image: linear-gradient(120deg, $dark-gold, $dark-neon-purple);
 }
 
+.site-footer {
+	border-top-color: darken(white, 50%);
+
+	.site-footer-credits {
+		color: darken(white, 25%);
+		font-size: 75%;
+		display: block;
+		margin-top: 0.5em;
+	}
+}
+
 .main-content {
 	h1, h2, h3, h4, h5, h6 {
 		color: $gold;
+	}
+
+	img {
+		margin: 1em 0;
+		box-shadow: 0 0 2em transparentize(black, 0.5);
+		
+		&:first-child {
+			margin-top: 1em;
+		}
 	}
 }
