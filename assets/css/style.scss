@@ -3,4 +3,61 @@
 
 @import "{{ site.theme }}";
 
-// additional styles here
+// ~~ colors, taken from application.css ~~
+
+$bg-color: lighten(black, 20%);
+
+$neon-green: #0f7;
+$dark-neon-green: darken($neon-green, 25%);
+$darker-neon-green: darken($neon-green, 50%);
+
+$neon-blue: #00bfff;
+$lighter-neon-blue: lighten($neon-blue, 50%);
+$light-neon-blue: lighten($neon-blue, 25%);
+$dark-neon-blue: darken($neon-blue, 25%);
+$darker-neon-blue: darken($neon-blue, 50%);
+
+$turquoise: #0dc;
+$dark-turquoise: darken($turquoise, 25%);
+$darker-turquoise: darken($turquoise, 50%);
+
+$yellow: #fd0;
+$dark-yellow: darken($yellow, 25%);
+$darker-yellow: darken($yellow, 50%);
+
+$gold: #fc0;
+$dark-gold: darken($gold, 25%);
+$darker-gold: darken($gold, 50%);
+
+$rose: #f7b;
+$dark-rose: darken($rose, 25%);
+$darker-rose: darken($rose, 50%);
+
+$neon-purple: #e0f;
+$dark-neon-purple: darken($neon-purple, 25%);
+$darker-neon-purple: darken($neon-purple, 50%);
+
+$neon-red: #f89;
+$dark-neon-red: darken($neon-red, 25%);
+
+// ~~ custom rules ~~
+
+body {
+	background-color: $bg-color;
+	color: white;
+}
+
+a {
+	color: $neon-blue;
+}
+
+.page-header {
+	background-color: $dark-neon-purple;
+	background-image: linear-gradient(120deg, $dark-gold, $dark-neon-purple);
+}
+
+.main-content {
+	h1, h2, h3, h4, h5, h6 {
+		color: $gold;
+	}
+}
