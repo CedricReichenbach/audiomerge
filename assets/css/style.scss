@@ -72,12 +72,20 @@ a {
 		color: $gold;
 	}
 
-	img {
-		margin: 1em 0;
-		box-shadow: 0 0 2em transparentize(black, 0.5);
-		
-		&:first-child {
-			margin-top: 1em;
+	p {
+		img {
+			margin: 1em 0;
+			box-shadow: 0 0 2em transparentize(black, 0.5);
+
+			&:first-child {
+				margin-top: 1em;
+			}
+		}
+
+		&:first-child img {
+			position: relative;
+			margin-top: -5em;
+			margin-bottom: 0;
 		}
 	}
 }
