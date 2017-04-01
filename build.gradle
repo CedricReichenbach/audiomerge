@@ -44,3 +44,7 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.hamcrest/hamcrest-all
 	testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
 }
+
+// run configuration
+apply plugin: 'application'
+mainClassName = "com.billhillapps.audiomerge.ui.AudioMergeUI"

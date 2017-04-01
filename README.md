@@ -1,6 +1,6 @@
 ![screenshot during merging](media/screenshots/screenshot-merge-songs-windows.png)
 
-# audiomerge
+# AudioMerge
 Merge multiple scattered music collections into one, taking only the best version of duplicates
 
 ## Known issues
