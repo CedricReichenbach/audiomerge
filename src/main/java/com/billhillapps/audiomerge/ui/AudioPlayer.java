@@ -40,5 +40,6 @@ public class AudioPlayer extends Button {
 		mediaPlayer.stop();
 		playing = false;
 		this.setText(PLAY_ICON);
+		// XXX: File not properly released?
 	}
 }

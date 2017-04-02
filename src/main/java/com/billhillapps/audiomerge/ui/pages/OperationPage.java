@@ -36,6 +36,7 @@ public class OperationPage extends Page {
 
 	private final String BUG_REPORT_LINK = "https://github.com/CedricReichenbach/audiomerge/issues/new";
 
+	// TODO: Maybe wider?
 	private final Double CONTENT_WIDTH = 800d;
 
 	private final ArtistChooser artistChooser;
