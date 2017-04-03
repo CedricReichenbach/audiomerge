@@ -3,6 +3,7 @@ package com.billhillapps.audiomerge.music;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 
 import com.billhillapps.audiomerge.processing.ProgressAdapter;
@@ -92,6 +93,14 @@ public class MusicCollection extends ProgressAdapter {
 	}
 
 	public void saveTo(Path path) {
-		artists.asCollection().forEach(artist -> artist.saveTo(path));
+		this.setProgress(0);
+
+		final AtomicInteger count = new AtomicInteger(0);
+		for (Artist artist : artists.asCollection()) {
+			// XXX: Progress estimation is a bit rough
+			this.setProgress(1d * count.getAndIncrement() / artists.size());
+
+			artist.saveTo(path);
+		}
 	}
 }
