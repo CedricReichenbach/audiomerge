@@ -34,3 +34,14 @@ dependencies {
 // run configuration
 apply plugin: 'application'
 mainClassName = "com.billhillapps.audiomerge.ui.AudioMergeUI"
+
+task buildJar(type: Jar) {
+	manifest {
+		attributes 'Implementation-Title': project.name,
+			'Implementation-Version': version,
+			'Main-Class': mainClassName
+	}
+	baseName = project.name + '-all'
+	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
