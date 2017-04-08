@@ -1,4 +1,4 @@
-![screenshot during merging](media/screenshots/screenshot-merge-songs-windows.png)
+![screenshot during merging](media/screenshots/screenshot-merge-songs-windows-feat-linux.png)
 
 # AudioMerge
 Merge multiple scattered music collections into one, taking only the best version of duplicates
