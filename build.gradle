@@ -1,3 +1,7 @@
+plugins {
+  id 'net.researchgate.release' version '2.4.0'
+}
+
 apply plugin: 'java'
 
 group = 'com.billhillapps'
@@ -46,3 +50,6 @@ task fatJar(type: Jar) {
     with jar
     logger.lifecycle('Fat jar ' + archiveName + ' has been created in ' + destinationDir)
 }
+
+// release configuration
+afterReleaseBuild.dependsOn fatJar
