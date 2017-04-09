@@ -5,7 +5,6 @@ plugins {
 apply plugin: 'java'
 
 group = 'com.billhillapps'
-version = '0.1.0-SNAPSHOT'
 sourceCompatibility = 1.8
 
 tasks.withType(JavaCompile) {
@@ -48,7 +47,6 @@ task fatJar(type: Jar) {
 	baseName = project.name + '-all'
 	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
-    logger.lifecycle('Fat jar ' + archiveName + ' has been created in ' + destinationDir)
 }
 
 // release configuration
