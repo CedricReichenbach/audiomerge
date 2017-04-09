@@ -18,15 +18,15 @@ In case of a similarity but not an exact match, like a typo in an artist name, i
 
 ## Download
 
-In order to run AudioMerge, you need to have [Java (version 8 or newer)](https://java.com/de/download/){:target="_blank"} installed.
+In order to run AudioMerge, you need to have [Java (version 8 or newer)](https://java.com/de/download/) installed.
 
-The latest version of AudioMerge can be downloaded from [**the release section on GitHub**](https://github.com/CedricReichenbach/audiomerge/releases/latest){:target="_blank"}.
+The latest version of AudioMerge can be downloaded from [**the release section on GitHub**](https://github.com/CedricReichenbach/audiomerge/releases/latest).
 
 ## Known issues
 
-*Found another issue? Please report it [here](https://github.com/CedricReichenbach/audiomerge/issues/new){:target="_blank"}*
+*Found another issue? Please report it [here](https://github.com/CedricReichenbach/audiomerge/issues/new)*
 
 #### Limited WAV support
 
-The used library for metadata manipulation [Jaudiotagger](http://www.jthink.net/jaudiotagger/index.jsp){:target="_blank"} only provides partial support for Wav and Real audio formats.
+The used library for metadata manipulation [Jaudiotagger](http://www.jthink.net/jaudiotagger/index.jsp) only provides partial support for Wav and Real audio formats.
 As a consequence, song artists and album titles may not be correctly loaded or overridden for such files.
