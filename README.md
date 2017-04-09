@@ -20,7 +20,7 @@ In case of a similarity but not an exact match, like a typo in an artist name, i
 
 In order to run AudioMerge, you need to have [Java (version 8 or newer)](https://java.com/de/download/){:target="_blank"} installed.
 
-AudioMerge releases can be downloaded [**from the release section on GitHub**](https://github.com/CedricReichenbach/audiomerge/releases){:target="_blank"}.
+The latest version of AudioMerge can be downloaded from [**the release section on GitHub**](https://github.com/CedricReichenbach/audiomerge/releases/latest){:target="_blank"}.
 
 ## Known issues
 
