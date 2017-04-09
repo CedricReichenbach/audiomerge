@@ -8,3 +8,4 @@ exclude:
   - Gemfile.lock
 
 repository: cedricreichenbach/audiomerge
+title: AudioMerge
